@@ -54,45 +54,36 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
                         <div class="speaker">
-                            <img src="<?php echo base_url();?>assets/img/judges/1.jpg" alt="Speaker 1" class="img-fluid">
+                            <img src="<?php echo base_url();?>assets/img/judges/rojen-evard.jpg" alt="Speaker 1" class="img-fluid">
                             <div class="details">
-                                <h3><a href="speaker-details.html">Brenden Legros</a></h3>
+                                <h3><a href="speaker-details.html">Rijen Evard</a></h3>
                                 <p>Quas alias incidunt</p>
                                 <div class="social">
-                                    <a href=""><i class="fa fa-twitter"></i></a>
-                                    <a href=""><i class="fa fa-facebook"></i></a>
-                                    <a href=""><i class="fa fa-google-plus"></i></a>
-                                    <a href=""><i class="fa fa-linkedin"></i></a>
+                                    <a href="https://www.facebook.com/ovic.nofies" target="_blank"><i class="fa fa-facebook"></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">
                         <div class="speaker">
-                            <img src="<?php echo base_url();?>assets/img/judges/2.jpg" alt="Speaker 2" class="img-fluid">
+                            <img src="<?php echo base_url();?>assets/img/judges/randy-rebucas.jpg" alt="Speaker 2" class="img-fluid">
                             <div class="details">
-                                <h3><a href="speaker-details.html">Hubert Hirthe</a></h3>
+                                <h3><a href="speaker-details.html">Randy Rebucas</a></h3>
                                 <p>Consequuntur odio aut</p>
                                 <div class="social">
-                                    <a href=""><i class="fa fa-twitter"></i></a>
-                                    <a href=""><i class="fa fa-facebook"></i></a>
-                                    <a href=""><i class="fa fa-google-plus"></i></a>
-                                    <a href=""><i class="fa fa-linkedin"></i></a>
+                                    <a href="https://www.facebook.com/dycrebs" target="_blank"><i class="fa fa-facebook"></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">
                         <div class="speaker">
-                            <img src="<?php echo base_url();?>assets/img/judges/3.jpg" alt="Speaker 3" class="img-fluid">
+                            <img src="<?php echo base_url();?>assets/img/judges/nina-ignacio.jpg" alt="Speaker 3" class="img-fluid">
                             <div class="details">
-                                <h3><a href="speaker-details.html">Cole Emmerich</a></h3>
+                                <h3><a href="speaker-details.html">Ni&#241;a Ignacio</a></h3>
                                 <p>Fugiat laborum et</p>
                                 <div class="social">
-                                    <a href=""><i class="fa fa-twitter"></i></a>
-                                    <a href=""><i class="fa fa-facebook"></i></a>
-                                    <a href=""><i class="fa fa-google-plus"></i></a>
-                                    <a href=""><i class="fa fa-linkedin"></i></a>
+                                    <a href="https://www.facebook.com/winder.kalil" target="_blank"><i class="fa fa-facebook"></i></a>
                                 </div>
                             </div>
                         </div>
