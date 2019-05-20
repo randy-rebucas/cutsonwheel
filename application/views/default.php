@@ -52,6 +52,9 @@
 		section#judges {
 		    padding: 60px 0;
 		}
+        section#judging {
+            padding: 60px 0;
+        }
 		.hidden {
 		    display: none;
 		}
