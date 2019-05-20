@@ -179,7 +179,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h2>On Progress</h2>
+                    <h2>This section is close.Stay Tuned...</h2>
+                    <p>Find your model now when its not to late!</p>
                 </div>
             </div>
             <!-- /.modal-content -->
