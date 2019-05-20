@@ -57,7 +57,7 @@
                             <img src="<?php echo base_url();?>assets/img/judges/rojen-evard.jpg" alt="Speaker 1" class="img-fluid">
                             <div class="details">
                                 <h3><a href="speaker-details.html">Rijen Evard</a></h3>
-                                <p>Quas alias incidunt</p>
+                                <p>10 years in industry (Grooming Instructor - COSTUMER SERVICE STANDARD)</p>
                                 <div class="social">
                                     <a href="https://www.facebook.com/ovic.nofies" target="_blank"><i class="fa fa-facebook"></i></a>
                                 </div>
@@ -69,7 +69,7 @@
                             <img src="<?php echo base_url();?>assets/img/judges/randy-rebucas.jpg" alt="Speaker 2" class="img-fluid">
                             <div class="details">
                                 <h3><a href="speaker-details.html">Randy Rebucas</a></h3>
-                                <p>Consequuntur odio aut</p>
+                                <p>12 years in grooming industry (Founder of cutsonwheel)</p>
                                 <div class="social">
                                     <a href="https://www.facebook.com/dycrebs" target="_blank"><i class="fa fa-facebook"></i></a>
                                 </div>
@@ -81,7 +81,7 @@
                             <img src="<?php echo base_url();?>assets/img/judges/nina-ignacio.jpg" alt="Speaker 3" class="img-fluid">
                             <div class="details">
                                 <h3><a href="speaker-details.html">Ni&#241;a Ignacio</a></h3>
-                                <p>Fugiat laborum et</p>
+                                <p>15 years in grooming industry (All Around Beauticians)</p>
                                 <div class="social">
                                     <a href="https://www.facebook.com/winder.kalil" target="_blank"><i class="fa fa-facebook"></i></a>
                                 </div>
