@@ -7,25 +7,29 @@ div.mat-typography {
     flex-flow: row wrap;
     width: 75%;
     justify-content: center;
-    margin: 0 auto;
+    margin: 0 auto 3em;
 }
 
-.cols-services>div {
+.cols-services .cols-service {
     width: 33%;
-    min-height: 300px;
+    height: 500px;
     margin: 2px;
     position: relative;
 }
 
-.cols-services>div h3 {
+.cols-services .cols-service h3 {
     font-weight: 200;
 }
 
-.cols-services>div p {
+.cols-services .cols-service p {
     padding: 3em;
 }
 
-.cols-service {
+.cols-services .cols-service img {
+  width: 100%;
+}
+
+.cols-services .cols-service {
     text-align: center;
     -webkit-transition: all .4s ease 0s;
     -o-transition: all .4s ease 0s;
@@ -33,12 +37,12 @@ div.mat-typography {
     overflow: hidden;
 }
 
-.cols-service:hover .cols-service-description {
+.cols-services .cols-service:hover .cols-service-description {
     opacity: 1;
     bottom: 0%;
 }
 
-.cols-service-description {
+.cols-services .cols-service .cols-service-description {
     position: absolute;
     bottom: -100%;
     right: 0;
@@ -52,18 +56,18 @@ div.mat-typography {
     transition: all 0.5s ease-in-out;
 }
 
-.cols-service-description {
+.cols-services .cols-service .cols-service-description {
     padding: 0;
     height: 100%;
 }
 
-.cols-service-description h2 {
+.cols-services .cols-service .cols-service-description h2 {
     font-weight: 100;
     font-size: 20px;
     position: relative;
 }
 
-.cols-service-description h2:after {
+.cols-services .cols-service .cols-service-description h2:after {
     content: "";
     border-bottom: 1px solid rgba(183, 179, 179, 0.87);
     width: 60%;
@@ -72,8 +76,48 @@ div.mat-typography {
     left: 20%;
 }
 
-.cols-service-description p {
+.cols-services .cols-service .cols-service-description p {
     text-align: center;
     font-size: 18px;
     font-weight: 100;
 }
+
+
+.cols-service-members {
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+}
+
+.cols-service-members > div {
+  width: 50px;
+  height: 50px;
+  margin: 2px;
+  border: 2px solid #c0bdbd;
+  border-radius: 100%;
+}
+
+.cols-service-members > div img {
+  border-radius: 100%;
+  height: 100%;
+}
+
+.cols-service-members p.members-counter {
+  padding: 0 10px!important;
+  flex: 1 1 auto;
+  text-align: right !important;
+}
+
+.cols-service-detail {
+  min-height: 350px;
+}
+
+.cols-service-description h6 {
+  text-align: left;
+  padding-left: 15px;
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+

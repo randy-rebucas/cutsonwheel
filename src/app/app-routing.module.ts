@@ -1,11 +1,21 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
+import { ContactComponent } from './contact/contact.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AuthGuard } from './auth/auth-guard';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
-    { path: 'dashboard', component: DashboardComponent }
+    { path: 'about', component: AboutComponent },
+    { path: 'contact', component: ContactComponent },
+    { path: 'dashboard', component: DashboardComponent },
+
+    { path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
+    { path: 'not-found', component: PageNotFoundComponent },
+    { path: '**', redirectTo: '/not-found' }
 ];
 
 @NgModule({
@@ -16,7 +26,7 @@ const appRoutes: Routes = [
         )
     ],
     exports: [RouterModule],
-    providers: []
+    providers: [AuthGuard]
 })
 export class AppRoutingModule {
 

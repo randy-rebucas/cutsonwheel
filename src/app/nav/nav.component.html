@@ -2,9 +2,8 @@
     <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="false">
         <mat-toolbar>Menu</mat-toolbar>
         <mat-nav-list>
-            <a mat-list-item href="#">Link 1</a>
-            <a mat-list-item href="#">Link 2</a>
-            <a mat-list-item href="#">Link 3</a>
+            <a mat-list-item [routerLink]="['/about']" routerLinkActive="active" >About</a>
+            <a mat-list-item [routerLink]="['/contact']" routerLinkActive="active" >Contact</a>
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
@@ -12,9 +11,10 @@
             <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
               <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
             </button>
-            <span><img src="./../../assets/img/logo.png"/></span>
+            <span [routerLink]="['/']" routerLinkActive="active" ><img src="./../../assets/img/logo.png"/></span>
             <span class="cpls-spacer"></span>
-            <mat-icon class="cpls-icon" aria-hidden="false" aria-label="Example heart icon">favorite</mat-icon>
+            <a mat-button [routerLink]="['/auth/login']" routerLinkActive="mat-accent" >Login</a>
+            <a mat-button [routerLink]="['/auth/register']" routerLinkActive="mat-accent" >Register</a>
         </mat-toolbar>
         <!-- Add Content Here -->
         <ng-content></ng-content>

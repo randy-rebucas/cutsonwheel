@@ -1,0 +1,14 @@
+.content-container {
+  padding: 2em 0;
+  position: relative;
+}
+.content-container mat-icon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+button#no-button {
+  background: #3f51b5;
+  color: #fff;
+}
