@@ -1,0 +1,57 @@
+div.mat-typography {
+    padding: 2em;
+}
+
+.cols-services {
+    display: flex;
+    flex-flow: row wrap;
+    width: 75%;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.cols-services>div {
+    width: 33%;
+    min-height: 300px;
+    margin: 2px;
+}
+
+.cols-services>div h3 {
+    font-weight: 200;
+}
+
+.cols-services>div p {
+    padding: 3em;
+}
+
+.cols-service {
+    text-align: center;
+    -webkit-transition: all .4s ease 0s;
+    -o-transition: all .4s ease 0s;
+    transition: all .4s ease 0s;
+    overflow: hidden;
+}
+
+.cols-service:hover .team-desc-hover {
+    opacity: 1;
+    bottom: 0%;
+}
+
+.cols-service-description {
+    position: absolute;
+    bottom: -100%;
+    right: 0;
+    background: #fff;
+    text-align: center;
+    z-index: 2;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+.cols-service-description {
+    padding: 60px 32px 50px;
+    height: 100%;
+}
