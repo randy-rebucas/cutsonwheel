@@ -14,6 +14,7 @@ div.mat-typography {
     width: 33%;
     min-height: 300px;
     margin: 2px;
+    position: relative;
 }
 
 .cols-services>div h3 {
@@ -32,7 +33,7 @@ div.mat-typography {
     overflow: hidden;
 }
 
-.cols-service:hover .team-desc-hover {
+.cols-service:hover .cols-service-description {
     opacity: 1;
     bottom: 0%;
 }
@@ -52,6 +53,27 @@ div.mat-typography {
 }
 
 .cols-service-description {
-    padding: 60px 32px 50px;
+    padding: 0;
     height: 100%;
+}
+
+.cols-service-description h2 {
+    font-weight: 100;
+    font-size: 20px;
+    position: relative;
+}
+
+.cols-service-description h2:after {
+    content: "";
+    border-bottom: 1px solid rgba(183, 179, 179, 0.87);
+    width: 60%;
+    position: absolute;
+    top: 50px;
+    left: 20%;
+}
+
+.cols-service-description p {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 100;
 }
