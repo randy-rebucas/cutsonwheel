@@ -13,8 +13,9 @@
             </button>
             <span [routerLink]="['/']" routerLinkActive="active" ><img src="./../../assets/img/logo.png"/></span>
             <span class="cpls-spacer"></span>
-            <a mat-button [routerLink]="['/auth/login']" routerLinkActive="mat-accent" >Login</a>
-            <a mat-button [routerLink]="['/auth/register']" routerLinkActive="mat-accent" >Register</a>
+            <a mat-button [routerLink]="['/auth/login']" routerLinkActive="mat-accent" *ngIf="!userIsAuthenticated">Login</a>
+            <a mat-button [routerLink]="['/auth/register']" routerLinkActive="mat-accent" *ngIf="!userIsAuthenticated">Register</a>
+            <a mat-button (click)="onLogout()" *ngIf="userIsAuthenticated">Logout</a>
         </mat-toolbar>
         <!-- Add Content Here -->
         <ng-content></ng-content>

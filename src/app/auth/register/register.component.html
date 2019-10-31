@@ -1,1 +1,54 @@
-<p>register works!</p>
+
+<div class="signup-page">
+  <div class="content">
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
+      <form (submit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading" class="signup-form" fxFlex>
+          <div class="text-center">
+              <h2 class="app-name">Register</h2>
+              <p class="subheading">Please fill out all input.</p>
+          </div>
+          <div fxFlex  fxlayout="row" fxlayout.lt-md="column">
+              <div fxFlexFill>
+                  <mat-form-field class="w-100">
+                      <input matInput name="firstname" type="text" maxlength="50" ngModel placeholder="Firstname" #firstnameInput="ngModel" required>
+                          <mat-error *ngIf="firstnameInput.invalid">Please enter firstname</mat-error>
+                  </mat-form-field>
+              </div>
+          </div>
+          <div fxFlex  fxlayout="row" fxlayout.lt-md="column">
+              <div fxFlexFill>
+                  <mat-form-field class="w-100">
+                      <input matInput name="lastname" type="text" maxlength="50" ngModel placeholder="Lastname" #lastnameInput="ngModel" required>
+                      <mat-error *ngIf="lastnameInput.invalid">Please enter lastname</mat-error>
+                  </mat-form-field>
+              </div>
+          </div>
+          <div fxFlex  fxlayout="row" fxlayout.lt-md="column">
+              <div fxFlexFill>
+                  <mat-form-field class="w-100">
+                      <input matInput name="email" type="email" ngModel placeholder="Email" #emailInput="ngModel" required email>
+                          <mat-error *ngIf="emailInput.invalid">Please enter valid email</mat-error>
+                  </mat-form-field>
+              </div>
+          </div>
+          <div fxFlex  fxLayout="row" fxLayout.lt-md="column">
+              <div fxFlexFill>
+                  <mat-form-field class="w-100">
+                      <input matInput type="password" name="password" ngModel placeholder="Password" #passwordInput="ngModel" required>
+                          <mat-error *ngIf="passwordInput.invalid">Please enter valid password</mat-error>
+                  </mat-form-field>
+              </div>
+          </div>
+          <div fxFlex  fxLayout="row" fxLayout.lt-md="column">
+            <div fxFlexFill>
+                <button mat-raised-button color="primary" class="w-100" type="submit">Submit</button>
+            </div>
+          </div>
+      </form>
+
+      <div class="footer">
+          <p>Already have an account? <a (click)="onLogin()" style="cursor: pointer;">Login</a> </p>
+      </div>
+  </div>
+
+</div>

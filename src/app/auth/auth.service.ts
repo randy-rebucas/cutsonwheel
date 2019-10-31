@@ -3,29 +3,27 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
-// import { environment } from '../../environments/environment';
-// import { AuthData } from './auth-data.model';
-// import { AuthSignup } from './auth-signup.model';
-// import { NotificationService } from '../shared/notification.service';
-// import { CookieService } from 'ngx-cookie-service';
+import { environment } from '../../environments/environment';
+import { LoginData } from './login/login-data.model';
+import { RegisterData } from './register/register-data.model';
+import { NotificationService } from '../_shared/notification.service';
+import { CookieService } from 'ngx-cookie-service';
 
-// const BACKEND_URL = environment.apiUrl + '/user';
+const BACKEND_URL = environment.apiUrl + '/auth';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private isAuthenticated: boolean;
   private token: string;
-  private myUserId: string;
+  private userId: string;
   private userEmail: string;
-  private userType: string;
-  private licenseId: string;
   private authStatusListener = new Subject<boolean>();
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    // private notificationService: NotificationService,
-    // private cookieService: CookieService
+    private notificationService: NotificationService,
+    private cookieService: CookieService
   ) {}
 
   getToken() {
@@ -36,128 +34,105 @@ export class AuthService {
     return (localStorage.hasOwnProperty('token')) ? true : false;
   }
 
-  // getUserId() {
-  //   return this.myUserId;
-  // }
+  getUserId() {
+    return this.userId;
+  }
 
-  // getUserEmail() {
-  //   return this.userEmail;
-  // }
+  getUserEmail() {
+    return this.userEmail;
+  }
 
-  // getUserType() {
-  //   return this.userType;
-  // }
+  getAuthStatusListener() {
+    return this.authStatusListener.asObservable();
+  }
 
-  // getLicenseId() {
-  //   return this.licenseId;
-  // }
+  createUser(FirstName: string, LastName: string, Email: string, Password: string) {
+    const authRegister: RegisterData = {
+      firstname: FirstName,
+      lastname: LastName,
+      email: Email,
+      password: Password
+    };
+    this.http.post<{message: string}>(BACKEND_URL + '/register', authRegister).subscribe((res) => {
+      this.notificationService.success(res.message);
+      this.router.navigate(['/']);
+    }, error => {
+      this.authStatusListener.next(false);
+    });
+  }
 
-  // getAuthStatusListener() {
-  //   return this.authStatusListener.asObservable();
-  // }
+  login(Email: string, Password: string, Remember: boolean) {
+    const authData: LoginData = {email: Email, password: Password, remember: Remember};
+    this.http.post<{token: string, userEmail: string, userId: string, userType: string, licenseId: string}>(
+      BACKEND_URL + '/login',
+      authData
+    )
+    .subscribe(response => {
+      console.log(response);
+      const token = response.token;
+      this.token = token;
+      if (token) {
 
-  // createUser(FirstName: string, LastName: string, ClinicName: string, Email: string, Password: string) {
-  //   const authSignup: AuthSignup = {
-  //     firstname: FirstName,
-  //     lastname: LastName,
-  //     clinicname: ClinicName,
-  //     email: Email,
-  //     password: Password
-  //   };
-  //   this.http.post<{message: string}>(BACKEND_URL + '/signup', authSignup).subscribe((res) => {
-  //     this.notificationService.success(res.message);
-  //     this.router.navigate(['/']);
-  //   }, error => {
-  //     this.authStatusListener.next(false);
-  //   });
-  // }
+        this.userId = response.userId;
+        this.userEmail = response.userEmail;
 
-  // login(Email: string, Password: string, Remember: boolean) {
-  //   const authData: AuthData = {email: Email, password: Password, remember: Remember};
-  //   this.http.post<{token: string, userEmail: string, myUserId: string, userType: string, licenseId: string}>(
-  //     BACKEND_URL + '/login',
-  //     authData
-  //   )
-  //   .subscribe(response => {
-  //     console.log(response);
-  //     const token = response.token;
-  //     this.token = token;
-  //     if (token) {
+        this.authStatusListener.next(true);
 
-  //       this.myUserId = response.myUserId;
-  //       this.userEmail = response.userEmail;
-  //       this.userType = response.userType;
-  //       this.licenseId = response.licenseId;
+        if (Remember) {
+          this.cookieService.set('remember', (Remember) ? 'yes' : 'no' );
+          this.cookieService.set('email', Email );
+          this.cookieService.set('pass', Password );
+        }
 
-  //       this.authStatusListener.next(true);
+        this.saveAuthData(token, this.userId, this.userEmail);
+        this.router.navigate(['/']);
+      }
+    }, error => {
+      this.authStatusListener.next(false);
+    });
+  }
 
-  //       if (Remember) {
-  //         this.cookieService.set('remember', (Remember) ? 'yes' : 'no' );
-  //         this.cookieService.set('email', Email );
-  //         this.cookieService.set('pass', Password );
-  //       }
+  autoAuthUser() {
+    const authInformation = this.getAuthData();
+    if (!authInformation) {
+      return;
+    }
+    this.token = authInformation.token;
 
-  //       this.saveAuthData(token, this.myUserId, this.userEmail, this.userType, this.licenseId);
-  //       this.router.navigate(['/']);
-  //     }
-  //   }, error => {
-  //     this.authStatusListener.next(false);
-  //   });
-  // }
+    this.userId = authInformation.userId;
+    this.userEmail = authInformation.userEmail;
+    this.authStatusListener.next(true);
+  }
 
-  // autoAuthUser() {
-  //   const authInformation = this.getAuthData();
-  //   if (!authInformation) {
-  //     return;
-  //   }
-  //   this.token = authInformation.token;
+  logout() {
+    this.token = null;
+    this.userId = null;
+    this.userEmail = null;
+    this.authStatusListener.next(false);
+    this.clearAuthData();
+    this.router.navigate(['/auth/login']);
+  }
 
-  //   this.myUserId = authInformation.myUserId;
-  //   this.userEmail = authInformation.userEmail;
-  //   this.userType = authInformation.userType;
-  //   this.licenseId = authInformation.licenseId;
-  //   this.authStatusListener.next(true);
-  // }
+  private saveAuthData(token: string, userId: string, userEmail: string) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('userId', userId);
+    localStorage.setItem('userEmail', userEmail);
+  }
 
-  // logout() {
-  //   this.token = null;
-  //   this.myUserId = null;
-  //   this.userType = null;
-  //   this.licenseId = null;
-  //   this.userEmail = null;
-  //   this.authStatusListener.next(false);
-  //   this.clearAuthData();
-  //   this.router.navigate(['/auth/login']);
-  // }
+  private clearAuthData() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userEmail');
+  }
 
-  // private saveAuthData(token: string, myUserId: string, userEmail: string, userType: string, licenseId: string) {
-  //   localStorage.setItem('token', token);
-  //   localStorage.setItem('myUserId', myUserId);
-  //   localStorage.setItem('userEmail', userEmail);
-  //   localStorage.setItem('userType', userType);
-  //   localStorage.setItem('licenseId', licenseId);
-  // }
-
-  // private clearAuthData() {
-  //   localStorage.removeItem('token');
-  //   localStorage.removeItem('myUserId');
-  //   localStorage.removeItem('userEmail');
-  //   localStorage.removeItem('userType');
-  //   localStorage.removeItem('licenseId');
-  // }
-
-  // private getAuthData() {
-  //   const authToken = localStorage.getItem('token');
-  //   const authMyUserId = localStorage.getItem('myUserId');
-  //   const authUserEmail = localStorage.getItem('userEmail');
-  //   const authUserType = localStorage.getItem('userType');
-  //   const authLicenseId = localStorage.getItem('licenseId');
-  //   return {
-  //     token: authToken,
-  //     myUserId: authMyUserId,
-  //     userEmail: authUserEmail,
-  //     userType: authUserType,
-  //     licenseId: authLicenseId
-  //   };
-  // }
+  private getAuthData() {
+    const authToken = localStorage.getItem('token');
+    const authUserId = localStorage.getItem('userId');
+    const authUserEmail = localStorage.getItem('userEmail');
+    return {
+      token: authToken,
+      userId: authUserId,
+      userEmail: authUserEmail
+    };
+  }
 }
