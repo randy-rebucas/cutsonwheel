@@ -20,14 +20,16 @@ const userSchema = mongoose.Schema({
   type: { type: String, default: 'member' }
 });
 
+userSchema.virtual('fullName').get(() => {
+  return this.firstName + ' ' + this.lastName
+})
+
+userSchema.virtual('fullName').set((name) => {
+  let str = name.split(' ')
+
+  this.firstName = str[0]
+  this.lastName = str[1]
+})
+
 module.exports = mongoose.model('Users', userSchema);
-// personSchema.virtual('fullName').get(function() {
-//   return this.firstName + ' ' + this.lastName
-// })
 
-// personSchema.virtual('fullName').set(function(name) {
-//   let str = name.split(' ')
-
-//   this.firstName = str[0]
-//   this.lastName = str[1]
-// })

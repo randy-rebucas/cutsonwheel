@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 78%;
   position: relative;
 }
 .login-page .content {
@@ -46,7 +46,4 @@
 .footer {
   text-align: left;
   width: 100%;
-}
-.footer p {
-  padding: 0 15px;
 }

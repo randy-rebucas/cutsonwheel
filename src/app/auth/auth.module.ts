@@ -21,7 +21,6 @@ import {
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,

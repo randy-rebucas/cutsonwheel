@@ -12,7 +12,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatDialogModule, MatSnackBarModule } from '@angular/material';
+import { MatDialogModule, MatSnackBarModule, MatTabsModule } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './public/home/home.component';
@@ -30,6 +30,10 @@ import { ErrorInterceptor } from './error-interceptor';
 import { AuthComponent } from './auth/auth.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CookieService } from 'ngx-cookie-service';
+import { FooterComponent } from './footer/footer.component';
+import { TeamsComponent } from './public/teams/teams.component';
+import { SetupComponent } from './setup/setup.component';
+import { UsersComponent } from './users/users.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +45,10 @@ import { CookieService } from 'ngx-cookie-service';
     AuthComponent,
     PageNotFoundComponent,
     ErrorComponent,
-    PromptDialogComponent
+    PromptDialogComponent,
+    FooterComponent,
+    TeamsComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,
@@ -57,6 +64,7 @@ import { CookieService } from 'ngx-cookie-service';
     MatCardModule,
     MatMenuModule,
     MatDialogModule,
+    MatTabsModule,
     MatSnackBarModule,
     AppRoutingModule
   ],

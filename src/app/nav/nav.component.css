@@ -1,13 +1,13 @@
+span.app-name {
+  font-weight: 400;
+}
+
 .sidenav-container {
     height: 100%;
 }
 
 .sidenav {
     width: 200px;
-}
-
-.sidenav .mat-toolbar {
-    background: inherit;
 }
 
 .mat-toolbar.mat-primary {
@@ -25,5 +25,14 @@
 }
 
 mat-toolbar img {
-    width: 150px;
+    width: 90px;
+}
+
+.mat-elevation-z6 {
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+}
+
+a.mat-list-item.active {
+  background: #e6e6e6;
+  font-weight: 500;
 }

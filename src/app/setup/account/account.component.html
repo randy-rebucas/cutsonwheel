@@ -1,0 +1,25 @@
+<div class="account">
+  <div class="profile-picture">
+      <form [formGroup]="profileForm" (submit)="onSavePicture()">
+          <input style="display: none" type="file" (change)="onFileChanged($event)" #filePicker>
+          <div class="image-preview">
+              <div *ngIf="avatar; then thenBlock else elseBlock"></div>
+              <ng-template #thenBlock>
+                  <img [src]="avatar"/>
+              </ng-template>
+              <ng-template #elseBlock>
+                  <img src="./../../../assets/img/dummy.jpg" style="width: 200px;" />
+              </ng-template>
+          </div>
+      </form>
+      <button mat-button type="button" color="primary" (click)="filePicker.click()" aria-label="Change Profile Picture">
+        Upload
+      </button>
+      <div *ngIf="isLoadingPic">
+          <mat-progress-bar [color]="color" [mode]="mode" [value]="bufferValue"></mat-progress-bar>
+      </div>
+  </div>
+  <div class="profile-details">
+    test
+  </div>
+</div>

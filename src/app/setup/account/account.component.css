@@ -1,0 +1,9 @@
+.account {
+  margin: 2em 0;
+  display: flex;
+  flex: 1;
+}
+
+.account > div:first-child {
+  margin-right: 2em;
+}

@@ -10,14 +10,14 @@ const checkAuth = require('../middleware/check-auth');
  */
 const userController = require('../controllers/user');
 
-router.get('', userController.getAll);
+router.all('', userController.getAll);
 
-router.get('/:myUserId', userController.getOne);
+router.get('/:userId', userController.getOne);
 
 router.post('', checkAuth, userController.create);
 
-router.put('/:myUserId', checkAuth, userController.update);
+router.put('/:userId', checkAuth, userController.update);
 
-router.delete('/:myUserIds', checkAuth, userController.delete);
+router.delete('/:userIds', checkAuth, userController.delete);
 
 module.exports = router;

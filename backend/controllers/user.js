@@ -10,7 +10,6 @@ const ObjectId = require('mongoose').Types.ObjectId;
 const Auth = require('../models/auth');
 const User = require('../models/user');
 
-
 exports.create = async(req, res, next) => {
     try {
         /**

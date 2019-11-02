@@ -10,7 +10,6 @@ import { NotificationService } from '../_shared/notification.service';
 import { CookieService } from 'ngx-cookie-service';
 
 const BACKEND_URL = environment.apiUrl + '/auth';
-
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private isAuthenticated: boolean;
@@ -53,9 +52,19 @@ export class AuthService {
       email: Email,
       password: Password
     };
-    this.http.post<{message: string}>(BACKEND_URL + '/register', authRegister).subscribe((res) => {
+
+    this.http.post<{message: string, userId: string}>(BACKEND_URL + '/register', authRegister).subscribe((res) => {
       this.notificationService.success(res.message);
-      this.router.navigate(['/']);
+      console.log(res.userId);
+      // redirect to steps
+      // step#profile
+      // step#otp
+      // step#document
+      // step#verification
+      // Please wait for final verfication.
+      // Our team will check all submited documents to make sure all are true and
+      // will activate your acount right away once all is correct and valid.
+      this.router.navigate(['/setup/' + res.userId]);
     }, error => {
       this.authStatusListener.next(false);
     });
@@ -68,7 +77,6 @@ export class AuthService {
       authData
     )
     .subscribe(response => {
-      console.log(response);
       const token = response.token;
       this.token = token;
       if (token) {
@@ -85,7 +93,7 @@ export class AuthService {
         }
 
         this.saveAuthData(token, this.userId, this.userEmail);
-        this.router.navigate(['/']);
+        this.router.navigate(['/dashboard']);
       }
     }, error => {
       this.authStatusListener.next(false);
