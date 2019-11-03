@@ -141,7 +141,6 @@ export class AccountComponent implements OnInit {
   }
 
   onUpdate() {
-
     const updatedUser = {
       id: this.userId,
       firstname: this.form.value.firstname,
