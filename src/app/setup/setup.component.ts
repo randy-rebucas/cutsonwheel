@@ -14,9 +14,7 @@ export class SetupComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.path = this.router.parseUrl(this.router.url).root.children.primary.segments.pop().path;
-
   }
 
 }

@@ -10,6 +10,7 @@ var cors = require('cors');
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth');
 var userRouter = require('./routes/users');
+var uploadRouter = require('./routes/upload');
 
 require('./db/index');
 
@@ -35,10 +36,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/documents', express.static(path.join(__dirname, 'documents')));
 
 app.use('/', indexRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
+app.use('/api/upload', uploadRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

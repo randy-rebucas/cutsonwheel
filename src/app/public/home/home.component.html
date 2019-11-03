@@ -4,7 +4,11 @@
         <div class="header-headline">
             <h1 class="mat-h1">Welcome to {{ title }}!</h1>
             <h2 > Your One Stop Grooming Services on the GO!</h2></div>
-        <div class="header-start"><a mat-raised-button="" routerlink="/auth/register" class="button mat-raised-button mat-button-base" tabindex="0" aria-disabled="false" href="/auth/register"><span class="mat-button-wrapper">Register</span><div matripple="" class="mat-button-ripple mat-ripple"></div><div class="mat-button-focus-overlay"></div></a></div>
+        <div class="header-start">
+          <a mat-raised-button [routerLink]="['/auth/register']" routerLinkActive="router-link-active">
+            <span class="mat-button-wrapper">Register</span>
+          </a>
+        </div>
     </div>
 </header>
 <div class="homepage-promo">
@@ -165,6 +169,10 @@
               </div>
         </div>
     </div>
-    <div class="homepage-bottom-start"><a mat-raised-button="" routerlink="/guide/getting-started" color="accent" class="button mat-raised-button mat-button-base mat-accent" tabindex="0" aria-disabled="false" href="/guide/getting-started"><span class="mat-button-wrapper">Get started</span><div matripple="" class="mat-button-ripple mat-ripple"></div><div class="mat-button-focus-overlay"></div></a></div>
+    <div class="homepage-bottom-start">
+      <a mat-raised-button [routerLink]="['/guide/getting-started']" routerLinkActive="router-link-active" color="accent">
+        <span class="mat-button-wrapper">Get started</span>
+      </a>
+    </div>
 </div>
 

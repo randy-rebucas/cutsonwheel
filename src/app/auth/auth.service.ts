@@ -8,6 +8,7 @@ import { LoginData } from './login/login-data.model';
 import { RegisterData } from './register/register-data.model';
 import { NotificationService } from '../_shared/notification.service';
 import { CookieService } from 'ngx-cookie-service';
+import { UsersService } from '../users/users.service';
 
 const BACKEND_URL = environment.apiUrl + '/auth';
 @Injectable({ providedIn: 'root' })
@@ -22,7 +23,8 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
     private notificationService: NotificationService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private usersService: UsersService
   ) {}
 
   getToken() {
@@ -55,16 +57,8 @@ export class AuthService {
 
     this.http.post<{message: string, userId: string}>(BACKEND_URL + '/register', authRegister).subscribe((res) => {
       this.notificationService.success(res.message);
-      console.log(res.userId);
-      // redirect to steps
-      // step#profile
-      // step#otp
-      // step#document
-      // step#verification
-      // Please wait for final verfication.
-      // Our team will check all submited documents to make sure all are true and
-      // will activate your acount right away once all is correct and valid.
-      this.router.navigate(['/setup/' + res.userId]);
+      this.login(Email, Password, false);
+      // this.router.navigate(['/setup/' + res.userId]);
     }, error => {
       this.authStatusListener.next(false);
     });
@@ -93,7 +87,14 @@ export class AuthService {
         }
 
         this.saveAuthData(token, this.userId, this.userEmail);
-        this.router.navigate(['/dashboard']);
+
+        this.usersService.get(response.userId).subscribe(userData => {
+          if (userData.activated) {
+            this.router.navigate(['/dashboard']);
+          } else {
+            this.router.navigate(['/setup/' + response.userId]);
+          }
+        });
       }
     }, error => {
       this.authStatusListener.next(false);

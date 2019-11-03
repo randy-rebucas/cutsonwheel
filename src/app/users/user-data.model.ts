@@ -5,14 +5,19 @@ export interface UserData {
   lastname: string;
   gender: string;
   age: string;
-  contact: string;
   birthdate: string;
   status: string;
-  addresses: Address[];
+  contact: string;
+  expertise: string;
+  sss: string;
+  tin: string;
+  philhealth: string;
+  avatar: string;
+  activated: boolean;
+  address: Address[];
 }
 
 export interface Address {
-  current: boolean;
   address1: string;
   address2: string;
   city: string;

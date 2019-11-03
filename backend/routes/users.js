@@ -4,7 +4,7 @@ const router = express.Router();
  * loads middlewares
  */
 const checkAuth = require('../middleware/check-auth');
-
+const extractFile = require('../middleware/file');
 /**
  * load controller
  */
@@ -16,7 +16,9 @@ router.get('/:userId', userController.getOne);
 
 router.post('', checkAuth, userController.create);
 
-router.put('/:userId', checkAuth, userController.update);
+router.post('/upload/:userId', extractFile, userController.upload);
+
+router.put('/:userId',  userController.update);//checkAuth,
 
 router.delete('/:userIds', checkAuth, userController.delete);
 

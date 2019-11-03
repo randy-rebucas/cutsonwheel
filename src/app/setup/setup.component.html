@@ -4,8 +4,10 @@
 <div class="content">
   <div>
       <nav mat-tab-nav-bar>
-          <a mat-tab-link routerLink="./account" routerLinkActive #rlaAccount="routerLinkActive" [active]="rlaAccount.isActive">Account</a>
-          <a mat-tab-link routerLink="./documents" routerLinkActive #rlaDocuments="routerLinkActive" [active]="rlaDocuments.isActive">Documents</a>
+          <!-- disabled -->
+          <a mat-tab-link routerLink="./account" routerLinkActive #rlaAccount="routerLinkActive" [active]="rlaAccount.isActive" [disabled] = "!rlaAccount.isActive">Account</a>
+          <a mat-tab-link routerLink="./documents" routerLinkActive #rlaDocuments="routerLinkActive" [active]="rlaDocuments.isActive" [disabled] = "!rlaDocuments.isActive">Documents</a>
+          <a mat-tab-link routerLink="./complete" routerLinkActive #rlaComplete="routerLinkActive" [active]="rlaComplete.isActive" [disabled] = "!rlaComplete.isActive">Complete</a>
       </nav>
       <router-outlet></router-outlet>
   </div>

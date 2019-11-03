@@ -8,6 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AccountComponent } from './account/account.component';
 import { SetupComponent } from './setup.component';
 import { DocumentsComponent } from './documents/documents.component';
+import { CompleteComponent } from './complete/complete.component';
 import {
   MatFormFieldModule,
   MatProgressSpinnerModule,
@@ -16,14 +17,21 @@ import {
   MatCheckboxModule,
   MatTabsModule,
   MatIconModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatSelectModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MAT_DATE_LOCALE,
+  MatListModule,
+  MatRadioModule
 } from '@angular/material';
 
 @NgModule({
   declarations: [
     SetupComponent,
     AccountComponent,
-    DocumentsComponent
+    DocumentsComponent,
+    CompleteComponent
   ],
   imports: [
     CommonModule,
@@ -34,17 +42,26 @@ import {
     MatProgressSpinnerModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatRadioModule,
     MatTabsModule,
     MatIconModule,
     MatProgressBarModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatListModule,
     FlexLayoutModule.withConfig({addFlexToParent: false}),
     RouterModule.forChild([
       { path: ':userId', component: SetupComponent, children: [
         { path: '', redirectTo: 'account', pathMatch: 'full' },
         { path: 'account', component: AccountComponent },
-        { path: 'documents', component: DocumentsComponent }
+        { path: 'documents', component: DocumentsComponent },
+        { path: 'complete', component: CompleteComponent }
       ] },
     ])
+  ],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
   ]
 })
 export class SetupModule {}

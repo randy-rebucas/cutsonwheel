@@ -54,11 +54,8 @@ export class UsersService {
     return this.usersUpdated.asObservable();
   }
 
-  get(myUserId: string) {
-    // tslint:disable-next-line: max-line-length
-    return this.http.get<{ personId: string, firstname: any, midlename: any, lastname: string, contact: string, gender: string, birthdate: string, addresses: [], created: Date, email: string, userId: string, metas: [], avatar: string, userType: string, myuserId: string}>(
-        BACKEND_URL + '/' + myUserId
-      );
+  get(userId: string) {
+    return this.http.get<UserData>(BACKEND_URL + '/' + userId);
   }
   // tslint:disable-next-line:max-line-length
   insert(
@@ -90,46 +87,24 @@ export class UsersService {
     return this.http.post<{ message: string, user: UserData }>(BACKEND_URL, userData);
   }
 
-  update(
-    Id: string,
-    UserType: string,
-    Firstname: string,
-    Midlename: string,
-    Lastname: string,
-    Contact: string,
-    Gender: string,
-    Birthdate: string,
-    Addresses: [],
-    Meta: []
-  ) {
-    const userData = {
-      id: Id,
-      userType: UserType,
-      firstname: Firstname,
-      midlename: Midlename,
-      lastname: Lastname,
-      contact: Contact,
-      gender: Gender,
-      birthdate: Birthdate,
-      address: Addresses,
-      meta: Meta
-    };
-    return this.http.put(BACKEND_URL + '/' + Id, userData);
+  update(updatedUser: any) {
+    return this.http.put<{ message: string }>(BACKEND_URL + '/' + updatedUser.id, updatedUser);
   }
 
   delete(patientIds: []) {
     return this.http.delete<{ message: string }>(BACKEND_URL + '/' + patientIds);
   }
 
-  upload(uId: string, image: File | string) {
+  upload(userId: string, image: File | string) {
 
     const uploadData = new FormData();
-    uploadData.append('userId', uId);
-    uploadData.append('profilePicture', image, uId);
+    uploadData.append('userId', userId);
+    uploadData.append('profilePicture', image, userId);
 
-    return this.http.post<{ message: string, imagePath: string }>(BACKEND_URL + '/upload/' + uId, uploadData, {
+    return this.http.post<{ message: string, avatar: string }>(BACKEND_URL + '/upload/' + userId, uploadData, {
       reportProgress: true,
       observe: 'events'
     });
   }
+
 }
