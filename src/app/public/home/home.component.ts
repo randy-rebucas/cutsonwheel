@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
+import { fade } from 'src/app/animations';
+
 
 @Component({
   selector: 'cowls-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  animations: [
+    fade
+  ]
 })
 export class HomeComponent implements OnInit {
   title = 'cutsonwheel';

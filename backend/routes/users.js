@@ -16,9 +16,9 @@ router.get('/:userId', userController.getOne);
 
 router.post('', checkAuth, userController.create);
 
-router.post('/upload/:userId', extractFile, userController.upload);
+router.post('/upload/:userId', checkAuth, extractFile, userController.upload);
 
-router.put('/:userId',  userController.update);//checkAuth,
+router.put('/:userId', checkAuth, userController.update);
 
 router.delete('/:userIds', checkAuth, userController.delete);
 

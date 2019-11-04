@@ -99,7 +99,7 @@ export class UsersService {
 
     const uploadData = new FormData();
     uploadData.append('userId', userId);
-    uploadData.append('profilePicture', image, userId);
+    uploadData.append('image', image, userId);
 
     return this.http.post<{ message: string, avatar: string }>(BACKEND_URL + '/upload/' + userId, uploadData, {
       reportProgress: true,

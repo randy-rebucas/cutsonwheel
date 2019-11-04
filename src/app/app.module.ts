@@ -28,12 +28,15 @@ import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 
 import { AuthComponent } from './auth/auth.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './private/dashboard/dashboard.component';
 import { CookieService } from 'ngx-cookie-service';
 import { FooterComponent } from './footer/footer.component';
 import { TeamsComponent } from './public/teams/teams.component';
-import { SetupComponent } from './setup/setup.component';
 import { UsersComponent } from './users/users.component';
+// import { ClassificationComponent } from './private/classification/classification.component';
+// import { ClassificationListComponent } from './private/classification/classification-list/classification-list.component';
+// import { ClassificationFormComponent } from './private/classification/classification-form/classification-form.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +51,10 @@ import { UsersComponent } from './users/users.component';
     PromptDialogComponent,
     FooterComponent,
     TeamsComponent,
-    UsersComponent
+    UsersComponent,
+    // ClassificationComponent,
+    // ClassificationListComponent,
+    // ClassificationFormComponent
   ],
   imports: [
     BrowserModule,
