@@ -10,7 +10,9 @@ const extractFile = require('../middleware/file');
  */
 const userController = require('../controllers/user');
 
-router.all('', userController.getAll);
+router.get('', userController.getAll);
+
+router.get('/classified-user/:classificationId', userController.getClassifiedUser)
 
 router.get('/:userId', userController.getOne);
 

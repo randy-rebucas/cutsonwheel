@@ -24,29 +24,7 @@
             <mat-chip *ngFor="let service of classification.services;" >{{service.type}}</mat-chip>
           </mat-chip-list>
 
-          <div class="homepage-service-members">
-              <div>
-                  <img src="./../../assets/img/dummy.jpg" />
-              </div>
-              <div>
-                  <img src="./../../assets/img/dummy.jpg" />
-              </div>
-              <div>
-                  <img src="./../../assets/img/dummy.jpg" />
-              </div>
-              <div>
-                  <img src="./../../assets/img/dummy.jpg" />
-              </div>
-              <div>
-                  <img src="./../../assets/img/dummy.jpg" />
-              </div>
-              <div>
-                  <img src="./../../assets/img/dummy.jpg" />
-              </div>
-              <div>
-                  <span class="members-counter">15</span> Members
-              </div>
-          </div>
+          <cowls-user-classification [classificationId]="classification.id"></cowls-user-classification>
       </div>
     </div>
     <div class="homepage-bottom-start">

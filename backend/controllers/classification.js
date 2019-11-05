@@ -1,6 +1,7 @@
 const slugify = require('slugify');
 const sharp = require('sharp');
 const Classification = require('../models/classification');
+const User = require('../models/user');
 
 exports.create = async(req, res, next) => {
   try {
@@ -104,6 +105,8 @@ exports.upload = async(req, res, next) => {
 
 exports.getAll = async(req, res, next) => {
     try {
+
+      // console.log(aggregate);
         const pageSize = +req.query.pagesize;
         const currentPage = +req.query.page;
         const query = Classification.find();

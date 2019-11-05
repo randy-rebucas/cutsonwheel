@@ -66,13 +66,6 @@ export class UsersService {
     return this.http.put<{ message: string }>(BACKEND_URL + '/' + updatedUser.id, updatedUser);
   }
 
-  updateClassification(userId: string, classificationId: string) {
-    const classification = {
-      classification: classificationId
-    };
-    return this.http.put<{ message: string }>(BACKEND_URL + '/classification/' + userId, classification);
-  }
-
   delete(patientIds: []) {
     return this.http.delete<{ message: string }>(BACKEND_URL + '/' + patientIds);
   }
@@ -89,4 +82,14 @@ export class UsersService {
     });
   }
 
+  getAllClassifiedUser(classificationId: string) {
+    return this.http.get<{classifiedUsers: any, count: number}>(BACKEND_URL + '/classified-user/' + classificationId);
+  }
+
+  updateClassification(userId: string, classificationId: string) {
+    const classification = {
+      classification: classificationId
+    };
+    return this.http.put<{ message: string }>(BACKEND_URL + '/classification/' + userId, classification);
+  }
 }

@@ -252,11 +252,27 @@ exports.updateClassification = async(req, res, next) => {
         message: 'Profile classification updated!'
     });
 
-} catch (error) {
-    res.status(500).json({
-        message: error.message
-    });
+  } catch (error) {
+      res.status(500).json({
+          message: error.message
+      });
+  }
 }
+
+exports.getClassifiedUser = async(req, res, next) => {
+  try {
+    let classifiedUsers = await User.find({ classification: req.params.classificationId }).select('firstname lastname avatar').exec();
+
+    res.status(200).json({
+      classifiedUsers: classifiedUsers,
+      count: classifiedUsers.length
+    });
+
+  } catch (error) {
+      res.status(500).json({
+          message: error.message
+      });
+  }
 }
 
 exports.getNewUser = async(req, res, next) => {

@@ -33,6 +33,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { FooterComponent } from './footer/footer.component';
 import { TeamsComponent } from './public/teams/teams.component';
 import { UsersComponent } from './users/users.component';
+import { UserClassificationComponent } from './_shared/user-classification/user-classification.component';
 // import { ClassificationComponent } from './private/classification/classification.component';
 // import { ClassificationListComponent } from './private/classification/classification-list/classification-list.component';
 // import { ClassificationFormComponent } from './private/classification/classification-form/classification-form.component';
@@ -52,6 +53,7 @@ import { UsersComponent } from './users/users.component';
     FooterComponent,
     TeamsComponent,
     UsersComponent,
+    UserClassificationComponent,
     // ClassificationComponent,
     // ClassificationListComponent,
     // ClassificationFormComponent
