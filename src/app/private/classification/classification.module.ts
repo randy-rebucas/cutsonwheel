@@ -14,6 +14,9 @@ import {
   MatButtonModule,
   MatProgressSpinnerModule,
   MatCardModule,
+  MatIconModule,
+  MatListModule,
+  MatProgressBarModule,
 } from '@angular/material';
 
 @NgModule({
@@ -30,8 +33,11 @@ import {
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatProgressBarModule,
     MatProgressSpinnerModule,
     MatCardModule,
+    MatIconModule,
+    MatListModule,
     FlexLayoutModule.withConfig({addFlexToParent: false}),
     RouterModule.forChild([
       { path: '', component: ClassificationComponent, children: [

@@ -13,162 +13,41 @@
     </div>
 </header>
 <div class="homepage-promo">
-    <div class="homepage-row" @fade>
-        <div class="homepage-promo-img">
-            <img src="./../../assets/img/Hairdressers.jpg" />
-        </div>
-        <div class="homepage-promo-desc">
-            <h2>Hairdressers</h2>
-            <p>cut or style hair in order to change or maintain a person's image. This is achieved using a combination of hair coloring, haircutting, and hair texturing techniques.</p>
-            <div class="homepage-service-members">
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <span class="members-counter">15</span> Members
-                </div>
-            </div>
-        </div>
+    <div @fade class="homepage-row" *ngFor="let classification of classifications; let o = odd; let e = even;" [ngClass]="{ 'homepage-reverse-row': o}">
+      <div class="homepage-promo-img">
+          <img [src]="classification.image" />
+      </div>
+      <div class="homepage-promo-desc">
+          <h2>{{classification.name}}</h2>
+          <p>{{classification.description}}</p>
+          <mat-chip-list aria-label="Fish selection">
+            <mat-chip *ngFor="let service of classification.services;" >{{service.type}}</mat-chip>
+          </mat-chip-list>
 
-    </div>
-    <div class="homepage-reverse-row homepage-row" @fade>
-        <div class="homepage-promo-img">
-            <img src="./../../assets/img/Barbers.jpg" />
-        </div>
-        <div class="homepage-promo-desc">
-            <h2>Barbers</h2>
-            <p>cut, dress, groom, style and shave men's and boys' hair</p>
-            <div class="homepage-service-members">
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <span class="members-counter">20+</span> Members
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="homepage-row" @fade>
-        <div class="homepage-promo-img">
-            <img src="./../../assets/img/Nail-Technicians.jpg" />
-        </div>
-        <div class="homepage-promo-desc">
-            <h2>Nail Technicians</h2>
-            <p>style and shape a person's nails. This is achieved using a combination of decorating nails with coloured varnish, transfers, gems or glitter.</p>
-            <div class="homepage-service-members">
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <span class="members-counter">3</span> Members
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="homepage-reverse-row homepage-row" @fade>
-        <div class="homepage-promo-img">
-            <img src="./../../assets/img/Makeup-Artist.jpg" />
-        </div>
-        <div class="homepage-promo-desc">
-            <h2>Makeup Artist</h2>
-            <p>applying makeup and prosthetics on others for theatre, television, film, fashion, magazines and other similar productions including all aspects of the modeling industry..</p>
-            <div class="homepage-service-members">
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <span class="members-counter">1</span> Member
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="homepage-row" @fade>
-        <div class="homepage-promo-img">
-            <img src="./../../assets/img/Massage-Therapist.jpg" />
-        </div>
-        <div class="homepage-promo-desc">
-            <h2>Massage Therapist</h2>
-            <p>trained individual who is licensed or certified to therapeutically manipulate the muscles and other soft tissues of the body using one or both hands or an instrument</p>
-            <div class="homepage-service-members">
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <span class="members-counter">7</span> Members
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="homepage-reverse-row homepage-row" @fade>
-        <div class="homepage-promo-img">
-            <img src="./../../assets/img/Tattoo-Artist.jpg" />
-        </div>
-        <div class="homepage-promo-desc">
-            <h2>Tattoo Artist</h2>
-            <p>an individual who applies permanent decorative tattoos, often in an established business called a "tattoo shop," "tattoo studio" or '"tattoo parlour."</p>
-            <div class="homepage-service-members">
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <img src="./../../assets/img/dummy.jpg" />
-                </div>
-                <div>
-                    <span class="members-counter">2</span> Members
-                </div>
-            </div>
-        </div>
+          <div class="homepage-service-members">
+              <div>
+                  <img src="./../../assets/img/dummy.jpg" />
+              </div>
+              <div>
+                  <img src="./../../assets/img/dummy.jpg" />
+              </div>
+              <div>
+                  <img src="./../../assets/img/dummy.jpg" />
+              </div>
+              <div>
+                  <img src="./../../assets/img/dummy.jpg" />
+              </div>
+              <div>
+                  <img src="./../../assets/img/dummy.jpg" />
+              </div>
+              <div>
+                  <img src="./../../assets/img/dummy.jpg" />
+              </div>
+              <div>
+                  <span class="members-counter">15</span> Members
+              </div>
+          </div>
+      </div>
     </div>
     <div class="homepage-bottom-start">
         <a mat-raised-button [routerLink]="['/guide/getting-started']" routerLinkActive="router-link-active" color="accent">

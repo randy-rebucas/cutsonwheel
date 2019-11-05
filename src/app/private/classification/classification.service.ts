@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { ClassificationData } from './classification-data.model';
+import { Router } from '@angular/router';
 
 const BACKEND_URL = environment.apiUrl + '/classification';
 
@@ -13,8 +14,11 @@ export class ClassificationService {
   private classifications: ClassificationData[] = [];
   private classificationsUpdated = new Subject<{ classifications: ClassificationData[], counts: number }>();
 
+
+
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {}
 
   getAll(perPage: number, currentPage: number) {
@@ -30,6 +34,7 @@ export class ClassificationService {
             name: classification.name,
             slug: classification.slug,
             description: classification.description,
+            services: classification.services,
             image: classification.image
           };
         }), max: classificationData.counts};
@@ -52,16 +57,36 @@ export class ClassificationService {
     return this.http.get<ClassificationData>(BACKEND_URL + '/' + classificationId);
   }
 
-  insert(nClassification: any) {
-    return this.http.post<{ message: string }>(BACKEND_URL, nClassification);
+  create(classificationData: any) {
+    this.http
+      .post<{ message: string }>(BACKEND_URL, classificationData)
+      .subscribe((responseData) => {
+        this.router.navigate(['/classification']);
+      });
   }
 
-  update(uClassification: any) {
-    return this.http.put<{ message: string, classification: ClassificationData }>(BACKEND_URL + '/' + uClassification.id, uClassification);
+  update(classificationData: any) {
+    this.http.put<{ message: string, classification: ClassificationData }>(BACKEND_URL + '/' + classificationData._id, classificationData)
+    .subscribe((responseData) => {
+      this.router.navigate(['/classification']);
+    });
+
   }
 
   delete(classificationId: []) {
     return this.http.delete<{ message: string, classification: ClassificationData }>(BACKEND_URL + '/' + classificationId);
+  }
+
+  upload(classificationId: string, image: File | string) {
+
+    const uploadData = new FormData();
+    uploadData.append('classificationId', classificationId);
+    uploadData.append('image', image, classificationId);
+
+    return this.http.post<{ message: string, image: string }>(BACKEND_URL + '/upload/' + classificationId, uploadData, {
+      reportProgress: true,
+      observe: 'events'
+    });
   }
 
 }

@@ -12,7 +12,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatDialogModule, MatSnackBarModule, MatTabsModule } from '@angular/material';
+import { MatDialogModule, MatSnackBarModule, MatTabsModule, MatChipsModule } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './public/home/home.component';
@@ -72,6 +72,7 @@ import { UsersComponent } from './users/users.component';
     MatDialogModule,
     MatTabsModule,
     MatSnackBarModule,
+    MatChipsModule,
     AppRoutingModule
   ],
   providers: [

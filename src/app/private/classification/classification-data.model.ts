@@ -4,4 +4,9 @@ export interface ClassificationData {
     slug: string;
     description: string;
     image: File | string;
+    services: Services[];
   }
+
+export interface Services {
+  type: string;
+}

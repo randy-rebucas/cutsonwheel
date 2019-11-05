@@ -1,15 +1,50 @@
 <mat-card style="width: 600px;">
     <mat-spinner *ngIf="isLoading"></mat-spinner>
-    <form [formGroup]="form" (submit)="onSubmit()" *ngIf="!isLoading">
-        <mat-form-field>
-            <input matInput type="text" formControlName="name" placeholder="Name">
-            <mat-error *ngIf="form.get('name').invalid">Please enter name</mat-error>
-        </mat-form-field>
-        <mat-form-field>
-            <textarea matInput rows="6" formControlName="description" placeholder="Description"></textarea>
-            <mat-error *ngIf="form.get('description').invalid">Please enter description</mat-error>
-        </mat-form-field>
+    <div class="classification-image">
+        <div *ngIf="isLoadingPic">
+            <mat-progress-bar [color]="color" [mode]="mode" [value]="bufferValue"></mat-progress-bar>
+        </div>
+        <form [formGroup]="imageForm" (submit)="onSavePicture()">
+            <input style="display: none" type="file" (change)="onFileChanged($event)" #filePicker>
+            <div class="image-preview">
+                <div *ngIf="image; then thenBlock else elseBlock"></div>
+                <ng-template #thenBlock>
+                    <img [src]="image"/>
+                </ng-template>
+                <ng-template #elseBlock>
+                    <img src="./../../../assets/img/dummy.jpg"/>
+                </ng-template>
+            </div>
+        </form>
+        <button mat-stroked-button color="primary" (click)="filePicker.click()" aria-label="Select Image">
+          Select Image
+        </button>
+    </div>
+    <div class="classification-data">
+        <form [formGroup]="form" (submit)="onSubmit()" *ngIf="!isLoading">
+            <h4 subheading-1>Classification</h4>
+            <mat-form-field>
+                <input matInput type="text" formControlName="name" placeholder="Name">
+            </mat-form-field>
+            <mat-form-field>
+                <textarea matInput rows="6" formControlName="description" placeholder="Description"></textarea>
+            </mat-form-field>
+            <h4 subheading-1>Services</h4>
+            <ng-container formArrayName="services" *ngIf="serviceArray.length > 0">
+              <div *ngFor="let meta of serviceArray.controls; let i = index;" [formGroupName]="i" class="servicesGroup">
+                  <div class="form-field-block">
+                      <mat-form-field>
+                          <input matInput type="text" formControlName="type" placeholder="Type">
+                      </mat-form-field>
+                  </div>
+                  <div class="action">
+                      <button mat-icon-button *ngIf="serviceArray.controls.length < 10" (click)="addServices()" type="button"><mat-icon>add</mat-icon></button>
+                      <button mat-icon-button color="warn" *ngIf="serviceArray.controls.length > 1" (click)="removeServices(i)" type="button"><mat-icon>delete_outline</mat-icon></button>
+                  </div>
+              </div>
+          </ng-container>
+            <button mat-raised-button color="primary" type="submit">Submit</button>
+        </form>
+    </div>
 
-        <button mat-raised-button color="primary" type="submit">Submit</button>
-    </form>
 </mat-card>
