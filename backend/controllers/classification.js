@@ -14,8 +14,6 @@ exports.create = async(req, res, next) => {
       /**
        * Set entities on collection
        */
-
-
       const newClassification = new Classification({
           name: req.body.name,
           slug: slugify(req.body.name, {

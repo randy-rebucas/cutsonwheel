@@ -18,7 +18,9 @@ router.post('', checkAuth, userController.create);
 
 router.post('/upload/:userId', checkAuth, extractFile, userController.upload);
 
-router.put('/:userId', checkAuth, userController.update);
+router.put('/:userId', userController.update);
+
+router.put('/classification/:userId', userController.updateClassification);
 
 router.delete('/:userIds', checkAuth, userController.delete);
 

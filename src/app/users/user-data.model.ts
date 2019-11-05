@@ -8,7 +8,7 @@ export interface UserData {
   birthdate: string;
   status: string;
   contact: string;
-  expertise: string;
+  classification: string;
   sss: string;
   tin: string;
   philhealth: string;

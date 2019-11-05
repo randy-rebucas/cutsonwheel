@@ -58,7 +58,7 @@ export class AccountComponent implements OnInit {
       birthdate: ['', [Validators.required]],
       status: ['', [Validators.required]],
       contact: ['', [Validators.required]],
-      expertise: ['', [Validators.required]],
+      // expertise: ['', [Validators.required]],
       sss: [null],
       tin: [null],
       philhealth: [null],
@@ -77,7 +77,7 @@ export class AccountComponent implements OnInit {
         birthdate: userData.birthdate,
         status: userData.status,
         contact: userData.contact,
-        expertise: userData.expertise,
+        // expertise: userData.expertise,
         sss: userData.sss,
         tin: userData.tin,
         philhealth: userData.philhealth
@@ -160,7 +160,7 @@ export class AccountComponent implements OnInit {
 
     this.usersService.update(updatedUser).subscribe((response) => {
       this.notificationService.success(response.message);
-      this.router.navigate(['../documents'], {relativeTo: this.activatedRoute});
+      this.router.navigate(['../classifications'], {relativeTo: this.activatedRoute});
     });
   }
 

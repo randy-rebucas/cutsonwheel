@@ -23,15 +23,18 @@ import {
   MatNativeDateModule,
   MAT_DATE_LOCALE,
   MatListModule,
-  MatRadioModule
+  MatRadioModule,
+  MatCardModule
 } from '@angular/material';
+import { ClassificationOptionComponent } from './classification-option/classification-option.component';
 
 @NgModule({
   declarations: [
     SetupComponent,
     AccountComponent,
     DocumentsComponent,
-    CompleteComponent
+    CompleteComponent,
+    ClassificationOptionComponent
   ],
   imports: [
     CommonModule,
@@ -50,11 +53,13 @@ import {
     MatDatepickerModule,
     MatNativeDateModule,
     MatListModule,
+    MatCardModule,
     FlexLayoutModule.withConfig({addFlexToParent: false}),
     RouterModule.forChild([
       { path: ':userId', component: SetupComponent, children: [
         { path: '', redirectTo: 'account', pathMatch: 'full' },
         { path: 'account', component: AccountComponent },
+        { path: 'classifications', component: ClassificationOptionComponent },
         { path: 'documents', component: DocumentsComponent },
         { path: 'complete', component: CompleteComponent }
       ] },

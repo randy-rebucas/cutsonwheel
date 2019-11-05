@@ -61,7 +61,7 @@
             <mat-form-field>
                 <input matInput type="text" formControlName="contact" placeholder="Mobile Number">
             </mat-form-field>
-            <mat-form-field>
+            <!-- <mat-form-field>
                 <mat-select formControlName="expertise" placeholder="Expertise">
                     <mat-option value="Hairdressers">Hairdressers</mat-option>
                     <mat-option value="Barbers">Barbers</mat-option>
@@ -70,7 +70,7 @@
                     <mat-option value="Massage Therapist">Massage Therapist</mat-option>
                     <mat-option value="Tattoo Artist">Tattoo Artist</mat-option>
                 </mat-select>
-            </mat-form-field>
+            </mat-form-field> -->
           </div>
           <ng-container formArrayName="addresses" *ngIf="addressArray.length > 0">
               <div *ngFor="let address of addressArray.controls; let i = index;" [formGroupName]="i" class="addressGroup">
@@ -123,7 +123,7 @@
           </div>
           <div class="action">
               <button mat-raised-button color="primary" type="submit">Update</button> &nbsp;
-              <button mat-raised-button color="accent" type="button" (click)="onSkip('documents')">Skip</button>
+              <button mat-raised-button color="accent" type="button" (click)="onSkip('classifications')">Skip</button>
           </div>
 
       </form>

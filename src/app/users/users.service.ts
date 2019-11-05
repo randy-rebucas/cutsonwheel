@@ -18,7 +18,7 @@ export class UsersService {
   ) {}
 
   getAll(userType: string, perPage: number, currentPage: number) {
-    const queryParams = `?usertype=${userType}&pagesize=${perPage}&page=${currentPage}`;
+    const queryParams = `?pagesize=${perPage}&page=${currentPage}`;
     this.http.get<{message: string, users: any, counts: number }>(
       BACKEND_URL + queryParams
     )
@@ -57,38 +57,20 @@ export class UsersService {
   get(userId: string) {
     return this.http.get<UserData>(BACKEND_URL + '/' + userId);
   }
-  // tslint:disable-next-line:max-line-length
-  insert(
-    UserType: string,
-    Firstname: string,
-    Midlename: string,
-    Lastname: string,
-    Contact: string,
-    Gender: string,
-    Birthdate: string,
-    Addresses: [],
-    Meta: [],
-    Email: string,
-    Pass: string
-  ) {
-    const userData = {
-      userType: UserType,
-      firstname: Firstname,
-      midlename: Midlename,
-      lastname: Lastname,
-      contact: Contact,
-      gender: Gender,
-      birthdate: Birthdate,
-      address: Addresses,
-      meta: Meta,
-      email: Email,
-      password: Pass
-    };
-    return this.http.post<{ message: string, user: UserData }>(BACKEND_URL, userData);
+
+  insert(newUser: any) {
+    return this.http.post<{ message: string, user: UserData }>(BACKEND_URL, newUser);
   }
 
   update(updatedUser: any) {
     return this.http.put<{ message: string }>(BACKEND_URL + '/' + updatedUser.id, updatedUser);
+  }
+
+  updateClassification(userId: string, classificationId: string) {
+    const classification = {
+      classification: classificationId
+    };
+    return this.http.put<{ message: string }>(BACKEND_URL + '/classification/' + userId, classification);
   }
 
   delete(patientIds: []) {

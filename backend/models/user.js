@@ -10,7 +10,7 @@ const userSchema = mongoose.Schema({
   birthdate: { type: Date, default: null },
   status: { type: String, default: null },
   contact: { type: String, default: null },
-  expertise: { type: String, default: null },
+  classification: { type: mongoose.Schema.Types.ObjectId, ref: 'Classifications' },
   sss: { type: String, default: null },
   tin: { type: String, default: null },
   philhealth: { type: String, default: null },
@@ -22,7 +22,6 @@ const userSchema = mongoose.Schema({
     postalCode: { type: Number },
     country: { type: String }
   }],
-  type: { type: String, default: 'member' },
   activated: { type: Boolean, default: false }
 }, { timestamps: {} });
 
