@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 var helmet = require('helmet');
 var cors = require('cors');
+var multer = require('multer');
 
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth');
@@ -38,6 +39,7 @@ app.use(bodyParser.urlencoded({ extended: false, limit: '4MB' }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/documents', express.static(path.join(__dirname, 'documents')));
+
 
 app.use('/', indexRouter);
 app.use('/api/auth', authRouter);

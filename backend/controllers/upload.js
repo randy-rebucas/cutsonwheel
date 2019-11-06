@@ -1,6 +1,6 @@
 const IncomingForm = require('formidable').IncomingForm
 const Upload = require('../models/upload');
-const sharp = require('sharp');
+// const sharp = require('sharp');
 const mkdirp = require('mkdirp-promise');
 
 exports.getAll = async(req, res, next) => {
@@ -121,15 +121,15 @@ exports.create = async(req, res, next) => {
 
             const thumbPath = 'documents/thumb/' + _thumbnail;
 
-            await sharp(files.file.path).resize(200, 200, {
-                kernel: sharp.kernel.nearest,
-                fit: sharp.fit.cover,
-                position: sharp.strategy.entropy
-            }).toFile(thumbPath);
+            // await sharp(files.file.path).resize(200, 200, {
+            //     kernel: sharp.kernel.nearest,
+            //     fit: sharp.fit.cover,
+            //     position: sharp.strategy.entropy
+            // }).toFile(thumbPath);
 
             const upload = new Upload({
                 src: _url + '/' + files.file.path,
-                thumb: _url + '/documents/thumb/' + _thumbnail,
+                thumb: _url + '/files/thumb/' + _thumbnail,
                 name: files.file.name,
                 type: files.file.type,
                 userId: fields.userId

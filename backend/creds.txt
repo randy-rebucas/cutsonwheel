@@ -10,3 +10,5 @@ Standard
 
 SECRET
 GOLeXkU0YnMBoy5Ay5TpeD9eJ9hLlfGY
+-------
+npm install --save bcryptjs

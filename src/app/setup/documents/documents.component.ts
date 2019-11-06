@@ -68,6 +68,7 @@ export class DocumentsComponent implements OnInit, OnDestroy {
     .subscribe((documentsData: {files: DocumentsData[], count: number}) => {
       this.total = documentsData.count;
       // this.documents = documentsData.files;
+      // tslint:disable-next-line: prefer-for-of
       for (let index = 0; index < documentsData.files.length; index++) {
         const element = documentsData.files[index];
         const album = {
@@ -134,7 +135,7 @@ export class DocumentsComponent implements OnInit, OnDestroy {
       // ... and the component is no longer uploading
       this.uploading = false;
 
-      this.uploadService.getAll(this.perPage, this.currentPage, this.userId)
+      this.uploadService.getAll(this.perPage, this.currentPage, this.userId);
       // this.router.navigate(['../complete'], {relativeTo: this.activatedRoute});
     });
   }

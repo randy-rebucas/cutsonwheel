@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const ip = require("ip");
-const sharp = require('sharp');
+// const sharp = require('sharp');
 // const moment = require('moment');
 const slugify = require('slugify');
 
@@ -208,14 +208,16 @@ exports.search = async(req, res, next) => {
 
 exports.upload = async(req, res, next) => {
     try {
-        let userPicture = await sharp(req.file.path).resize(200, 200).toBuffer();
-        if (!userPicture) {
-            throw new Error('Error in resizing image!');
-        }
 
+
+        // let userPicture = await sharp(req.file.path).resize(200, 200).toBuffer();
+        // if (!userPicture) {
+        //     throw new Error('Error in resizing image!');
+        // }
+        const url = req.protocol + '://' + req.get('host');
         let selectedAvatar = await User.updateOne({
             _id: req.params.userId
-        }, { $set: { 'avatar': `data:${req.file.mimetype};base64,${userPicture.toString('base64')}` } });
+        }, { $set: { 'avatar': url + '/files/' + req.file.filename } });
         if (!selectedAvatar) {
             throw new Error('Error in updating user!');
         }
