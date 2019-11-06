@@ -68,3 +68,11 @@ mat-radio-group {
     background: #ececec;
     padding: 1em;
 }
+
+.image-preview {
+    width: 200px;
+}
+
+.image-preview img {
+    width: 100%;
+}

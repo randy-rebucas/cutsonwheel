@@ -38,7 +38,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false, limit: '4MB' }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/documents', express.static(path.join(__dirname, 'documents')));
+app.use('/files', express.static(path.join(__dirname, 'files')));
 
 
 app.use('/', indexRouter);

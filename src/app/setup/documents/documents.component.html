@@ -17,7 +17,7 @@
 <div>
     <div class="documents">
         <div *ngFor="let document of documents; let i=index">
-            <img [src]="document.thumb" (click)="open(i)" />
+            <img [src]="document.src" (click)="open(i)" />
         </div>
     </div>
     <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple/>

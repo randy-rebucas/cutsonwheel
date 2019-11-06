@@ -74,12 +74,10 @@ export class DocumentsComponent implements OnInit, OnDestroy {
         const album = {
            src: element.src,
            caption: element.name,
-           thumb: element.thumb
+           thumb: element.src
         };
         this.documents.push(album);
       }
-
-      console.log(this.documents);
     });
   }
   open(index: number) {

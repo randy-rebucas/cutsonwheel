@@ -117,16 +117,21 @@ export class AccountComponent implements OnInit {
   }
 
   onFileChanged(event: Event) {
-    this.selectedFile = (event.target as HTMLInputElement).files[0];
-    this.profileForm.patchValue({ image: this.selectedFile });
-    this.isLoadingPic = true;
+    const file = (event.target as HTMLInputElement).files[0];
+    this.profileForm.patchValue({ profilePicture: file });
+    this.profileForm.get('profilePicture').updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.avatar = reader.result as string;
+    };
+    reader.readAsDataURL(file);
     this.onSavePicture();
   }
 
   onSavePicture() {
     this.usersService.upload(
       this.userId,
-      this.profileForm.value.image
+      this.profileForm.value.profilePicture
     ).subscribe((event) => {
       if (event.type === HttpEventType.UploadProgress) {
         this.bufferValue = Math.round(event.loaded / event.total * 100);

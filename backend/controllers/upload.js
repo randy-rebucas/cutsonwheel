@@ -85,13 +85,13 @@ exports.getOne = async(req, res, next) => {
 exports.create = async(req, res, next) => {
     try {
         var form = new IncomingForm();
-        form.uploadDir = 'documents';
+        form.uploadDir = 'files';
         form.keepExtensions = true;
         form.type = 'multipart';
         form.maxFieldsSize = 20 * 1024 * 1024; //10mb
         form.maxFileSize = 200 * 1024 * 1024;
         form.hash = true;
-        form.multiples = false;
+        form.multiples = true;
         // form.on('field', function(name, value) {
         //   // console.log(name + ': ' + value);
         // });
@@ -110,26 +110,10 @@ exports.create = async(req, res, next) => {
 
 
         form.parse(req, async function(err, fields, files) {
-
-            const _url = req.protocol + '://' + req.get('host');
-            const _path = files.file.path;
-            const _pathItem = _path.split("\\").pop();
-            const _pathItemAr = _pathItem.split('.');
-            const _thumbnail = _pathItemAr[0] + '-thumb.' + _pathItemAr[1];
-
-            await mkdirp('documents/thumb');
-
-            const thumbPath = 'documents/thumb/' + _thumbnail;
-
-            // await sharp(files.file.path).resize(200, 200, {
-            //     kernel: sharp.kernel.nearest,
-            //     fit: sharp.fit.cover,
-            //     position: sharp.strategy.entropy
-            // }).toFile(thumbPath);
+            const url = req.protocol + '://' + req.get('host');
 
             const upload = new Upload({
-                src: _url + '/' + files.file.path,
-                thumb: _url + '/files/thumb/' + _thumbnail,
+                src: url + '/' + files.file.path,
                 name: files.file.name,
                 type: files.file.type,
                 userId: fields.userId

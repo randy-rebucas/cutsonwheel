@@ -11,7 +11,7 @@ router.get('', UploadController.getAll);
 
 router.get('/:uploadId', UploadController.getOne);
 
-router.post('', extractFile, UploadController.create); // checkAuth,
+router.post('', UploadController.create); // checkAuth,
 
 router.put('/:uploadId', checkAuth, UploadController.update);
 

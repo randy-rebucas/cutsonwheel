@@ -18,7 +18,7 @@ router.get('/:userId', userController.getOne);
 
 router.post('', checkAuth, userController.create);
 
-router.post('/upload/:userId', checkAuth, extractFile, userController.upload);
+router.post('/upload/:userId', extractFile, userController.upload);
 
 router.put('/:userId', userController.update);
 

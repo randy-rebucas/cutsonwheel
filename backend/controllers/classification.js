@@ -102,7 +102,6 @@ exports.upload = async(req, res, next) => {
 exports.getAll = async(req, res, next) => {
     try {
 
-        // console.log(aggregate);
         const pageSize = +req.query.pagesize;
         const currentPage = +req.query.page;
         const query = Classification.find();

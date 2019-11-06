@@ -208,22 +208,16 @@ exports.search = async(req, res, next) => {
 
 exports.upload = async(req, res, next) => {
     try {
-
-
-        // let userPicture = await sharp(req.file.path).resize(200, 200).toBuffer();
-        // if (!userPicture) {
-        //     throw new Error('Error in resizing image!');
-        // }
         const url = req.protocol + '://' + req.get('host');
-        let selectedAvatar = await User.updateOne({
+        let selectedAvatar = await User.findOneAndUpdate({
             _id: req.params.userId
-        }, { $set: { 'avatar': url + '/files/' + req.file.filename } });
+        }, { $set: { 'avatar': url + '/files/' + req.file.filename } }, { new: true });
         if (!selectedAvatar) {
             throw new Error('Error in updating user!');
         }
 
         res.status(200).json({
-            avatar: newUser.avatar,
+            avatar: selectedAvatar.avatar,
             message: 'Profile picture updated!'
         });
 

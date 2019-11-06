@@ -26,3 +26,11 @@ mat-list {
 .documents>div {
     margin: 1em;
 }
+
+.documents>div {
+    width: 25%;
+}
+
+.documents>div>img {
+    width: 100%;
+}
