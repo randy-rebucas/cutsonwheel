@@ -1,16 +1,23 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { mimeType } from 'src/app/_validators/mime-type-validator';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { UploadService } from 'src/app/_shared/upload.service';
+import { DocumentsData } from './documents-data.model';
+import { Lightbox } from 'ngx-lightbox';
+import { fade } from 'src/app/animations';
+
 
 @Component({
   selector: 'cowls-documents',
   templateUrl: './documents.component.html',
-  styleUrls: ['./documents.component.css']
+  styleUrls: ['./documents.component.css'],
+  animations: [
+    fade
+  ]
 })
-export class DocumentsComponent implements OnInit {
+export class DocumentsComponent implements OnInit, OnDestroy {
   @ViewChild('file', {static: false}) file;
   public files: Set<File> = new Set();
 
@@ -32,10 +39,14 @@ export class DocumentsComponent implements OnInit {
   isLoadingContent = true;
   perPage = 10;
   currentPage = 1;
+  documents = [];
+  total: number;
+  private uploadSub: Subscription;
   constructor(
     private activatedRoute: ActivatedRoute,
     private uploadService: UploadService,
-    private router: Router
+    private router: Router,
+    private lightbox: Lightbox
   ) { }
 
   ngOnInit() {
@@ -51,6 +62,33 @@ export class DocumentsComponent implements OnInit {
         asyncValidators: [mimeType]
       })
     });
+
+    this.uploadService.getAll(this.perPage, this.currentPage, this.userId);
+    this.uploadSub = this.uploadService.getUpdateListener()
+    .subscribe((documentsData: {files: DocumentsData[], count: number}) => {
+      this.total = documentsData.count;
+      // this.documents = documentsData.files;
+      for (let index = 0; index < documentsData.files.length; index++) {
+        const element = documentsData.files[index];
+        const album = {
+           src: element.src,
+           caption: element.name,
+           thumb: element.thumb
+        };
+        this.documents.push(album);
+      }
+
+      console.log(this.documents);
+    });
+  }
+  open(index: number) {
+    // open lightbox
+    this.lightbox.open(this.documents, index);
+  }
+
+  close() {
+    // close lightbox programmatically
+    this.lightbox.close();
   }
 
   addFiles() {
@@ -96,11 +134,16 @@ export class DocumentsComponent implements OnInit {
       // ... and the component is no longer uploading
       this.uploading = false;
 
-      this.router.navigate(['../complete'], {relativeTo: this.activatedRoute});
+      this.uploadService.getAll(this.perPage, this.currentPage, this.userId)
+      // this.router.navigate(['../complete'], {relativeTo: this.activatedRoute});
     });
   }
 
   onSkip(route: string) {
     this.router.navigate(['../' + route], {relativeTo: this.activatedRoute});
+  }
+
+  ngOnDestroy() {
+    this.uploadSub.unsubscribe();
   }
 }

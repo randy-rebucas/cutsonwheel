@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-
+import { LightboxModule } from 'ngx-lightbox';
 import { AccountComponent } from './account/account.component';
 import { SetupComponent } from './setup.component';
 import { DocumentsComponent } from './documents/documents.component';
@@ -40,6 +40,7 @@ import { ClassificationOptionComponent } from './classification-option/classific
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    LightboxModule,
     MatInputModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,

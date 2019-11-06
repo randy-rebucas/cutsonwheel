@@ -5,8 +5,8 @@
             <a mat-list-item [routerLink]="['/about']" routerLinkActive="active" *ngIf="!userIsAuthenticated">About</a>
             <a mat-list-item [routerLink]="['/teams']" routerLinkActive="active" *ngIf="!userIsAuthenticated">Teams</a>
             <!-- <a mat-list-item [routerLink]="['/contact']" routerLinkActive="active" *ngIf="!userIsAuthenticated">Contact</a> -->
-            <a mat-list-item [routerLink]="['/dashboard']" routerLinkActive="active" >Dashboard</a>
-            <a mat-list-item (click)="onLogout()" >Logout</a>
+            <a mat-list-item [routerLink]="['/dashboard']" routerLinkActive="active" *ngIf="userIsAuthenticated">Dashboard</a>
+            <a mat-list-item (click)="onLogout()" *ngIf="userIsAuthenticated">Logout</a>
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>

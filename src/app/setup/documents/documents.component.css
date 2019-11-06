@@ -1,18 +1,28 @@
 .add-files-btn {
-  float: right;
+    float: right;
 }
 
 mat-list {
-  height: 100%;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
+    height: 100%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
 }
 
 .actions {
-  justify-content: flex-end;
+    justify-content: flex-end;
 }
 
 .container {
-  height: 100%;
+    height: 100%;
+}
+
+.documents {
+    display: flex;
+    margin-bottom: 1em;
+    flex-flow: row wrap;
+}
+
+.documents>div {
+    margin: 1em;
 }

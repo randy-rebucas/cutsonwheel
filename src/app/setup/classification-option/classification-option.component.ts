@@ -22,6 +22,7 @@ export class ClassificationOptionComponent implements OnInit, OnDestroy {
   classifications: any;
   isLoading = false;
   isDisabled = true;
+  isSelected = false;
   selectedClassification: string;
   public userIsAuthenticated = false;
   private classificationSub: Subscription;
@@ -68,6 +69,11 @@ export class ClassificationOptionComponent implements OnInit, OnDestroy {
   onSelect(Id: string) {
     this.form.patchValue({ classification: Id });
     this.isDisabled = false;
+    this.isSelected = true;
+  }
+
+  onSkip(route: string) {
+    this.router.navigate(['../' + route], {relativeTo: this.activatedRoute});
   }
 
   ngOnDestroy() {

@@ -34,6 +34,7 @@ import { FooterComponent } from './footer/footer.component';
 import { TeamsComponent } from './public/teams/teams.component';
 import { UsersComponent } from './users/users.component';
 import { UserClassificationComponent } from './_shared/user-classification/user-classification.component';
+import { NotActivatedComponent } from './not-activated/not-activated.component';
 // import { ClassificationComponent } from './private/classification/classification.component';
 // import { ClassificationListComponent } from './private/classification/classification-list/classification-list.component';
 // import { ClassificationFormComponent } from './private/classification/classification-form/classification-form.component';
@@ -54,6 +55,7 @@ import { UserClassificationComponent } from './_shared/user-classification/user-
     TeamsComponent,
     UsersComponent,
     UserClassificationComponent,
+    NotActivatedComponent,
     // ClassificationComponent,
     // ClassificationListComponent,
     // ClassificationFormComponent

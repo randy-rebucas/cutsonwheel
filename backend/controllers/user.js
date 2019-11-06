@@ -36,8 +36,8 @@ exports.getAll = async(req, res, next) => {
 
 exports.getOne = async(req, res, next) => {
     try {
-      const user = await User.findOne({ _id: new ObjectId(req.params.userId)}).exec();
-      res.status(200).json(user);
+        const user = await User.findOne({ _id: new ObjectId(req.params.userId) }).exec();
+        res.status(200).json(user);
     } catch (error) {
         res.status(500).json({
             message: error.message
@@ -46,164 +46,164 @@ exports.getOne = async(req, res, next) => {
 };
 
 exports.delete = async(req, res, next) => {
-  try {
-    userIds = req.params.userIds;
-    userId = Ids.split(',');
+    try {
+        userIds = req.params.userIds;
+        userId = Ids.split(',');
 
-    /**
-     * delete auth credentials
-     */
-    let auth = await Auth.deleteMany({ userId: { $in: userId } });
-    if (!auth) {
-        throw new Error('Error in deleting auth!');
+        /**
+         * delete auth credentials
+         */
+        let auth = await Auth.deleteMany({ userId: { $in: userId } });
+        if (!auth) {
+            throw new Error('Error in deleting auth!');
+        }
+        /**
+         * delete person collection
+         */
+        let user = await User.deleteMany({ _id: { $in: userId } });
+        if (!user) {
+            throw new Error('Error in deleting person!');
+        }
+        res.status(200).json({
+            message: user.deletedCount + ' item deleted successfull!'
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
     }
-    /**
-     * delete person collection
-     */
-    let user = await User.deleteMany({ _id: { $in: userId } });
-    if (!user) {
-        throw new Error('Error in deleting person!');
-    }
-    res.status(200).json({
-        message: user.deletedCount + ' item deleted successfull!'
-    });
-  } catch (error) {
-      res.status(500).json({
-          message: error.message
-      });
-  }
 };
 
 exports.create = async(req, res, next) => {
-  try {
-      /**
-       * check for existing email
-       */
-      let authCheck = await Auth.findOne({ email: req.body.email });
-      if (authCheck) {
-          throw new Error('Something went wrong. Email is in used!');
-      }
-      /**
-       * Set common entities on people collection
-       */
-      const newUser = new User({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        midlename: req.body.midlename,
-        gender: req.body.gender,
-        age: req.body.age,
-        birthdate: req.body.birthdate,
-        status: req.body.status,
-        contact: req.body.contact,
-        sss: req.body.sss,
-        tin: req.body.tin,
-        philhealth: req.body.philhealth,
-      });
-      addressData = req.body.address;
-      for (let index = 0; index < addressData.length; index++) {
-        newUser.address.push(addressData[index]);
-      }
-      let user = await newUser.save();
-      if (!user) {
-          throw new Error('Something went wrong.Cannot save user data!');
-      }
-      /**
-       * Set login credentials in auth collection
-       */
-      const salt = await bcrypt.genSalt(10);
-      let hash = await bcrypt.hash(req.body.password, salt);
-      const authCredentials = new Auth({
-          email: req.body.email,
-          password: hash,
-          userId: user._id
-      });
-      let auth = await authCredentials.save();
-      if (!auth) {
-          throw new Error('Something went wrong.Cannot save auth collection!');
-      }
+    try {
+        /**
+         * check for existing email
+         */
+        let authCheck = await Auth.findOne({ email: req.body.email });
+        if (authCheck) {
+            throw new Error('Something went wrong. Email is in used!');
+        }
+        /**
+         * Set common entities on people collection
+         */
+        const newUser = new User({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            midlename: req.body.midlename,
+            gender: req.body.gender,
+            age: req.body.age,
+            birthdate: req.body.birthdate,
+            status: req.body.status,
+            contact: req.body.contact,
+            sss: req.body.sss,
+            tin: req.body.tin,
+            philhealth: req.body.philhealth,
+        });
+        addressData = req.body.address;
+        for (let index = 0; index < addressData.length; index++) {
+            newUser.address.push(addressData[index]);
+        }
+        let user = await newUser.save();
+        if (!user) {
+            throw new Error('Something went wrong.Cannot save user data!');
+        }
+        /**
+         * Set login credentials in auth collection
+         */
+        const salt = await bcrypt.genSalt(10);
+        let hash = await bcrypt.hash(req.body.password, salt);
+        const authCredentials = new Auth({
+            email: req.body.email,
+            password: hash,
+            userId: user._id
+        });
+        let auth = await authCredentials.save();
+        if (!auth) {
+            throw new Error('Something went wrong.Cannot save auth collection!');
+        }
 
-      res.status(200).json({
-          message: 'User added successfully',
-          users: {
-              ...user,
-              id: user._id,
-          }
-      });
-  } catch (e) {
-      res.status(500).json({
-          message: e.message
-      });
-  }
+        res.status(200).json({
+            message: 'User added successfully',
+            users: {
+                ...user,
+                id: user._id,
+            }
+        });
+    } catch (e) {
+        res.status(500).json({
+            message: e.message
+        });
+    }
 };
 
 exports.update = async(req, res, next) => {
-  try {
-    /**
-       * Set common entities on people collection
-       */
-      const newUser = new User({
-        _id:  req.params.userId,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        midlename: req.body.midlename,
-        gender: req.body.gender,
-        age: req.body.age,
-        birthdate: req.body.birthdate,
-        status: req.body.status,
-        contact: req.body.contact,
-        sss: req.body.sss,
-        tin: req.body.tin,
-        philhealth: req.body.philhealth,
-        classification: req.body.classification
-      });
-      addressData = req.body.address;
-      for (let index = 0; index < addressData.length; index++) {
-        newUser.address.push(addressData[index]);
-      }
+    try {
+        /**
+         * Set common entities on people collection
+         */
+        const newUser = new User({
+            _id: req.params.userId,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            midlename: req.body.midlename,
+            gender: req.body.gender,
+            age: req.body.age,
+            birthdate: req.body.birthdate,
+            status: req.body.status,
+            contact: req.body.contact,
+            sss: req.body.sss,
+            tin: req.body.tin,
+            philhealth: req.body.philhealth,
+            classification: req.body.classification
+        });
+        addressData = req.body.address;
+        for (let index = 0; index < addressData.length; index++) {
+            newUser.address.push(addressData[index]);
+        }
 
-      let user = await User.findOneAndUpdate({ _id: req.params.userId }, newUser, {new: true});
-      if (!user) {
-          throw new Error('Something went wrong.Cannot update user data!');
-      }
-      res.status(200).json({ message: user.firstname + ' Update successful!' });
+        let user = await User.findOneAndUpdate({ _id: req.params.userId }, newUser, { new: true });
+        if (!user) {
+            throw new Error('Something went wrong.Cannot update user data!');
+        }
+        res.status(200).json({ message: user.firstname + ' Update successful!' });
 
-  } catch (error) {
-      res.status(500).json({
-          message: error.message
-      });
-  }
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
 
 };
 
 exports.search = async(req, res, next) => {
-  try {
+    try {
 
-    let userType = await Type.findOne({ slug: 'patients' }).exec();
-    let myUsers = await MyUser.find()
-    .populate({
-      path: 'userId',
-      populate: {
-          path: 'personId',
-          model: Person
-      }
-    }).where('userType', userType._id);
+        let userType = await Type.findOne({ slug: 'patients' }).exec();
+        let myUsers = await MyUser.find()
+            .populate({
+                path: 'userId',
+                populate: {
+                    path: 'personId',
+                    model: Person
+                }
+            }).where('userType', userType._id);
 
-    const result = [];
-    myUsers.forEach(element => {
-        result.push({ id: element._id, name: element.userId.personId.firstname + ', ' + element.userId.personId.lastname });
-    });
+        const result = [];
+        myUsers.forEach(element => {
+            result.push({ id: element._id, name: element.userId.personId.firstname + ', ' + element.userId.personId.lastname });
+        });
 
-    let count = await MyUser.countDocuments({ 'userType': userType._id });
+        let count = await MyUser.countDocuments({ 'userType': userType._id });
 
-    res.status(200).json({
-        total: count,
-        results: result
-    });
-  } catch (error) {
-      res.status(500).json({
-          message: error.message
-      });
-  }
+        res.status(200).json({
+            total: count,
+            results: result
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
 }
 
 exports.upload = async(req, res, next) => {
@@ -212,13 +212,11 @@ exports.upload = async(req, res, next) => {
         if (!userPicture) {
             throw new Error('Error in resizing image!');
         }
-        const newUser = new User({
-            _id: req.body.userId,
-            avatar: `data:${req.file.mimetype};base64,${userPicture.toString('base64')}`
-        });
 
-        let user = await User.updateOne({ _id: req.params.userId }, newUser);
-        if (!user) {
+        let selectedAvatar = await User.updateOne({
+            _id: req.params.userId
+        }, { $set: { 'avatar': `data:${req.file.mimetype};base64,${userPicture.toString('base64')}` } });
+        if (!selectedAvatar) {
             throw new Error('Error in updating user!');
         }
 
@@ -235,70 +233,18 @@ exports.upload = async(req, res, next) => {
 };
 
 exports.updateClassification = async(req, res, next) => {
-  try {
-
-    const newUser = new User({
-        _id: req.params.userId,
-        classification: req.body.classification
-    });
-
-    let user = await User.updateOne({ _id: req.params.userId }, newUser);
-    if (!user) {
-        throw new Error('Error in updating user!');
-    }
-
-    res.status(200).json({
-      classification: newUser.classification,
-        message: 'Profile classification updated!'
-    });
-
-  } catch (error) {
-      res.status(500).json({
-          message: error.message
-      });
-  }
-}
-
-exports.getClassifiedUser = async(req, res, next) => {
-  try {
-    let classifiedUsers = await User.find({ classification: req.params.classificationId }).select('firstname lastname avatar').exec();
-
-    res.status(200).json({
-      classifiedUsers: classifiedUsers,
-      count: classifiedUsers.length
-    });
-
-  } catch (error) {
-      res.status(500).json({
-          message: error.message
-      });
-  }
-}
-
-exports.getNewUser = async(req, res, next) => {
     try {
-        const today = moment().startOf('day');
-        let userType = await Type.findOne({ slug: 'patients' }).exec();
-        let newPatientCount = await MyUser.countDocuments({
-                'userType': userType._id
-            })
-            .populate({
-              path: 'userId',
-              populate: {
-                  path: 'personId',
-                  model: Person,
-                  match: {
-                    created: {
-                        $gte: today.toDate(),
-                        $lte: moment(today).endOf('day').toDate()
-                    }
-                },
-              }
-            })
-            .exec()
+
+        let selectedClassification = await User.updateOne({
+            _id: req.params.userId
+        }, { $set: { 'classification': req.body.classification } });
+        if (!selectedClassification) {
+            throw new Error('Error in updating user!');
+        }
 
         res.status(200).json({
-            count: newPatientCount
+            classification: selectedClassification.classification,
+            message: 'Profile classification updated!'
         });
 
     } catch (error) {
@@ -306,30 +252,27 @@ exports.getNewUser = async(req, res, next) => {
             message: error.message
         });
     }
-};
+}
+
+exports.getClassifiedUser = async(req, res, next) => {
+    try {
+        let classifiedUsers = await User.find({ classification: req.params.classificationId }).select('firstname lastname avatar').exec();
+
+        res.status(200).json({
+            classifiedUsers: classifiedUsers,
+            count: classifiedUsers.length
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+}
 
 exports.getTodaysBirthday = async(req, res, next) => {
     try {
-        const birthdays = await MyUser.aggregate([
-            {
-              $lookup: {
-                  from: 'users', // other table name
-                  localField: 'userId', // name of users table field
-                  foreignField: '_id', // name of userinfo table field
-                  as: 'users' // alias for userinfo table
-              }
-            },
-            { $unwind: '$users' },
-            {
-                $lookup: {
-                    from: 'people', // other table name
-                    localField: 'users.personId', // name of users table field
-                    foreignField: '_id', // name of userinfo table field
-                    as: 'people' // alias for userinfo table
-                }
-            },
-            { $unwind: '$people' },
-            {
+        const birthdays = await MyUser.aggregate([{
                 $lookup: {
                     from: 'auths', // other table name
                     localField: 'userId', // name of users table field
@@ -341,7 +284,7 @@ exports.getTodaysBirthday = async(req, res, next) => {
                 $redact: {
                     $cond: [{
                             $eq: [
-                                { $month: "$people.birthdate" },
+                                { $month: "$user.birthdate" },
                                 { $month: new Date() }
                             ]
                         },

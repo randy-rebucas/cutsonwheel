@@ -58,7 +58,6 @@ export class AuthService {
     this.http.post<{message: string, userId: string}>(BACKEND_URL + '/register', authRegister).subscribe((res) => {
       this.notificationService.success(res.message);
       this.login(Email, Password, false);
-      // this.router.navigate(['/setup/' + res.userId]);
     }, error => {
       this.authStatusListener.next(false);
     });
@@ -66,11 +65,12 @@ export class AuthService {
 
   login(Email: string, Password: string, Remember: boolean) {
     const authData: LoginData = {email: Email, password: Password, remember: Remember};
-    this.http.post<{token: string, userEmail: string, userId: string, userType: string, licenseId: string}>(
+    this.http.post<{token: string, userEmail: string, userId: string}>(
       BACKEND_URL + '/login',
       authData
     )
     .subscribe(response => {
+      console.log(response);
       const token = response.token;
       this.token = token;
       if (token) {
@@ -92,7 +92,8 @@ export class AuthService {
           if (userData.activated) {
             this.router.navigate(['/dashboard']);
           } else {
-            this.router.navigate(['/setup/' + response.userId]);
+            this.router.navigate(['/not-activated']);
+            // this.router.navigate(['/setup/' + response.userId]);
           }
         });
       }

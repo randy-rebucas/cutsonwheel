@@ -7,6 +7,7 @@ import { TeamsComponent } from './public/teams/teams.component';
 
 import { AuthGuard } from './auth/auth-guard';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { NotActivatedComponent } from './not-activated/not-activated.component';
 import { DashboardComponent } from './private/dashboard/dashboard.component';
 
 const appRoutes: Routes = [
@@ -14,6 +15,7 @@ const appRoutes: Routes = [
     { path: 'about', component: AboutComponent },
     { path: 'teams', component: TeamsComponent },
     { path: 'contact', component: ContactComponent },
+    { path: 'not-activated', component: NotActivatedComponent },
     { path: 'setup', loadChildren: './setup/setup.module#SetupModule'},
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
     {
