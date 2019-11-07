@@ -6,7 +6,7 @@
     <mat-list-item> 2 Government Issued ID* </mat-list-item>
 </mat-list>
 <hr/>
-<div fxFlex>
+<div>
     <mat-list *ngIf="!uploadSuccessful" @fade>
         <mat-list-item *ngFor="let file of files">
             <h4 mat-line>{{file.name}}</h4>

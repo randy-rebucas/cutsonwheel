@@ -31,7 +31,8 @@
   background: #fff;
   width: 500px;
   box-shadow: 0 0 10px #b7b7b7;
-
+  flex: 1 1 1e-09px;
+  box-sizing: border-box;
 }
 .login-page .content .login-form input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 30px white inset;

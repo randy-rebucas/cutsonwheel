@@ -32,9 +32,11 @@ import { DashboardComponent } from './private/dashboard/dashboard.component';
 import { CookieService } from 'ngx-cookie-service';
 import { FooterComponent } from './footer/footer.component';
 import { TeamsComponent } from './public/teams/teams.component';
-import { UsersComponent } from './users/users.component';
 import { UserClassificationComponent } from './_shared/user-classification/user-classification.component';
 import { NotActivatedComponent } from './not-activated/not-activated.component';
+import { EllipsisPipe } from './_pipes/ellipsis-pipe';
+import { ReplacePipe } from './_pipes/replace-pipe';
+import { SlugifyPipe } from './_pipes/slugify-pipe';
 // import { ClassificationComponent } from './private/classification/classification.component';
 // import { ClassificationListComponent } from './private/classification/classification-list/classification-list.component';
 // import { ClassificationFormComponent } from './private/classification/classification-form/classification-form.component';
@@ -53,12 +55,11 @@ import { NotActivatedComponent } from './not-activated/not-activated.component';
     PromptDialogComponent,
     FooterComponent,
     TeamsComponent,
-    UsersComponent,
     UserClassificationComponent,
     NotActivatedComponent,
-    // ClassificationComponent,
-    // ClassificationListComponent,
-    // ClassificationFormComponent
+    EllipsisPipe,
+    ReplacePipe,
+    SlugifyPipe
   ],
   imports: [
     BrowserModule,
