@@ -8,6 +8,9 @@ import { ClassificationComponent } from './classification.component';
 import { ClassificationListComponent } from './classification-list/classification-list.component';
 import { ClassificationFormComponent } from './classification-form/classification-form.component';
 import { ClassificationDetailComponent } from './classification-detail/classification-detail.component';
+
+
+// import { UserClassificationComponent } from 'src/app/_shared/user-classification/user-classification.component';
 import {
   MatFormFieldModule,
   MatInputModule,
@@ -18,13 +21,15 @@ import {
   MatListModule,
   MatProgressBarModule,
 } from '@angular/material';
+import { AuthGuard } from 'src/app/auth/auth-guard';
 
 @NgModule({
   declarations: [
     ClassificationComponent,
     ClassificationListComponent,
     ClassificationFormComponent,
-    ClassificationDetailComponent
+    ClassificationDetailComponent,
+    // UserClassificationComponent
   ],
   imports: [
     CommonModule,
@@ -43,9 +48,9 @@ import {
       { path: '', component: ClassificationComponent, children: [
         { path: '', redirectTo: 'list', pathMatch: 'full' },
         { path: 'list', component: ClassificationListComponent },
-        { path: 'form', component: ClassificationFormComponent },
+        { path: 'form', component: ClassificationFormComponent, canActivate: [AuthGuard] },
         { path: ':classificationId', component: ClassificationDetailComponent },
-        { path: ':classificationId/edit', component: ClassificationFormComponent }
+        { path: ':classificationId/edit', component: ClassificationFormComponent, canActivate: [AuthGuard]  }
       ] },
     ])
   ]

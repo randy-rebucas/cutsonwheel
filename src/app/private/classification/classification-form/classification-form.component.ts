@@ -21,6 +21,7 @@ export class ClassificationFormComponent implements OnInit, OnDestroy {
   isLoadingPic = false;
   bufferValue: number;
   color: string;
+  pmode: string;
 
   image: any;
 
@@ -122,7 +123,7 @@ export class ClassificationFormComponent implements OnInit, OnDestroy {
       if (event.type === HttpEventType.UploadProgress) {
         this.bufferValue = Math.round(event.loaded / event.total * 100);
         this.color = 'primary';
-        this.mode = 'determinate';
+        this.pmode = 'determinate';
       } else if (event.type === HttpEventType.Response) {
         this.isLoadingPic = false;
         this.image = event.body.image;

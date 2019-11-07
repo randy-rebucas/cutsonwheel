@@ -2,7 +2,7 @@
     <mat-spinner *ngIf="isLoading"></mat-spinner>
     <div class="classification-image">
         <div *ngIf="isLoadingPic">
-            <mat-progress-bar [color]="color" [mode]="mode" [value]="bufferValue"></mat-progress-bar>
+            <mat-progress-bar [color]="color" [mode]="pmode" [value]="bufferValue"></mat-progress-bar>
         </div>
         <form [formGroup]="imageForm" (submit)="onSavePicture()">
             <input style="display: none" type="file" (change)="onFileChanged($event)" #filePicker>

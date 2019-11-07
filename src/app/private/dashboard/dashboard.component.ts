@@ -38,8 +38,6 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(localStorage.getItem('userId'));
-
     this.router.navigate(['/setup/' + localStorage.getItem('userId')]);
     // if (userData.activated) {
     //   this.router.navigate(['/dashboard']);

@@ -73,6 +73,7 @@ header.header-background {
   font-weight: 400;
   margin: 0 0 16px;
   padding: 0;
+  cursor: pointer;
 }
 
 .homepage-promo p {

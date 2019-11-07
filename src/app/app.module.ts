@@ -15,12 +15,15 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule, MatSnackBarModule, MatTabsModule, MatChipsModule } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
-import { HomeComponent } from './public/home/home.component';
-import { AboutComponent } from './public/about/about.component';
-import { ContactComponent } from './public/contact/contact.component';
+// import { HomeComponent } from './public/home/home.component';
+// import { AboutComponent } from './public/about/about.component';
+// import { ContactComponent } from './public/contact/contact.component';
+// import { TeamsComponent } from './public/teams/teams.component';
+// import { HowItWorksComponent } from './public/how-it-works/how-it-works.component';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
+import { FooterComponent } from './footer/footer.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ErrorComponent } from './error/error.component';
 import { PromptDialogComponent } from './prompt-dialog/prompt-dialog.component';
@@ -30,36 +33,26 @@ import { ErrorInterceptor } from './error-interceptor';
 import { AuthComponent } from './auth/auth.component';
 import { DashboardComponent } from './private/dashboard/dashboard.component';
 import { CookieService } from 'ngx-cookie-service';
-import { FooterComponent } from './footer/footer.component';
-import { TeamsComponent } from './public/teams/teams.component';
-import { UserClassificationComponent } from './_shared/user-classification/user-classification.component';
+// import { UserClassificationComponent } from './_shared/user-classification/user-classification.component';
 import { NotActivatedComponent } from './not-activated/not-activated.component';
 import { EllipsisPipe } from './_pipes/ellipsis-pipe';
 import { ReplacePipe } from './_pipes/replace-pipe';
 import { SlugifyPipe } from './_pipes/slugify-pipe';
-// import { ClassificationComponent } from './private/classification/classification.component';
-// import { ClassificationListComponent } from './private/classification/classification-list/classification-list.component';
-// import { ClassificationFormComponent } from './private/classification/classification-form/classification-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    EllipsisPipe,
+    ReplacePipe,
+    SlugifyPipe,
     NavComponent,
     DashboardComponent,
-    HomeComponent,
-    AboutComponent,
-    ContactComponent,
     AuthComponent,
     PageNotFoundComponent,
     ErrorComponent,
     PromptDialogComponent,
     FooterComponent,
-    TeamsComponent,
-    UserClassificationComponent,
     NotActivatedComponent,
-    EllipsisPipe,
-    ReplacePipe,
-    SlugifyPipe
   ],
   imports: [
     BrowserModule,

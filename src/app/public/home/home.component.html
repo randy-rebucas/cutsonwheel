@@ -18,7 +18,7 @@
           <img [src]="classification.image" />
       </div>
       <div class="homepage-promo-desc">
-          <h2>{{classification.name}}</h2>
+          <h2 (click)="onDetail(classification.id)">{{classification.name}}</h2>
           <p>{{classification.description}}</p>
           <mat-chip-list aria-label="Fish selection">
             <mat-chip *ngFor="let service of classification.services;" >{{service.type}}</mat-chip>
@@ -26,10 +26,5 @@
 
           <cowls-user-classification [classificationId]="classification.id"></cowls-user-classification>
       </div>
-    </div>
-    <div class="homepage-bottom-start">
-        <a mat-raised-button [routerLink]="['/guide/getting-started']" routerLinkActive="router-link-active" color="accent">
-            <span class="mat-button-wrapper">Get started</span>
-        </a>
     </div>
 </div>

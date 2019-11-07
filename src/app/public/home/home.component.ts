@@ -46,6 +46,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
+  onDetail(classificationId: string) {
+    this.router.navigate(['/classification/' + classificationId]);
+  }
+
   ngOnDestroy() {
     this.classificationSub.unsubscribe();
   }
