@@ -16,38 +16,46 @@ input[type="file"] {
 }
 
 .image-preview img {
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
 }
 
 button.mat-stroked-button.mat-button-base.mat-primary {
-  width: 100%;
+    width: 100%;
 }
 
 .servicesGroup {
-  position: relative;
+    position: relative;
 }
 
 .servicesGroup .action {
-  position: absolute;
-  right: 0;
-  top: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .servicesGroup .form-field-block {
-  width: 90%;
+    width: 90%;
+}
+
+.service-details {
+    display: flex;
+}
+
+.service-details>mat-form-field:not(:first-child) {
+    margin-left: 1em;
 }
 
 mat-card.mat-card {
-  display: flex;
-  flex: 1 1 auto;
+    display: flex;
+    flex: 1 1 auto;
 }
 
-mat-card.mat-card > div.classification-image {
-  margin-right: 1em;
-  width: 25%;
+mat-card.mat-card>div.classification-image {
+    margin-right: 1em;
+    width: 25%;
 }
 
-mat-card.mat-card > div.classification-data {
-  width: 100%;
+mat-card.mat-card>div.classification-data {
+    width: 100%;
 }

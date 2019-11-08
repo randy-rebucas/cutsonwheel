@@ -1,0 +1,18 @@
+<div class="primary-header">
+    <h1>Book Now</h1>
+</div>
+<div class="content">
+    <div>
+        <h3>{{bookId}}</h3>
+        <p>services detail works!</p>
+        <nav mat-tab-nav-bar>
+            <a mat-tab-link routerLink="./assistant" routerLinkActive #rlaAssistant="routerLinkActive" [active]="rlaAssistant.isActive" [disabled]="!rlaAssistant.isActive">Assistant</a>
+            <a mat-tab-link routerLink="./schedule" routerLinkActive #rlaSchedule="routerLinkActive" [active]="rlaSchedule.isActive" [disabled]="!rlaSchedule.isActive">Schedule</a>
+            <a mat-tab-link routerLink="./customer" routerLinkActive #rlaCustomer="routerLinkActive" [active]="rlaCustomer.isActive" [disabled]="!rlaCustomer.isActive">Customer</a>
+            <a mat-tab-link routerLink="./summary" routerLinkActive #rlaSummary="routerLinkActive" [active]="rlaSummary.isActive" [disabled]="!rlaSummary.isActive">Summary</a>
+            <a mat-tab-link routerLink="./confirmation" routerLinkActive #rlaConfirmation="routerLinkActive" [active]="rlaConfirmation.isActive" [disabled]="!rlaConfirmation.isActive">Confirmation</a>
+            <a mat-tab-link routerLink="./payment" routerLinkActive #rlaPayment="routerLinkActive" [active]="rlaPayment.isActive" [disabled]="!rlaPayment.isActive">Payment</a>
+        </nav>
+        <router-outlet></router-outlet>
+    </div>
+</div>

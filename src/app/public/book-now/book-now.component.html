@@ -1,0 +1,31 @@
+<div class="primary-header">
+    <h1>Book Now</h1>
+</div>
+<div class="content">
+    <div>
+        <h3>Select classification where your services can be found.</h3>
+        <mat-accordion>
+            <mat-expansion-panel @fade *ngFor="let classification of classifications; let i = index;" [expanded]="i == 0">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{classification.name}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <!-- <img [src]="classification.image" style="width: 5%; border-radius: 100%;" /> -->
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                {{classification.description}}
+                <div class="services">
+                    <mat-chip-list aria-label="Fish selection">
+                        <mat-chip *ngFor="let service of classification.services;">{{service.type}}</mat-chip>
+                    </mat-chip-list>
+                </div>
+
+                <mat-action-row>
+                    <button mat-button (click)="onDetail(classification.id)">Select</button>
+                </mat-action-row>
+            </mat-expansion-panel>
+        </mat-accordion>
+
+    </div>
+</div>

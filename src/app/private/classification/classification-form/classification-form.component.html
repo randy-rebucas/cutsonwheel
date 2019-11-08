@@ -9,10 +9,10 @@
             <div class="image-preview">
                 <div *ngIf="image; then thenBlock else elseBlock"></div>
                 <ng-template #thenBlock>
-                    <img [src]="image"/>
+                    <img [src]="image" />
                 </ng-template>
                 <ng-template #elseBlock>
-                    <img src="./../../../assets/img/dummy.jpg"/>
+                    <img src="./../../../assets/img/dummy.jpg" />
                 </ng-template>
             </div>
         </form>
@@ -31,18 +31,26 @@
             </mat-form-field>
             <h4 subheading-1>Services</h4>
             <ng-container formArrayName="services" *ngIf="serviceArray.length > 0">
-              <div *ngFor="let meta of serviceArray.controls; let i = index;" [formGroupName]="i" class="servicesGroup">
-                  <div class="form-field-block">
-                      <mat-form-field>
-                          <input matInput type="text" formControlName="type" placeholder="Type">
-                      </mat-form-field>
-                  </div>
-                  <div class="action">
-                      <button mat-icon-button *ngIf="serviceArray.controls.length < 10" (click)="addServices()" type="button"><mat-icon>add</mat-icon></button>
-                      <button mat-icon-button color="warn" *ngIf="serviceArray.controls.length > 1" (click)="removeServices(i)" type="button"><mat-icon>delete_outline</mat-icon></button>
-                  </div>
-              </div>
-          </ng-container>
+                <div *ngFor="let meta of serviceArray.controls; let i = index;" [formGroupName]="i" class="servicesGroup">
+                    <div class="form-field-block">
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="type" placeholder="Type">
+                        </mat-form-field>
+                        <div class="service-details">
+                            <mat-form-field>
+                                <input matInput type="text" formControlName="duration" placeholder="Duration">
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput type="text" formControlName="price" placeholder="Price">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="action">
+                        <button mat-icon-button *ngIf="serviceArray.controls.length < 10" (click)="addServices()" type="button"><mat-icon>add</mat-icon></button>
+                        <button mat-icon-button color="warn" *ngIf="serviceArray.controls.length > 1" (click)="removeServices(i)" type="button"><mat-icon>delete_outline</mat-icon></button>
+                    </div>
+                </div>
+            </ng-container>
             <button mat-raised-button color="primary" type="submit">Submit</button>
         </form>
     </div>

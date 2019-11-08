@@ -52,7 +52,7 @@ import { SlugifyPipe } from './_pipes/slugify-pipe';
     ErrorComponent,
     PromptDialogComponent,
     FooterComponent,
-    NotActivatedComponent,
+    NotActivatedComponent
   ],
   imports: [
     BrowserModule,

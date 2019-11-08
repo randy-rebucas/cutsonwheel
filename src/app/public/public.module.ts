@@ -47,7 +47,11 @@ import {
       { path: 'about', component: AboutComponent },
       { path: 'teams', component: TeamsComponent },
       { path: 'contact', component: ContactComponent },
-      { path: 'how-it-works', component: HowItWorksComponent }
+      { path: 'how-it-works', component: HowItWorksComponent },
+      {
+        path: 'book-now',
+        loadChildren: './book-now/book-now.module#BookNowModule'
+      }
     ])
   ]
 })

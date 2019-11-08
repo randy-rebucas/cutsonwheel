@@ -90,7 +90,9 @@ export class ClassificationFormComponent implements OnInit, OnDestroy {
 
   addServiceGroup() {
     return this.formBuilder.group({
-      type: ['']
+      type: [null],
+      duration: [null],
+      price: [null]
     });
   }
 

@@ -1,0 +1,16 @@
+agm-map {
+    height: 300px;
+}
+
+mat-form-field.full-width {
+    width: 100%;
+}
+
+.location-detail {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.location-detail p {
+    width: 33.3%;
+}

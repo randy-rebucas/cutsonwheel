@@ -9,4 +9,6 @@ export interface ClassificationData {
 
 export interface Services {
   type: string;
+  duration: string;
+  price: string;
 }
