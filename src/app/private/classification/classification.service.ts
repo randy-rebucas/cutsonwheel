@@ -14,8 +14,6 @@ export class ClassificationService {
   private classifications: ClassificationData[] = [];
   private classificationsUpdated = new Subject<{ classifications: ClassificationData[], counts: number }>();
 
-
-
   constructor(
     private http: HttpClient,
     private router: Router

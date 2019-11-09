@@ -1,1 +1,5 @@
-<p>summary works!</p>
+<div class="cart-item" *ngFor="let service of services">
+  <span>{{ service.type }}</span>
+  <span>{{ service.price | currency }}</span>
+</div>
+<div>total: {{total}}</div>

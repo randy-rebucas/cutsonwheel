@@ -58,7 +58,6 @@ export class AccountComponent implements OnInit {
       birthdate: ['', [Validators.required]],
       status: ['', [Validators.required]],
       contact: ['', [Validators.required]],
-      // expertise: ['', [Validators.required]],
       sss: [null],
       tin: [null],
       philhealth: [null],
@@ -77,7 +76,6 @@ export class AccountComponent implements OnInit {
         birthdate: userData.birthdate,
         status: userData.status,
         contact: userData.contact,
-        // expertise: userData.expertise,
         sss: userData.sss,
         tin: userData.tin,
         philhealth: userData.philhealth

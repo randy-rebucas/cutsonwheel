@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -20,7 +20,9 @@ import {
   MatDatepickerModule,
   MatNativeDateModule,
   MatListModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatTableModule,
+  MatRippleModule
 } from '@angular/material';
 
 import { BookNowComponent } from './book-now.component';
@@ -32,6 +34,7 @@ import { SummaryComponent } from './summary/summary.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { PaymentComponent } from './payment/payment.component';
 import { CustomerComponent } from './customer/customer.component';
+import { StartComponent } from './start/start.component';
 
 
 @NgModule({
@@ -44,7 +47,8 @@ import { CustomerComponent } from './customer/customer.component';
     SummaryComponent,
     ConfirmationComponent,
     PaymentComponent,
-    CustomerComponent
+    CustomerComponent,
+    StartComponent
   ],
   imports: [
     CommonModule,
@@ -66,6 +70,8 @@ import { CustomerComponent } from './customer/customer.component';
     MatNativeDateModule,
     MatListModule,
     MatExpansionModule,
+    MatTableModule,
+    MatRippleModule,
     FlexLayoutModule.withConfig({addFlexToParent: false}),
     AgmCoreModule.forRoot({
         apiKey: 'AIzaSyChlo0KGVk9ZywD1IRqjluX99k2zku32Fc',
@@ -73,14 +79,15 @@ import { CustomerComponent } from './customer/customer.component';
     }),
     RouterModule.forChild([
         { path: '', component: BookNowComponent },
-        { path: ':bookId', component: ServicesComponent, children: [
-            { path: '', redirectTo: 'assistant', pathMatch: 'full' },
-            { path: 'assistant', component: AssistantComponent },
-            { path: 'schedule', component: ScheduleComponent },
-            { path: 'customer', component: CustomerComponent },
-            { path: 'summary', component: SummaryComponent },
-            { path: 'confirmation', component: ConfirmationComponent },
-            { path: 'payment', component: PaymentComponent }
+        { path: ':classificationId', component: ServicesComponent },
+        { path: ':classificationId/:bookId', component: StartComponent, children: [
+          { path: '', redirectTo: 'assistant', pathMatch: 'full' },
+          { path: 'assistant', component: AssistantComponent },
+          { path: 'schedule', component: ScheduleComponent },
+          { path: 'customer', component: CustomerComponent },
+          { path: 'summary', component: SummaryComponent },
+          { path: 'confirmation', component: ConfirmationComponent },
+          { path: 'payment', component: PaymentComponent }
         ] }
     ])
   ]
