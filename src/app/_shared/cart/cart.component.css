@@ -22,13 +22,23 @@ mat-card {
   margin-bottom: 1em;
 }
 
+mat-list-item {
+  cursor: pointer;
+}
+
 mat-list-item ::ng-deep div {
   padding: unset !important;
 }
 
 mat-list-item ::ng-deep span{
   position: absolute;
-  right: 0;
+  right: 18px;
+}
+
+mat-list-item span:before {
+  content: "X";
+  position: absolute;
+  right: -18px;
 }
 
 mat-card-title.mat-card-title button {

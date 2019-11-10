@@ -13,7 +13,6 @@ export class CartService {
   private cartUpdated = new Subject<{ servicesList: Service[], total: number }>();
 
   services: any;
-  items = [];
 
   constructor() {}
 

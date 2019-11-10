@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CartService } from './cart.service';
+import { slideInOut } from 'src/app/animations';
 
 export interface Service {
   type: string;
@@ -11,7 +12,10 @@ export interface Service {
 @Component({
   selector: 'cowls-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css']
+  styleUrls: ['./cart.component.css'],
+  animations: [
+    slideInOut
+  ]
 })
 export class CartComponent implements OnInit, OnDestroy {
 
@@ -36,6 +40,10 @@ export class CartComponent implements OnInit, OnDestroy {
 
   onCartClear() {
     this.cartService.clearCart();
+  }
+
+  onDeleteItem(service: any) {
+    this.cartService.removeCart(service);
   }
 
   ngOnDestroy() {

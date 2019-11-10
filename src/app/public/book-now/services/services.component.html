@@ -23,7 +23,7 @@
                   <ng-container matColumnDef="type">
                     <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
                     <mat-cell *matCellDef="let element">
-                      <mat-checkbox #checkbox="matCheckbox" (click)="addToCart(checkbox, element)">
+                      <mat-checkbox #checkbox="matCheckbox" (click)="addToCart(checkbox, element);" [disabled]='isChecked(element._id)' [checked]='isChecked(element._id)'>
                         {{element.type}}
                       </mat-checkbox>
                     </mat-cell>
@@ -38,7 +38,7 @@
                   <!-- Price Column -->
                   <ng-container matColumnDef="price">
                     <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.price | currency}} </mat-cell>
+                    <mat-cell *matCellDef="let element"> {{element.price | currency:'PHP':'symbol-narrow'}} </mat-cell>
                   </ng-container>
 
                   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -48,12 +48,10 @@
           <div>
               <cowls-cart></cowls-cart>
               <div class="button-action">
-                <button mat-flat-button color="primary" (click)="onContinue()">Continue</button>
+                <button mat-flat-button color="primary" (click)="onContinue()">Continue Shopping</button> &nbsp;
+                <button mat-flat-button color="accent" (click)="onCheckout()" style="float: right;">Checkout</button>
               </div>
           </div>
         </div>
-
-
-
     </div>
 </div>

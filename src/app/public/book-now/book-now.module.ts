@@ -83,7 +83,7 @@ import { CartComponent } from 'src/app/_shared/cart/cart.component';
     RouterModule.forChild([
         { path: '', component: BookNowComponent },
         { path: ':classificationId', component: ServicesComponent },
-        { path: ':classificationId/process', component: StartComponent, children: [
+        { path: ':classificationId/checkout', component: StartComponent, children: [
           { path: '', redirectTo: 'assistant', pathMatch: 'full' },
           { path: 'assistant', component: AssistantComponent },
           { path: 'schedule', component: ScheduleComponent },

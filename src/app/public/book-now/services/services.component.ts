@@ -4,7 +4,7 @@ import { ClassificationService } from 'src/app/private/classification/classifica
 import { CartService } from 'src/app/_shared/cart/cart.service';
 import { Subscription } from 'rxjs';
 import { MatCheckbox } from '@angular/material';
-
+import { Location } from '@angular/common';
 export interface Service {
   type: string;
   duration: string;
@@ -15,9 +15,10 @@ export interface Service {
   templateUrl: './services.component.html',
   styleUrls: ['./services.component.css']
 })
-export class ServicesComponent implements OnInit, OnDestroy {
+export class ServicesComponent implements OnInit {
   public isLoading: boolean;
   public isSelected: boolean;
+  public checked: boolean;
   public classificationId: string;
   public classificationName: string;
   public classificationDescription: string;
@@ -26,14 +27,16 @@ export class ServicesComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['type', 'duration', 'price'];
 
   total = 0;
-  services: any;
+  // services: any;
+
   private servicesSub: Subscription;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private cartService: CartService,
-    private classificationService: ClassificationService
+    private classificationService: ClassificationService,
+    private location: Location
   ) { }
 
   ngOnInit() {
@@ -62,13 +65,28 @@ export class ServicesComponent implements OnInit, OnDestroy {
     } else {
       this.cartService.removeCart(service);
     }
+    this.isChecked(service._id);
+  }
+
+  isChecked(serviceId: string) {
+    this.isSelected = false;
+    const services = this.cartService.getCartItems();
+    if (services) {
+      services.forEach(element => {
+        if (element._id === serviceId) {
+          this.isSelected = true;
+        }
+      });
+    }
+    return this.isSelected;
+  }
+
+  onCheckout() {
+    this.router.navigate(['./checkout'], {relativeTo: this.activatedRoute});
   }
 
   onContinue() {
-    this.router.navigate(['./process'], {relativeTo: this.activatedRoute});
+    this.location.back();
   }
 
-  ngOnDestroy() {
-    // this.servicesSub.unsubscribe();
-  }
 }
