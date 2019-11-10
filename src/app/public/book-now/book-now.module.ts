@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -22,7 +22,8 @@ import {
   MatListModule,
   MatExpansionModule,
   MatTableModule,
-  MatRippleModule
+  MatRippleModule,
+  MAT_CHECKBOX_CLICK_ACTION
 } from '@angular/material';
 
 import { BookNowComponent } from './book-now.component';
@@ -35,6 +36,7 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { PaymentComponent } from './payment/payment.component';
 import { CustomerComponent } from './customer/customer.component';
 import { StartComponent } from './start/start.component';
+import { CartComponent } from 'src/app/_shared/cart/cart.component';
 
 
 @NgModule({
@@ -48,7 +50,8 @@ import { StartComponent } from './start/start.component';
     ConfirmationComponent,
     PaymentComponent,
     CustomerComponent,
-    StartComponent
+    StartComponent,
+    CartComponent
   ],
   imports: [
     CommonModule,
@@ -80,7 +83,7 @@ import { StartComponent } from './start/start.component';
     RouterModule.forChild([
         { path: '', component: BookNowComponent },
         { path: ':classificationId', component: ServicesComponent },
-        { path: ':classificationId/:bookId', component: StartComponent, children: [
+        { path: ':classificationId/process', component: StartComponent, children: [
           { path: '', redirectTo: 'assistant', pathMatch: 'full' },
           { path: 'assistant', component: AssistantComponent },
           { path: 'schedule', component: ScheduleComponent },
@@ -90,6 +93,9 @@ import { StartComponent } from './start/start.component';
           { path: 'payment', component: PaymentComponent }
         ] }
     ])
+  ],
+  providers: [
+    {provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check'}
   ]
 })
 export class BookNowModule {}

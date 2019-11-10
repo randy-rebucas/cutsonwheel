@@ -3,7 +3,7 @@
 </div>
 <div class="content">
     <div>
-        <div>
+        <div *ngIf="!isLoading">
           <div>
             <img [src]="classificationImage" />
           </div>
@@ -12,44 +12,48 @@
               <p>{{classificationDescription}}</p>
           </div>
         </div>
-        <cowls-summary></cowls-summary>
-        <mat-table [dataSource]="classificationServices" class="mat-elevation-z8">
+        <div class="service-list">
+          <div>
+              <mat-table [dataSource]="classificationServices" class="mat-elevation-z8">
 
-            <!--- Note that these columns can be defined in any order.
-                  The actual rendered columns are set as a property on the row definition" -->
+                  <!--- Note that these columns can be defined in any order.
+                        The actual rendered columns are set as a property on the row definition" -->
 
-            <!-- Type Column -->
-            <ng-container matColumnDef="type">
-              <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                <mat-checkbox (click)="addToCart(element)">
-                  {{element.type}}
-                </mat-checkbox>
-              </mat-cell>
-              <mat-footer-cell *matFooterCellDef> Total </mat-footer-cell>
-            </ng-container>
+                  <!-- Type Column -->
+                  <ng-container matColumnDef="type">
+                    <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      <mat-checkbox #checkbox="matCheckbox" (click)="addToCart(checkbox, element)">
+                        {{element.type}}
+                      </mat-checkbox>
+                    </mat-cell>
+                  </ng-container>
 
-            <!-- Duration Column -->
-            <ng-container matColumnDef="duration">
-              <mat-header-cell *matHeaderCellDef> Duration </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.duration}} </mat-cell>
-              <mat-footer-cell *matFooterCellDef> &nbsp; </mat-footer-cell>
-            </ng-container>
+                  <!-- Duration Column -->
+                  <ng-container matColumnDef="duration">
+                    <mat-header-cell *matHeaderCellDef> Duration </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.duration}} </mat-cell>
+                  </ng-container>
 
-            <!-- Price Column -->
-            <ng-container matColumnDef="price">
-              <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.price | currency}} </mat-cell>
-              <mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </mat-footer-cell>
-            </ng-container>
+                  <!-- Price Column -->
+                  <ng-container matColumnDef="price">
+                    <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.price | currency}} </mat-cell>
+                  </ng-container>
 
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></mat-row>
-            <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row>
-        </mat-table>
-        <div class="button-action">
-          <button mat-flat-button color="primary" (click)="onContinue()">Continue</button>
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+          </div>
+          <div>
+              <cowls-cart></cowls-cart>
+              <div class="button-action">
+                <button mat-flat-button color="primary" (click)="onContinue()">Continue</button>
+              </div>
+          </div>
         </div>
+
+
 
     </div>
 </div>

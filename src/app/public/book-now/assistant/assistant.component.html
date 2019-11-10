@@ -1,1 +1,6 @@
 <p>Select assistant to do the services.</p>
+<div class="cart-item" *ngFor="let service of services">
+  <span>{{ service.type }}</span>
+  <span>{{ service.price | currency }}</span>
+</div>
+<div>cart total: {{ total | currency }}</div>

@@ -1,18 +1,20 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BookNowService } from '../book-now.service';
 import { Subscription } from 'rxjs';
-import { CartService } from 'src/app/_shared/cart/cart.service';
+import { CartService } from './cart.service';
+
 export interface Service {
   type: string;
   duration: string;
   price: string;
 }
+
 @Component({
-  selector: 'cowls-summary',
-  templateUrl: './summary.component.html',
-  styleUrls: ['./summary.component.css']
+  selector: 'cowls-cart',
+  templateUrl: './cart.component.html',
+  styleUrls: ['./cart.component.css']
 })
-export class SummaryComponent implements OnInit, OnDestroy {
+export class CartComponent implements OnInit, OnDestroy {
+
   total = 0;
   services: any;
 
@@ -28,6 +30,12 @@ export class SummaryComponent implements OnInit, OnDestroy {
       this.total = cartData.total;
       this.services = cartData.servicesList;
     });
+
+    this.cartService.getCartItem();
+  }
+
+  onCartClear() {
+    this.cartService.clearCart();
   }
 
   ngOnDestroy() {

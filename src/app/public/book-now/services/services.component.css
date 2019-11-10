@@ -48,13 +48,12 @@ mat-footer-cell.mat-footer-cell.cdk-column-price.mat-column-price {
   justify-content: flex-end;
 }
 
-.button-action {
-  margin: 1em 0;
-  display: flex;
-  justify-content: flex-end;
+.service-list > div:last-child {
+  width: 30% !important;
 }
 
-mat-footer-row.mat-footer-row mat-footer-cell {
-  font-size: 18px;
-  background: #e4e4e4;
+.service-list > div:first-child {
+  flex: 1;
 }
+
+

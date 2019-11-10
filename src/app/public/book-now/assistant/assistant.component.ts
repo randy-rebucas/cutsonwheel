@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CartService } from 'src/app/_shared/cart/cart.service';
 
 @Component({
   selector: 'cowls-assistant',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./assistant.component.css']
 })
 export class AssistantComponent implements OnInit {
-
-  constructor() { }
+  public services: any;
+  public total = 0;
+  constructor(
+    private cartService: CartService
+  ) { }
 
   ngOnInit() {
+    this.services = this.cartService.getCartItems();
+    this.total = this.cartService.getTotal();
   }
 
 }
