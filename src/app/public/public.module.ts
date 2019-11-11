@@ -44,10 +44,10 @@ import {
     FlexLayoutModule.withConfig({addFlexToParent: false}),
     RouterModule.forChild([
       { path: '', component: HomeComponent },
-      { path: 'about', component: AboutComponent },
-      { path: 'teams', component: TeamsComponent },
+      { path: 'about', component: AboutComponent, data: { animation: 'isRight'} },
+      { path: 'teams', component: TeamsComponent, data: { animation: 'isRight'} },
       { path: 'contact', component: ContactComponent },
-      { path: 'how-it-works', component: HowItWorksComponent },
+      { path: 'how-it-works', component: HowItWorksComponent, data: { animation: 'isLeft'} },
       {
         path: 'book-now',
         loadChildren: './book-now/book-now.module#BookNowModule'

@@ -35,14 +35,15 @@ import { DashboardComponent } from './private/dashboard/dashboard.component';
 import { CookieService } from 'ngx-cookie-service';
 // import { UserClassificationComponent } from './_shared/user-classification/user-classification.component';
 import { NotActivatedComponent } from './not-activated/not-activated.component';
-import { EllipsisPipe } from './_pipes/ellipsis-pipe';
-import { ReplacePipe } from './_pipes/replace-pipe';
-import { SlugifyPipe } from './_pipes/slugify-pipe';
+
+import { ElepsisPipe } from './pipes/elipsis/elepsis.pipe';
+import { SlugifyPipe } from './pipes/slugify/slugify.pipe';
+import { ReplacePipe } from './pipes/replace/replace.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EllipsisPipe,
+    ElepsisPipe,
     ReplacePipe,
     SlugifyPipe,
     NavComponent,

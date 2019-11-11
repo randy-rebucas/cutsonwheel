@@ -1,8 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'slugify' })
+@Pipe({
+  name: 'slugify'
+})
 export class SlugifyPipe implements PipeTransform {
-  transform(input: string): string {
+
+  transform(value: any, ...args: any[]): any {
     const trChars = {
       'çÇ': 'c',
       'ğĞ': 'g',
@@ -12,9 +15,9 @@ export class SlugifyPipe implements PipeTransform {
       'öÖ': 'o'
     };
     for (const key of Object.keys(trChars)) {
-      input = input.replace(new RegExp('[' + key + ']', 'g'), trChars[key]);
+      value = value.replace(new RegExp('[' + key + ']', 'g'), trChars[key]);
     }
-    return input
+    return value
       .toString()
       .toLowerCase()
       .replace(/\s+/g, '-')           // Replace spaces with -
@@ -23,4 +26,5 @@ export class SlugifyPipe implements PipeTransform {
       .replace(/^-+/, '')             // Trim - from start of text
       .replace(/-+$/, '');            // Trim - from end of text
   }
+
 }

@@ -16,7 +16,7 @@ export interface Service {
   templateUrl: './services.component.html',
   styleUrls: ['./services.component.css']
 })
-export class ServicesComponent implements OnInit {
+export class ServicesComponent implements OnInit, OnDestroy {
   public isLoading: boolean;
   public isSelected: boolean;
   public checked: boolean;
@@ -52,8 +52,12 @@ export class ServicesComponent implements OnInit {
       }
     );
 
-    this.selectedServiceItem = this.cartService.getCartItems();
-    console.log(this.selectedServiceItem);
+    this.servicesSub = this.cartService.getCartUpdated()
+    .subscribe((cartData: {servicesList: Service[], total: number}) => {
+      this.total = cartData.total;
+      this.selectedServiceItem = cartData.servicesList;
+    });
+    this.cartService.getCartItems();
     this.formControlObj = new FormControl(this.selectedServiceItem);
 
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
@@ -111,5 +115,9 @@ export class ServicesComponent implements OnInit {
 
   compare(c1: {_id: string}, c2: {_id: string}) {
     return c1 && c2 && c1._id === c2._id;
+  }
+
+  ngOnDestroy() {
+    this.servicesSub.unsubscribe();
   }
 }
