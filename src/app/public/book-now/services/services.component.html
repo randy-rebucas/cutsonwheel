@@ -4,54 +4,43 @@
 <div class="content">
     <div>
         <div *ngIf="!isLoading">
-          <div>
-            <img [src]="classificationImage" />
-          </div>
-          <div>
-              <h3>{{classificationName}}</h3>
-              <p>{{classificationDescription}}</p>
-          </div>
+            <div>
+                <img [src]="classificationImage" />
+            </div>
+            <div>
+                <h3>{{classificationName}}</h3>
+                <p>{{classificationDescription}}</p>
+            </div>
         </div>
         <div class="service-list">
-          <div>
-              <mat-table [dataSource]="classificationServices" class="mat-elevation-z8">
-
-                  <!--- Note that these columns can be defined in any order.
-                        The actual rendered columns are set as a property on the row definition" -->
-
-                  <!-- Type Column -->
-                  <ng-container matColumnDef="type">
-                    <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
-                    <mat-cell *matCellDef="let element">
-                      <mat-checkbox #checkbox="matCheckbox" (click)="addToCart(checkbox, element);" [disabled]='isChecked(element._id)' [checked]='isChecked(element._id)'>
-                        {{element.type}}
-                      </mat-checkbox>
-                    </mat-cell>
-                  </ng-container>
-
-                  <!-- Duration Column -->
-                  <ng-container matColumnDef="duration">
-                    <mat-header-cell *matHeaderCellDef> Duration </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.duration}} </mat-cell>
-                  </ng-container>
-
-                  <!-- Price Column -->
-                  <ng-container matColumnDef="price">
-                    <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.price | currency:'PHP':'symbol-narrow'}} </mat-cell>
-                  </ng-container>
-
-                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                  <mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></mat-row>
-              </mat-table>
-          </div>
-          <div>
-              <cowls-cart></cowls-cart>
-              <div class="button-action">
-                <button mat-flat-button color="primary" (click)="onContinue()">Continue Shopping</button> &nbsp;
-                <button mat-flat-button color="accent" (click)="onCheckout()" style="float: right;">Checkout</button>
-              </div>
-          </div>
+            <div>
+                <mat-selection-list class="list-head">
+                    <mat-list-option>
+                        <span>Type</span>
+                        <span>Duration</span>
+                        <span>Price</span>
+                    </mat-list-option>
+                </mat-selection-list>
+                <mat-selection-list #services [compareWith]="compare" [formControl]="formControlObj" (selectionChange)="onSelection($event, services.selectedOptions)">
+                    <mat-list-option *ngFor="let classificationService of classificationServices" [value]="classificationService">
+                        <span>{{classificationService.type}}</span>
+                        <span>{{classificationService.duration}}</span>
+                        <span>{{classificationService.price | currency:'PHP':'symbol-narrow'}}</span>
+                    </mat-list-option>
+                </mat-selection-list>
+                <mat-selection-list class="list-footer">
+                    <mat-list-option>
+                        Options selected: {{services.selectedOptions.selected.length}}
+                    </mat-list-option>
+                </mat-selection-list>
+            </div>
+            <div>
+                <cowls-cart></cowls-cart>
+                <div class="button-action" *ngIf="selectedServiceItem.lenght > 0 || services.selectedOptions.selected.length > 0">
+                    <button mat-flat-button color="primary" (click)="onContinue()">Continue Shopping</button> &nbsp;
+                    <button mat-flat-button color="accent" (click)="onCheckout()" style="float: right;">Checkout</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

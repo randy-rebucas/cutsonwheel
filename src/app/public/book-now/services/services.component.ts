@@ -5,6 +5,7 @@ import { CartService } from 'src/app/_shared/cart/cart.service';
 import { Subscription } from 'rxjs';
 import { MatCheckbox } from '@angular/material';
 import { Location } from '@angular/common';
+import { FormControl } from '@angular/forms';
 export interface Service {
   type: string;
   duration: string;
@@ -31,6 +32,11 @@ export class ServicesComponent implements OnInit {
 
   private servicesSub: Subscription;
 
+  formControlObj: FormControl;
+  selectedServiceItem: any[];
+  allColumns: any[];
+  // currentSelected: string;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -46,6 +52,10 @@ export class ServicesComponent implements OnInit {
       }
     );
 
+    this.selectedServiceItem = this.cartService.getCartItems();
+    console.log(this.selectedServiceItem);
+    this.formControlObj = new FormControl(this.selectedServiceItem);
+
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       this.classificationId = paramMap.get('classificationId');
       this.isLoading = true;
@@ -55,8 +65,18 @@ export class ServicesComponent implements OnInit {
         this.classificationDescription = classificationData.description;
         this.classificationImage = classificationData.image;
         this.classificationServices = classificationData.services;
+
+        this.formControlObj.setValue(this.selectedServiceItem);
       });
     });
+  }
+
+  onSelection(e, v){
+    if (e.option.selected) {
+      this.cartService.addCart(e.option.value);
+    } else {
+      this.cartService.removeCart(e.option.value);
+    }
   }
 
   addToCart(checkbox: MatCheckbox, service: any) {
@@ -89,4 +109,7 @@ export class ServicesComponent implements OnInit {
     this.location.back();
   }
 
+  compare(c1: {_id: string}, c2: {_id: string}) {
+    return c1 && c2 && c1._id === c2._id;
+  }
 }
