@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { mimeType } from 'src/app/_validators/mime-type-validator';
+import { mimeType } from 'src/app/validators/mime-type-validator';
 import { forkJoin, Subscription } from 'rxjs';
-import { UploadService } from 'src/app/_shared/upload.service';
-import { DocumentsData } from './documents-data.model';
 import { Lightbox } from 'ngx-lightbox';
 import { fade } from 'src/app/animations';
+import { UploadService } from 'src/app/services/upload/upload.service';
+import { Upload } from 'src/app/interfaces/upload';
 
 
 @Component({
@@ -65,7 +65,7 @@ export class DocumentsComponent implements OnInit, OnDestroy {
 
     this.uploadService.getAll(this.perPage, this.currentPage, this.userId);
     this.uploadSub = this.uploadService.getUpdateListener()
-    .subscribe((documentsData: {files: DocumentsData[], count: number}) => {
+    .subscribe((documentsData: {files: Upload[], count: number}) => {
       this.total = documentsData.count;
       // this.documents = documentsData.files;
       // tslint:disable-next-line: prefer-for-of

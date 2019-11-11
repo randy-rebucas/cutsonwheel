@@ -1,0 +1,8 @@
+<div class="service-members">
+  <div *ngFor="let classifiedUser of classifiedUsers;">
+      <img [src]="classifiedUser.avatar" />
+  </div>
+  <div *ngIf="classifiedUsersCount > 0">
+      <span class="members-counter">{{classifiedUsersCount}}</span> Member(s)
+  </div>
+</div>

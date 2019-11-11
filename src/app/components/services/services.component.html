@@ -1,0 +1,46 @@
+<div class="primary-header">
+    <h1>Select Services</h1>
+</div>
+<div class="content">
+    <div>
+        <div *ngIf="!isLoading">
+            <div>
+                <img [src]="classificationImage" />
+            </div>
+            <div>
+                <h3>{{classificationName}}</h3>
+                <p>{{classificationDescription}}</p>
+            </div>
+        </div>
+        <div class="service-list">
+            <div>
+                <mat-selection-list class="list-head">
+                    <mat-list-option>
+                        <span>Type</span>
+                        <span>Duration</span>
+                        <span>Price</span>
+                    </mat-list-option>
+                </mat-selection-list>
+                <mat-selection-list #services [compareWith]="compare" [formControl]="formControlObj" (selectionChange)="onSelection($event, services.selectedOptions)">
+                    <mat-list-option *ngFor="let classificationService of classificationServices" [value]="classificationService">
+                        <span>{{classificationService.type}}</span>
+                        <span>{{classificationService.duration}}</span>
+                        <span>{{classificationService.price | currency:'PHP':'symbol-narrow'}}</span>
+                    </mat-list-option>
+                </mat-selection-list>
+                <mat-selection-list class="list-footer">
+                    <mat-list-option>
+                        Options selected: {{services.selectedOptions.selected.length}}
+                    </mat-list-option>
+                </mat-selection-list>
+            </div>
+            <div>
+                <cowls-cart></cowls-cart>
+                <div class="button-action" *ngIf="services.selectedOptions.selected.length > 0">
+                    <button mat-flat-button color="primary" (click)="onContinue()">Continue Shopping</button> &nbsp;
+                    <button mat-flat-button color="accent" (click)="onCheckout()" style="float: right;">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

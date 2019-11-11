@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UsersService } from 'src/app/users/users.service';
-import { NotificationService } from 'src/app/_shared/notification.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ClassificationService } from 'src/app/private/classification/classification.service';
 import { Subscription } from 'rxjs';
 import { ClassificationData } from 'src/app/private/classification/classification-data.model';
+import { UsersService } from 'src/app/services/users/users.service';
+import { NotificationService } from 'src/app/services/notifcation/notification.service';
 
 @Component({
   selector: 'cowls-classification-option',

@@ -6,9 +6,9 @@ import { Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LoginData } from './login/login-data.model';
 import { RegisterData } from './register/register-data.model';
-import { NotificationService } from '../_shared/notification.service';
 import { CookieService } from 'ngx-cookie-service';
-import { UsersService } from '../users/users.service';
+import { UsersService } from '../services/users/users.service';
+import { NotificationService } from '../services/notifcation/notification.service';
 
 const BACKEND_URL = environment.apiUrl + '/auth';
 @Injectable({ providedIn: 'root' })

@@ -5,7 +5,7 @@
     <div>
         <h3>Select classification where your services can be found.</h3>
         <mat-accordion>
-            <mat-expansion-panel @fade *ngFor="let classification of classifications; let i = index;" [expanded]="i == 0">
+            <mat-expansion-panel *ngFor="let classification of classifications; let i = index;" [expanded]="i == 0">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         {{classification.name}}

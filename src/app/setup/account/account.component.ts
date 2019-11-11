@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { mimeType } from 'src/app/_validators/mime-type-validator';
-import { UsersService } from 'src/app/users/users.service';
+import { mimeType } from 'src/app/validators/mime-type-validator';
 import { HttpEventType } from '@angular/common/http';
-import { NotificationService } from 'src/app/_shared/notification.service';
+import { UsersService } from 'src/app/services/users/users.service';
+import { NotificationService } from 'src/app/services/notifcation/notification.service';
 
 @Component({
   selector: 'cowls-account',

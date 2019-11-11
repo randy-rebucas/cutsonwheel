@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import { NotificationService } from '../_shared/notification.service';
 import { CookieService } from 'ngx-cookie-service';
+import { NotificationService } from '../services/notifcation/notification.service';
 
 const BACKEND_URL = environment.apiUrl + '/user';
 @Injectable({ providedIn: 'root' })

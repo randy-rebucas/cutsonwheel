@@ -24,7 +24,7 @@
             <mat-chip *ngFor="let service of classification.services;" >{{service.type}}</mat-chip>
           </mat-chip-list>
 
-          <cowls-user-classification [classificationId]="classification.id"></cowls-user-classification>
+          <cowls-members [classificationId]="classification.id"></cowls-members>
       </div>
     </div>
 </div>

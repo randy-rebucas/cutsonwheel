@@ -15,26 +15,18 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule, MatSnackBarModule, MatTabsModule, MatChipsModule } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
-// import { HomeComponent } from './public/home/home.component';
-// import { AboutComponent } from './public/about/about.component';
-// import { ContactComponent } from './public/contact/contact.component';
-// import { TeamsComponent } from './public/teams/teams.component';
-// import { HowItWorksComponent } from './public/how-it-works/how-it-works.component';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
-import { FooterComponent } from './footer/footer.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { ErrorComponent } from './error/error.component';
-import { PromptDialogComponent } from './prompt-dialog/prompt-dialog.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { ErrorComponent } from './components/error/error.component';
+import { PromptDialogComponent } from './components/prompt-dialog/prompt-dialog.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 
 import { AuthComponent } from './auth/auth.component';
 import { DashboardComponent } from './private/dashboard/dashboard.component';
 import { CookieService } from 'ngx-cookie-service';
-// import { UserClassificationComponent } from './_shared/user-classification/user-classification.component';
-import { NotActivatedComponent } from './not-activated/not-activated.component';
 
 import { ElepsisPipe } from './pipes/elipsis/elepsis.pipe';
 import { SlugifyPipe } from './pipes/slugify/slugify.pipe';
@@ -49,11 +41,9 @@ import { ReplacePipe } from './pipes/replace/replace.pipe';
     NavComponent,
     DashboardComponent,
     AuthComponent,
-    PageNotFoundComponent,
     ErrorComponent,
     PromptDialogComponent,
-    FooterComponent,
-    NotActivatedComponent
+    FooterComponent
   ],
   imports: [
     BrowserModule,
