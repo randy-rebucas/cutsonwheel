@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "@agm/core": "^1.0.0",
+    "@agm/snazzy-info-window": "^1.0.0",
     "@angular/animations": "~8.2.13",
     "@angular/cdk": "~8.2.3",
     "@angular/common": "~8.2.13",
@@ -27,6 +28,7 @@
     "ngx-cookie-service": "^2.2.0",
     "ngx-lightbox": "^2.1.1",
     "rxjs": "~6.5.3",
+    "snazzy-info-window": "^1.1.0",
     "tslib": "^1.9.0",
     "web-animations-js": "^2.3.2",
     "zone.js": "~0.9.1"

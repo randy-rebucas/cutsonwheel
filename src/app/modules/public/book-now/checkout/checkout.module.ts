@@ -61,8 +61,8 @@ import { RegisterComponent } from 'src/app/components/register/register.componen
     ConfirmationComponent,
     PaymentComponent,
     CustomerComponent,
-    LoginComponent,
-    RegisterComponent
+    // LoginComponent,
+    // RegisterComponent
   ],
   imports: [
     CommonModule,
@@ -88,8 +88,8 @@ import { RegisterComponent } from 'src/app/components/register/register.componen
     MatRippleModule,
     FlexLayoutModule.withConfig({addFlexToParent: false}),
     AgmCoreModule.forRoot({
-        apiKey: 'AIzaSyA51S6g_jslQBgvkk5Jtz24ANOv6WOiD5o',
-        // libraries: ['places']
+        apiKey: 'AIzaSyChlo0KGVk9ZywD1IRqjluX99k2zku32Fc', // AIzaSyA51S6g_jslQBgvkk5Jtz24ANOv6WOiD5o
+        libraries: ['places']
     }),
     RouterModule.forChild([
         { path: '', component: CheckoutComponent, children: [

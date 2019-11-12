@@ -26,6 +26,7 @@
                         "styles": [
                             "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
                             "./node_modules/ngx-lightbox/lightbox.css",
+                            "./node_modules/snazzy-info-window/dist/snazzy-info-window.css",
                             "src/styles.css"
                         ],
                         "scripts": []

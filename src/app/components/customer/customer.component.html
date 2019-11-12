@@ -1,9 +1,12 @@
-<cowls-location></cowls-location>
+<!-- <cowls-location></cowls-location> -->
 <ng-container *ngIf="userIsAuthenticated">
   <p>name added</p>
 </ng-container>
 <ng-container *ngIf="!userIsAuthenticated">
-    <cowls-login></cowls-login>
-    <cowls-register></cowls-register>
+  <div>
+      <p>You are not login!</p>
+      <button mat-flat-button color="accent" [routerLink]="['/auth/login']">Login</button> &nbsp;
+      <button mat-flat-button color="accent">Rigester</button>
+  </div>
 </ng-container>
 

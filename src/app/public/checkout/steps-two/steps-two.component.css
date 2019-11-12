@@ -6,7 +6,11 @@
 
 .assistant-block > div:first-child {
   margin-right: 1em;
-  min-width: 25%;
+  width: 25%;
+}
+
+.assistant-block > div:first-child img {
+  width: 100%;
 }
 
 .assistant-block > div:last-child {
