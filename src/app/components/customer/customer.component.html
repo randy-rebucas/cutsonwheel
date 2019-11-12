@@ -1,2 +1,9 @@
-<p>customer works!</p>
 <cowls-location></cowls-location>
+<ng-container *ngIf="userIsAuthenticated">
+  <p>name added</p>
+</ng-container>
+<ng-container *ngIf="!userIsAuthenticated">
+    <cowls-login></cowls-login>
+    <cowls-register></cowls-register>
+</ng-container>
+

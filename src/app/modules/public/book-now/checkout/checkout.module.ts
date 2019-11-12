@@ -41,6 +41,8 @@ import {
   MatTableModule,
   MatRippleModule
 } from '@angular/material';
+import { LoginComponent } from 'src/app/components/login/login.component';
+import { RegisterComponent } from 'src/app/components/register/register.component';
 
 
 @NgModule({
@@ -58,7 +60,9 @@ import {
     SummaryComponent,
     ConfirmationComponent,
     PaymentComponent,
-    CustomerComponent
+    CustomerComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     CommonModule,
@@ -84,8 +88,8 @@ import {
     MatRippleModule,
     FlexLayoutModule.withConfig({addFlexToParent: false}),
     AgmCoreModule.forRoot({
-        apiKey: 'AIzaSyChlo0KGVk9ZywD1IRqjluX99k2zku32Fc',
-        libraries: ['places']
+        apiKey: 'AIzaSyA51S6g_jslQBgvkk5Jtz24ANOv6WOiD5o',
+        // libraries: ['places']
     }),
     RouterModule.forChild([
         { path: '', component: CheckoutComponent, children: [

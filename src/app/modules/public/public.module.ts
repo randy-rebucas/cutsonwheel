@@ -56,7 +56,7 @@ import { MembersComponent } from 'src/app/components/members/members.component';
       { path: 'how-it-works', component: HowItWorksComponent, data: { animation: 'isLeft'} },
       {
         path: 'book-now',
-        loadChildren: './../../modules/book-now/book-now.module#BookNowModule'
+        loadChildren: './../../modules/public/book-now/book-now.module#BookNowModule'
       }
     ])
   ]

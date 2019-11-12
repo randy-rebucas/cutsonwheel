@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { AuthGuard } from './auth/auth-guard';
 import { DashboardComponent } from './private/dashboard/dashboard.component';
+import { AuthGuard } from './guards/auth/auth.guard';
 
 const appRoutes: Routes = [
     {
@@ -17,7 +17,7 @@ const appRoutes: Routes = [
       loadChildren: './private/classification/classification.module#ClassificationModule'
     },
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-    { path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
+    { path: 'auth', loadChildren: './modules/auth/auth.module#AuthModule'},
     { path: '**', redirectTo: '/not-found' }
 ];
 

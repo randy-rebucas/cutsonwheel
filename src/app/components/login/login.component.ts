@@ -3,8 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../auth.service';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'cowls-login',

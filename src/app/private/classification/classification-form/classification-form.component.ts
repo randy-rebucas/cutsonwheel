@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ClassificationService } from '../classification.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { AuthService } from 'src/app/auth/auth.service';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { mimeType } from 'src/app/validators/mime-type-validator';
 import { HttpEventType } from '@angular/common/http';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'cowls-classification-form',

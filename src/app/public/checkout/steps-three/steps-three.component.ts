@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'cowls-steps-three',
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./steps-three.component.css']
 })
 export class StepsThreeComponent implements OnInit {
+  public userIsAuthenticated = false;
 
-  constructor() { }
+  constructor(
+    public authService: AuthService
+  ) { }
 
   ngOnInit() {
+    this.userIsAuthenticated = this.authService.getIsAuth();
   }
 
 }

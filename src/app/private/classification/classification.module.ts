@@ -9,8 +9,8 @@ import { ClassificationListComponent } from './classification-list/classificatio
 import { ClassificationFormComponent } from './classification-form/classification-form.component';
 import { ClassificationDetailComponent } from './classification-detail/classification-detail.component';
 
+import { AuthGuard } from 'src/app/guards/auth/auth.guard';
 
-// import { UserClassificationComponent } from 'src/app/_shared/user-classification/user-classification.component';
 import {
   MatFormFieldModule,
   MatInputModule,
@@ -21,15 +21,13 @@ import {
   MatListModule,
   MatProgressBarModule,
 } from '@angular/material';
-import { AuthGuard } from 'src/app/auth/auth-guard';
 
 @NgModule({
   declarations: [
     ClassificationComponent,
     ClassificationListComponent,
     ClassificationFormComponent,
-    ClassificationDetailComponent,
-    // UserClassificationComponent
+    ClassificationDetailComponent
   ],
   imports: [
     CommonModule,

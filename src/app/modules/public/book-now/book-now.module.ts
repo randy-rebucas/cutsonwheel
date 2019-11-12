@@ -11,7 +11,9 @@ import {
   MatIconModule,
   MatListModule,
   MatCardModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatProgressSpinnerModule,
+  MatFormFieldModule
 } from '@angular/material';
 
 
@@ -32,12 +34,14 @@ import {
     MatListModule,
     MatCardModule,
     MatExpansionModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
     RouterModule.forChild([
         { path: '', component: BookNowComponent },
         { path: ':classificationId', component: ServicesComponent },
         {
           path: ':classificationId/checkout',
-          loadChildren: './../../modules/checkout/checkout.module#CheckoutModule'
+          loadChildren: './../../public/book-now/checkout/checkout.module#CheckoutModule'
         }
     ])
   ]

@@ -45,7 +45,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
         this.classificationId = param.classificationId;
       }
     );
-
+    this.total = this.cartService.getTotal();
     this.selectedServiceItem = this.cartService.getCartItems();
     this.servicesSub = this.cartService.getCartObservable()
     .subscribe((cartData: {servicesList: Cart[], total: number}) => {

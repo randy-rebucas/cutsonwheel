@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
 import { fade } from 'src/app/animations';
 import { ClassificationService } from 'src/app/private/classification/classification.service';
 import { Subscription } from 'rxjs';
 import { ClassificationData } from 'src/app/private/classification/classification-data.model';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 
 @Component({

@@ -3,16 +3,20 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
-import { environment } from '../../environments/environment';
-import { LoginData } from './login/login-data.model';
-import { RegisterData } from './register/register-data.model';
+import { environment } from '../../../environments/environment';
+import { NotificationService } from '../notifcation/notification.service';
 import { CookieService } from 'ngx-cookie-service';
-import { UsersService } from '../services/users/users.service';
-import { NotificationService } from '../services/notifcation/notification.service';
+import { UsersService } from '../users/users.service';
+import { Register } from 'src/app/interfaces/register';
+import { Login } from 'src/app/interfaces/login';
 
 const BACKEND_URL = environment.apiUrl + '/auth';
-@Injectable({ providedIn: 'root' })
+
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
+
   private isAuthenticated: boolean;
   private token: string;
   private userId: string;
@@ -48,7 +52,7 @@ export class AuthService {
   }
 
   createUser(FirstName: string, LastName: string, Email: string, Password: string) {
-    const authRegister: RegisterData = {
+    const authRegister: Register = {
       firstname: FirstName,
       lastname: LastName,
       email: Email,
@@ -64,7 +68,7 @@ export class AuthService {
   }
 
   login(Email: string, Password: string, Remember: boolean) {
-    const authData: LoginData = {email: Email, password: Password, remember: Remember};
+    const authData: Login = {email: Email, password: Password, remember: Remember};
     this.http.post<{token: string, userEmail: string, userId: string}>(
       BACKEND_URL + '/login',
       authData

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'cowls-customer',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CustomerComponent implements OnInit {
 
-  constructor() { }
+  public userIsAuthenticated = false;
+
+  constructor(
+    public authService: AuthService
+  ) { }
 
   ngOnInit() {
+    this.userIsAuthenticated = this.authService.getIsAuth();
   }
 
 }

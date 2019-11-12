@@ -12,7 +12,15 @@ import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatDialogModule, MatSnackBarModule, MatTabsModule, MatChipsModule } from '@angular/material';
+import {
+  MatDialogModule,
+  MatSnackBarModule,
+  MatTabsModule,
+  MatChipsModule,
+  MatProgressSpinnerModule,
+  MatFormFieldModule,
+  MatCheckboxModule
+} from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -21,16 +29,18 @@ import { NavComponent } from './nav/nav.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ErrorComponent } from './components/error/error.component';
 import { PromptDialogComponent } from './components/prompt-dialog/prompt-dialog.component';
-import { AuthInterceptor } from './auth/auth-interceptor';
+import { AuthInterceptor } from './components/auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 
-import { AuthComponent } from './auth/auth.component';
 import { DashboardComponent } from './private/dashboard/dashboard.component';
 import { CookieService } from 'ngx-cookie-service';
 
 import { ElepsisPipe } from './pipes/elipsis/elepsis.pipe';
 import { SlugifyPipe } from './pipes/slugify/slugify.pipe';
 import { ReplacePipe } from './pipes/replace/replace.pipe';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+
 
 @NgModule({
   declarations: [
@@ -40,7 +50,6 @@ import { ReplacePipe } from './pipes/replace/replace.pipe';
     SlugifyPipe,
     NavComponent,
     DashboardComponent,
-    AuthComponent,
     ErrorComponent,
     PromptDialogComponent,
     FooterComponent
@@ -50,6 +59,8 @@ import { ReplacePipe } from './pipes/replace/replace.pipe';
     BrowserAnimationsModule,
     HttpClientModule,
     LayoutModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
@@ -62,6 +73,9 @@ import { ReplacePipe } from './pipes/replace/replace.pipe';
     MatTabsModule,
     MatSnackBarModule,
     MatChipsModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatCheckboxModule,
     AppRoutingModule
   ],
   providers: [

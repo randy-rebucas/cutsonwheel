@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { RouterModule } from '@angular/router';
+
 import {
   MatFormFieldModule,
   MatProgressSpinnerModule,
@@ -13,9 +12,13 @@ import {
   MatButtonModule,
   MatCheckboxModule
 } from '@angular/material';
+import { LoginComponent } from './../../../components/login/login.component';
+import { RegisterComponent } from './../../../components/register/register.component';
+import { AuthComponent } from './../../../components/auth/auth.component';
 
 @NgModule({
   declarations: [
+    AuthComponent,
     LoginComponent,
     RegisterComponent
   ],
@@ -30,9 +33,12 @@ import {
     MatCheckboxModule,
     FlexLayoutModule.withConfig({addFlexToParent: false}),
     RouterModule.forChild([
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent }
+      { path: '', component: AuthComponent, children: [
+        { path: '', redirectTo: 'login', pathMatch: 'full' },
+        { path: 'login', component: LoginComponent },
+        { path: 'register', component: RegisterComponent }
+      ] }
     ])
   ]
 })
-export class AuthModule {}
+export class AuthModule { }
