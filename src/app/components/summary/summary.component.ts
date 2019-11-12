@@ -1,12 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CartService } from 'src/app/services/cart/cart.service';
-
-export interface Service {
-  type: string;
-  duration: string;
-  price: string;
-}
+import { Cart } from 'src/app/interfaces/cart';
 @Component({
   selector: 'cowls-summary',
   templateUrl: './summary.component.html',
@@ -23,8 +18,8 @@ export class SummaryComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.servicesSub = this.cartService.getCartUpdated()
-    .subscribe((cartData: {servicesList: Service[], total: number}) => {
+    this.servicesSub = this.cartService.getCartObservable()
+    .subscribe((cartData: {servicesList: Cart[], total: number}) => {
       this.total = cartData.total;
       this.services = cartData.servicesList;
     });

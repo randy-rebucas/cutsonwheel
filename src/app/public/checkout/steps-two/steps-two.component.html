@@ -1,1 +1,17 @@
-<p>steps-two works!</p>
+<div class="assistant-block">
+  <div>
+      <img [src]="avatar"/>
+    <br/>
+      <h4>{{firstname}} {{midlename}}, {{lastname}}</h4>
+      <address>
+        Gender: {{gender ? gender : '--'}} <br/>
+        Age: {{age}} <br/>
+        Joined: {{created | date }}
+      </address>
+  </div>
+  <div>
+      <cowls-schedule></cowls-schedule>
+  </div>
+</div>
+
+

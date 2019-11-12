@@ -1,1 +1,29 @@
-<p>schedule works!</p>
+<h4>Select a date you want to schedule.</h4>
+<form [formGroup]="form" class="normal-form" (submit)="onSchedule()" *ngIf="!isLoading">
+  <div class="schedule-date">
+      <mat-form-field class="example-full-width">
+          <input matInput [matDatepicker]="picker" formControlName="scheduleDate" placeholder="Choose a date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #picker></mat-datepicker>
+      </mat-form-field>
+  </div>
+  <div class="schedule-time">
+      <mat-form-field>
+          <mat-select formControlName="scheduleHour" placeholder="Hour">
+              <mat-option *ngFor="let hour of hours" [value]="hour" >{{("00" + hour).slice(-2)}}</mat-option>
+          </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+          <mat-select formControlName="scheduleMinute" placeholder="Minute">
+              <mat-option *ngFor="let minute of minutes" [value]="minute" >{{("00" + minute).slice(-2)}}</mat-option>
+          </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+          <mat-select formControlName="scheduleAPM" placeholder="AM/PM">
+              <mat-option value="AM">AM</mat-option>
+              <mat-option value="PM">PM</mat-option>
+          </mat-select>
+      </mat-form-field>
+  </div>
+  <button mat-raised-button color="primary" type="submit">Next</button>
+</form>

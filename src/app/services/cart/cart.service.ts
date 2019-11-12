@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { Cart } from 'src/app/interfaces/cart';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  private cartUpdated = new Subject<{ servicesList: Cart[], total: number }>();
+  private cartObservable = new Subject<{ servicesList: Cart[], total: number }>();
+  private assistantUpdated = new Subject<{ assistant: string }>();
 
   services: any;
 
   constructor() {}
 
-  addCart(service) {
+  addCart(service: {}) {
     // get initial cart items
     this.services = this.getCartItems() ? this.getCartItems() : [];
     // push new item
@@ -28,7 +30,7 @@ export class CartService {
     // filter cart items to remove
     servicesItems = servicesItems.filter(items => items._id !== service._id);
     // update observables
-    this.cartUpdated.next({
+    this.cartObservable.next({
       servicesList: [...servicesItems],
       total: this.getTotal()
     });
@@ -40,18 +42,7 @@ export class CartService {
     // set cart items
     sessionStorage.setItem('services', JSON.stringify(service));
     // set cart items
-    this.getCartItem();
-  }
-
-  getCartItem() {
-    // get all cart items
-    const servicesItems = this.getCartItems() ? this.getCartItems() : [];
-
-    // update observables
-    this.cartUpdated.next({
-      servicesList: [...servicesItems],
-      total: this.getTotal()
-    });
+    this.setCartObservable();
   }
 
   getCartItems() {
@@ -59,9 +50,20 @@ export class CartService {
     return JSON.parse(sessionStorage.getItem('services'));
   }
 
-  getCartUpdated() {
+  setCartObservable() {
+    // get all cart items
+    const servicesItems = this.getCartItems() ? this.getCartItems() : [];
+
+    // update observables
+    this.cartObservable.next({
+      servicesList: [...servicesItems],
+      total: this.getTotal()
+    });
+  }
+
+  getCartObservable() {
     // observe changes in session storage
-    return this.cartUpdated.asObservable();
+    return this.cartObservable.asObservable();
   }
 
   getTotal() {
@@ -90,4 +92,62 @@ export class CartService {
 
   }
 
+  /**
+   * Insures that cart is supported to initiate assistant
+   */
+  setAssistant(assistantId: string) {
+    // set assistant
+    sessionStorage.setItem('assistant', assistantId);
+
+    this.setObservableAssistant();
+  }
+
+  getAssistant() {
+    // get all cart items
+    return sessionStorage.getItem('assistant');
+  }
+
+  getAssistantSub() {
+    // get all cart items
+    of(this.getAssistant())
+    .pipe(
+      map(assistantData => {
+        return assistantData;
+      })
+    )
+    .subscribe((selectedAssistant) => {
+      this.assistantUpdated.next({assistant: selectedAssistant});
+    });
+  }
+
+  setObservableAssistant() {
+    const selectedAssistant = this.getAssistant();
+    // update observables
+    this.assistantUpdated.next({assistant: selectedAssistant});
+  }
+
+  getAssistantObservable() {
+    // observe changes in session storage
+    return this.assistantUpdated.asObservable();
+  }
+
+  removeAssistant() {
+    // remove assistant
+    return sessionStorage.removeItem('assistant');
+  }
+
+  /**
+   * set schedule date
+   */
+  setSchedule(schedule: {}) {
+    // set schedule
+    sessionStorage.setItem('schedule', JSON.stringify(schedule));
+
+    this.setObservableAssistant();
+  }
+
+  getSchedule() {
+    // get schedule
+    return JSON.parse(sessionStorage.getItem('schedule'));
+  }
 }

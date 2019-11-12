@@ -1,17 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { MatCheckbox } from '@angular/material';
 import { Location } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ClassificationService } from 'src/app/private/classification/classification.service';
 import { CartService } from 'src/app/services/cart/cart.service';
+import { Cart } from 'src/app/interfaces/cart';
 
-export interface Service {
-  type: string;
-  duration: string;
-  price: string;
-}
 @Component({
   selector: 'cowls-services',
   templateUrl: './services.component.html',
@@ -29,14 +24,12 @@ export class ServicesComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['type', 'duration', 'price'];
 
   total = 0;
-  // services: any;
 
   private servicesSub: Subscription;
 
   formControlObj: FormControl;
   selectedServiceItem: any[];
   allColumns: any[];
-  // currentSelected: string;
 
   constructor(
     private router: Router,
@@ -53,12 +46,14 @@ export class ServicesComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.servicesSub = this.cartService.getCartUpdated()
-    .subscribe((cartData: {servicesList: Service[], total: number}) => {
+    this.selectedServiceItem = this.cartService.getCartItems();
+    this.servicesSub = this.cartService.getCartObservable()
+    .subscribe((cartData: {servicesList: Cart[], total: number}) => {
       this.total = cartData.total;
       this.selectedServiceItem = cartData.servicesList;
     });
-    this.cartService.getCartItems();
+
+
     this.formControlObj = new FormControl(this.selectedServiceItem);
 
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
@@ -70,40 +65,17 @@ export class ServicesComponent implements OnInit, OnDestroy {
         this.classificationDescription = classificationData.description;
         this.classificationImage = classificationData.image;
         this.classificationServices = classificationData.services;
-
-        this.formControlObj.setValue(this.selectedServiceItem);
+        setTimeout(() => this.formControlObj.setValue(this.selectedServiceItem), 1000);
       });
     });
   }
 
-  onSelection(e, v){
-    if (e.option.selected) {
-      this.cartService.addCart(e.option.value);
+  onSelection(event, value) {
+    if (event.option.selected) {
+      this.cartService.addCart(event.option.value);
     } else {
-      this.cartService.removeCart(e.option.value);
+      this.cartService.removeCart(event.option.value);
     }
-  }
-
-  addToCart(checkbox: MatCheckbox, service: any) {
-    if (!checkbox.checked) {
-      this.cartService.addCart(service);
-    } else {
-      this.cartService.removeCart(service);
-    }
-    this.isChecked(service._id);
-  }
-
-  isChecked(serviceId: string) {
-    this.isSelected = false;
-    const services = this.cartService.getCartItems();
-    if (services) {
-      services.forEach(element => {
-        if (element._id === serviceId) {
-          this.isSelected = true;
-        }
-      });
-    }
-    return this.isSelected;
   }
 
   onCheckout() {

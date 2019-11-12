@@ -1,2 +1,2 @@
-<p>Select assistant to do the services.</p>
-<cowls-assistants [classificationId]="classificationId"></cowls-assistants>
+<cowls-assistants #varName [classificationId]="classificationId"></cowls-assistants>
+<button mat-flat-button color="primary" *ngIf="selectedAssistant"(click)="onNext('step-two');">Next</button>

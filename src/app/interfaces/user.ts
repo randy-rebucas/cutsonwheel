@@ -14,6 +14,7 @@ export interface User {
   philhealth: string;
   avatar: string;
   activated: boolean;
+  createdAt: Date;
   address: Address[];
 }
 

@@ -6,7 +6,7 @@
     </mat-card-header>
     <mat-card-content>
         <mat-list>
-            <mat-list-item @slideInOut *ngFor="let service of services" [title]="service.type"> {{ service.type }} <span style="justify-content: flex-end;">{{ service.price | currency:'PHP':'symbol-narrow' }}</span></mat-list-item>
+            <mat-list-item *ngFor="let service of services" [title]="service.type"> {{ service.type }} <span style="justify-content: flex-end;">{{ service.price | currency:'PHP':'symbol-narrow' }}</span></mat-list-item>
         </mat-list>
         <ng-container *ngIf="services.length === 0">
             <p>No items found!</p>

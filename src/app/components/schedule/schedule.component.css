@@ -1,0 +1,29 @@
+form.normal-form {
+  display: flex;
+  flex-flow: row wrap;
+  flex: 1 1 auto;
+}
+
+form.normal-form div.schedule-date {
+  width: 29%;
+}
+
+form.normal-form div.schedule-time {
+  flex: 1;
+  display: flex;
+  width: 70%;
+}
+
+form.normal-form div.schedule-time ::ng-deep .mat-form-field {
+  padding: 0 5px;
+  width: 15%;
+  margin: 0 15px;
+}
+
+form.normal-form div.schedule-time ::ng-deep .mat-form-field:first-child:after {
+  content: ":";
+  position: absolute;
+  top: 22px;
+  font-weight: 600;
+  right: -18px;
+}
