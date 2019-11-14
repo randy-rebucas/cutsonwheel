@@ -24,7 +24,7 @@ export class RegisterComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.titleService.setTitle('Auth - Register');
+    this.titleService.setTitle('Register');
     this.isLoading = false;
   }
 

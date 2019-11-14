@@ -1,0 +1,16 @@
+.content > div {
+  text-align: left;
+}
+
+.content > div:last-child {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.content > div:last-child > div {
+  width: 50%;
+}
+
+.content > div:last-child > div p {
+  padding-right: 3em;
+}

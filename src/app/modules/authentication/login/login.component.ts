@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.titleService.setTitle('Authentication - Login');
+    this.titleService.setTitle('Login');
 
     this.form = new FormGroup({
       email: new FormControl((this.cookieService.check('email')) ? this.cookieService.get('email') : null, {

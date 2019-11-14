@@ -1,0 +1,16 @@
+.members {
+  display: flex;
+  max-width: 1200px;
+  margin: 2em 0;
+  color: rgba(0,0,0,.54);
+}
+
+.members .member-card {
+  margin: 1em;
+}
+
+:host ::ng-deep .mat-card-header-text {
+  /* CSS styles go here */
+  margin: 0px;
+  width: 100%;
+}

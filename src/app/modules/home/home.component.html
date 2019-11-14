@@ -10,3 +10,20 @@
         </div>
     </div>
 </header>
+
+<div class="homepage-promo">
+  <div class="homepage-row" *ngFor="let classification of classifications; let o = odd; let e = even;" [ngClass]="{ 'homepage-reverse-row': o}">
+    <div class="homepage-promo-img">
+        <img [src]="classification.image" />
+    </div>
+    <div class="homepage-promo-desc">
+        <h2 (click)="onDetail(classification.id)">{{classification.name}}</h2>
+        <p>{{classification.description}}</p>
+        <mat-chip-list aria-label="Fish selection">
+          <mat-chip *ngFor="let service of classification.services;" >{{service.type}}</mat-chip>
+        </mat-chip-list>
+
+        <app-assistant [classificationId]="classification.id"></app-assistant>
+    </div>
+  </div>
+</div>

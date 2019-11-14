@@ -35,8 +35,8 @@ import { AppConfigurationService } from './configs/app-configuration.service';
 import {TranslateLoader, TranslateModule, TranslateCompiler} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 // import ngx-translate-messageformat-compiler
-import {TranslateMessageFormatCompiler} from 'ngx-translate-messageformat-compiler';
-import { MESSAGE_FORMAT_CONFIG } from 'ngx-translate-messageformat-compiler';
+// import {TranslateMessageFormatCompiler} from 'ngx-translate-messageformat-compiler';
+// import { MESSAGE_FORMAT_CONFIG } from 'ngx-translate-messageformat-compiler';
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,6 +89,7 @@ import { MESSAGE_FORMAT_CONFIG } from 'ngx-translate-messageformat-compiler';
       useFactory: AppConfigurationFactory,
       deps: [AppConfigurationService, HttpClient], multi: true
     },
+
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationInterceptor,

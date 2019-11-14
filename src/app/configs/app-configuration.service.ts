@@ -16,9 +16,9 @@ export class AppConfigurationService {
     return new Promise((r, e) => {
       // mock because can't xhr local file here
       const content = {
-        title : 'shop-inventory',
-        dayTrial : 14,
-        version : '1.0.0'
+        appName : 'cutsonwheel',
+        appVersion : '1.0.0',
+        language: 'de'
       };
       Object.assign(this, content);
       r(content);
