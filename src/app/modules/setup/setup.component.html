@@ -1,0 +1,11 @@
+<div class="primary-header">
+  <h1>Setup</h1>
+</div>
+<div class="content">
+  <div>
+      <nav mat-tab-nav-bar>
+          <a mat-tab-link routerLink="./account" routerLinkActive #rlaAccount="routerLinkActive" [active]="rlaAccount.isActive" [disabled] = "!rlaAccount.isActive">Account</a>
+      </nav>
+      <router-outlet></router-outlet>
+  </div>
+</div>

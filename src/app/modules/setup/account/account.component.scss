@@ -1,0 +1,81 @@
+.account {
+  margin: 2em 0;
+  display: flex;
+  flex: 1;
+}
+
+.account>div:first-child {
+  margin-right: 2em;
+}
+
+.profile-details {
+  flex: 1 1 auto;
+}
+
+input[type="file"] {
+  visibility: hidden;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-form-field:not(:first-child) {
+  margin-left: 1em;
+}
+
+.form-field-block {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+  flex-basis: auto;
+}
+
+.addressGroup,
+.metaGroup {
+  position: relative;
+}
+
+.addressGroup .action,
+.metaGroup .action {
+  position: absolute;
+  top: 0;
+  right: 0;
+  visibility: hidden;
+}
+
+.addressGroup:hover .action,
+.metaGroup:hover .action {
+  visibility: visible;
+}
+
+.mat-radio-button~.mat-radio-button {
+  margin-left: 16px;
+}
+
+mat-radio-group {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.mat-select-value {
+  color: inherit !important;
+}
+
+.image-preview {
+  width: 200px;
+}
+
+.image-preview img {
+  width: 100%;
+}
+
+form.normal-form h4 {
+  text-align: left;
+  font-weight: 400;
+}
+
+button {
+  float: left;
+}

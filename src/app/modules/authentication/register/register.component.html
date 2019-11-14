@@ -1,0 +1,51 @@
+
+<div class="signup-page">
+  <div class="content">
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
+      <form (submit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading" class="signup-form">
+          <div class="text-center">
+              <h2 class="app-name">{{ 'authentication.register' | translate }}</h2>
+              <p class="subheading">{{ 'authentication.required-label' | translate }}</p>
+          </div>
+
+              <div>
+                  <mat-form-field class="w-100">
+                      <input matInput name="firstname" type="text" maxlength="50" ngModel placeholder="{{ 'authentication.firstname' | translate }}" #firstnameInput="ngModel" required>
+                          <mat-error *ngIf="firstnameInput.invalid">{{ 'validation.required' | translate:{'s':'firstname'} }}</mat-error>
+                  </mat-form-field>
+              </div>
+
+              <div>
+                  <mat-form-field class="w-100">
+                      <input matInput name="lastname" type="text" maxlength="50" ngModel placeholder="{{ 'authentication.lastname' | translate }}" #lastnameInput="ngModel" required>
+                      <mat-error *ngIf="lastnameInput.invalid">{{ 'validation.required' | translate:{'s':'lastname'} }}</mat-error>
+                  </mat-form-field>
+              </div>
+
+              <div>
+                  <mat-form-field class="w-100">
+                      <input matInput name="email" type="email" ngModel placeholder="{{ 'authentication.email' | translate }}" #emailInput="ngModel" required email>
+                          <mat-error *ngIf="emailInput.invalid">{{ 'validation.required' | translate:{'s':'email'} }}</mat-error>
+                  </mat-form-field>
+              </div>
+
+              <div>
+                  <mat-form-field class="w-100">
+                      <input matInput type="password" name="password" ngModel placeholder="{{ 'authentication.password' | translate }}" #passwordInput="ngModel" required>
+                          <mat-error *ngIf="passwordInput.invalid">{{ 'validation.invalid' | translate:{'s':'password'} }}</mat-error>
+                  </mat-form-field>
+              </div>
+
+            <div>
+                <button mat-raised-button color="primary" class="w-100" type="submit">{{ 'common.submit' | translate }}</button>
+            </div>
+
+          <div class="footer">
+            <p>{{ 'authentication.existing-label' | translate }} <a (click)="onLogin()" style="cursor: pointer;">{{ 'authentication.login' | translate }}</a> </p>
+          </div>
+      </form>
+
+
+  </div>
+
+</div>

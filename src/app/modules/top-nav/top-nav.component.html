@@ -1,0 +1,11 @@
+<button mat-button [routerLink]="['/about']" routerLinkActive="mat-accent" translate>{{'navigation.about' | translate}}</button>
+<button mat-button [routerLink]="['/team']" routerLinkActive="mat-accent">{{'navigation.team' | translate}}</button>
+<button mat-button [routerLink]="['/contact']" routerLinkActive="mat-accent">{{'navigation.contact' | translate}}</button>
+<span class="spacer"></span>
+<button mat-button [routerLink]="['/auth/login']" routerLinkActive="mat-accent" *ngIf="!isAuthenticated">{{'authentication.login' | translate}}</button>
+<button mat-button [routerLink]="['/auth/register']" routerLinkActive="mat-accent" *ngIf="!isAuthenticated">{{'authentication.register' | translate}}</button>
+
+<ng-container *ngIf="isAuthenticated">
+  <button mat-button [routerLink]="['/dashboard']" routerLinkActive="mat-accent">{{'dashboard.title' | translate}}</button>
+  <button mat-button (click)="onLogout()">{{'authentication.logout' | translate}}</button>
+</ng-container>

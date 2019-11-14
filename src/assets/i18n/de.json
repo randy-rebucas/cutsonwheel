@@ -1,0 +1,28 @@
+{
+  "app": {
+    "welcome": "Willkommen zu {{app}}"
+  },
+  "navigation": {
+    "home":"Zuhause",
+    "about": "Uber",
+    "team": "Mannschaft",
+    "contact": "Kontakt"
+  },
+  "footer": {
+    "powered-by": "Präsentiert von coreweb ©2010-2019.",
+    "current-version": "Aktuelle Version",
+    "learn": "Lernen wie"
+  },
+  "home": {
+    "tag": "- Waren alle Techniker eins?",
+    "get-started": "Loslegen"
+  },
+  "authentication": {
+    "login": "Einloggen",
+    "register": "Registrieren",
+    "logout": "Ausloggen"
+  },
+  "dashboard": {
+    "title": "Instrumententafel"
+  }
+}

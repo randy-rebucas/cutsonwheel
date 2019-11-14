@@ -1,0 +1,62 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-elevation-z6 {
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+}
+
+.main-content {
+    position: relative;
+    margin: 0 0 2em;
+}
+mat-sidenav-content.mat-drawer-content::-webkit-scrollbar {
+  width: 0;
+  height: 4px;
+}
+app-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+.spacer {
+  flex: 1 1 auto;
+}
+.hidden {
+    display: none;
+}
+
+.primary-header {
+  background: #3f51b5;
+  padding-left: 20px;
+}
+
+.primary-header h1 {
+  font-weight: 300;
+  margin: 0;
+  padding: 28px 8px;
+  font-size: 20px;
+  color: #fff;
+}
+
+.content {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+.content>div {
+  width: 900px;
+  margin: 2em 0;
+  color: rgba(0, 0, 0, .54);
+  text-align: center;
+}

@@ -1,0 +1,28 @@
+{
+  "app": {
+    "welcome": "مرحبا بك في {{app}}"
+  },
+  "navigation": {
+    "home":"الصفحة الرئيسية",
+    "about": "حول",
+    "team": "الفريق",
+    "contact": "اتصل"
+  },
+  "footer": {
+    "powered-by": "مدعوم من جوجل",
+    "current-version": "النسخة الحالية",
+    "learn": "تعلم كيف"
+  },
+  "home": {
+    "tag": "، كانت كل التكنولوجيا بمثابة واحد!",
+    "get-started": "البدء"
+  },
+  "authentication": {
+    "login": "تسجيل الدخول",
+    "register": "تسجيل",
+    "logout": "تسجيل خروج"
+  },
+  "dashboard": {
+    "title": "لوحة القيادة"
+  }
+}

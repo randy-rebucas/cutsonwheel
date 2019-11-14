@@ -1,0 +1,38 @@
+use trackBy
+
+*ngFor="let item of collection; trackBy: trackById"
+
+trackById(index: number, user: any): string {
+    return user._id;
+}
+
+-----------
+install emojiRandom
+https://www.npmjs.com/package/emoji-random
+
+install faker library
+https://www.npmjs.com/package/faker
+
+install animate.css
+https://daneden.github.io/animate.css/
+class="animated slideInRight"
+
+-----------
+Clean up subscriptions
+
+private _destroyed$ = new Subject();
+
+public ngOnInit (): void {
+    iAmAnObservable
+    .pipe(
+       map(value => value.item)
+      // We want to listen to iAmAnObservable until the component is destroyed,
+       takeUntil(this._destroyed$)
+     )
+    .subscribe(item => this.textToDisplay = item);
+}
+
+public ngOnDestroy (): void {
+    this._destroyed$.next();
+    this._destroyed$.complete();
+}

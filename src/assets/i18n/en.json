@@ -1,0 +1,46 @@
+{
+  "app": {
+    "welcome": "Welcome to {{app}}"
+  },
+  "navigation": {
+    "home":"Home",
+    "about": "About",
+    "team": "Team",
+    "contact": "Contact"
+  },
+  "footer": {
+    "powered-by": "Powered by Google ©2010-2019.",
+    "current-version": "Current Version",
+    "learn": "Learn how"
+  },
+  "home": {
+    "tag": "-were all tech act as one!",
+    "get-started": "Get started"
+  },
+  "authentication": {
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "firstname": "Firstname",
+    "lastname": "Lastname",
+    "email": "Email",
+    "password": "Password",
+    "remember": "Remember me",
+    "required-label": "Please fill out all input.",
+    "existing-label": "Already have an account?",
+    "no-exist-label": "No account yet?",
+    "access-label": "Please input your email and password to gain access."
+  },
+  "dashboard": {
+    "title": "Dashboard"
+  },
+  "common": {
+    "error": "Error",
+    "okey": "Okey",
+    "submit": "Submit"
+  },
+  "validation": {
+    "required": "Please enter {{s}}",
+    "invalid": "Please enter valid {{s}}"
+  }
+}

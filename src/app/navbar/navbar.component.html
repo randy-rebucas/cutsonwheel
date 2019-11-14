@@ -1,0 +1,27 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === true">
+        <mat-toolbar [routerLink]="['/']" routerLinkActive="active">{{'navigation.home' | translate}}</mat-toolbar>
+        <mat-nav-list>
+            <a mat-list-item [routerLink]="['/about']" routerLinkActive="mat-accent">{{'navigation.about' | translate}}</a>
+            <a mat-list-item [routerLink]="['/team']" routerLinkActive="mat-accent">{{'navigation.team' | translate}}</a>
+            <a mat-list-item [routerLink]="['/contact']" routerLinkActive="mat-accent">{{'navigation.contact' | translate}}</a>
+            <a mat-list-item [routerLink]="['/dashboard']" routerLinkActive="mat-accent" *ngIf="userIsAuthenticated">{{'navigation.dashboard' | translate}}</a>
+            <a mat-list-item (click)="onLogout()" *ngIf="userIsAuthenticated">{{'navigation.logout' | translate}}</a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar color="primary" class="mat-elevation-z6">
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
+              <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            </button>
+            <button mat-button [routerLink]="['/']" routerLinkActive="main">
+                <img src="./../../assets/images/angular-white-transparent.svg" style="height: 26px; margin: 0 4px 3px 0;"/>
+                myRecord
+            </button>
+            <span class="spacer"></span>
+            <app-top-nav [ngClass]="(isHandset$ | async) ? 'hidden' : 'show'" [isAuthenticated]="userIsAuthenticated" (logout)="onLogout($event)"></app-top-nav>
+        </mat-toolbar>
+        <!-- Add Content Here -->
+        <ng-content></ng-content>
+    </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,50 @@
+.login-page {
+  display: flex;
+  margin-top: 5%;
+  justify-content: center;
+  height: 78%;
+  position: relative;
+}
+.login-page .content {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.login-page .content .app-name {
+  margin-top: 0px;
+    padding-bottom: 0px;
+    margin-bottom: 0;
+    font-size: 26px;
+    font-weight: 100;
+    text-align: left;
+}
+.login-page .content p.subheading {
+  text-align: left;
+  padding: 0;
+  margin: 0 0 10px 0;
+  font-size: 12px;
+}
+.login-page .content .login-form {
+  padding: 40px;
+  background: #fff;
+  width: 500px;
+  box-shadow: 0 0 10px #b7b7b7;
+  flex: 1 1 1e-09px;
+  box-sizing: border-box;
+}
+.login-page .content .login-form input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px white inset;
+}
+
+.text-center {
+  text-align: center;
+}
+.w-100 {
+  width: 100%;
+}
+.footer {
+  text-align: left;
+  width: 100%;
+}

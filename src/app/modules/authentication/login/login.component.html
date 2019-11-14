@@ -1,0 +1,56 @@
+<div class="login-page">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+<div class="content" *ngIf="!isLoading">
+
+    <form [formGroup]="form" (submit)="onLogin()" class="login-form">
+        <div class="text-center">
+            <h2 class="app-name">{{ 'authentication.login' | translate }}</h2>
+            <p class="subheading">{{ 'authentication.access-label' | translate }}</p>
+        </div>
+
+        <div>
+            <mat-form-field class="w-100">
+                <input matInput formControlName="email" id="email" placeholder="{{ 'authentication.email' | translate }}">
+                <mat-error *ngIf="email.invalid && (email.dirty || email.touched)">
+                  <div *ngIf="email.errors">
+                      {{ 'validation.required' | translate:{'s':'email'} }}
+                  </div>
+                  <!-- <div *ngIf="email.errors.minlength">
+                      Email must be at least 20 characters long.
+                  </div>
+                  <div *ngIf="email.errors.email">
+                      Email not valid.
+                  </div> -->
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div>
+            <mat-form-field class="w-100">
+                <input matInput type="password" name="password" formControlName="password" placeholder="{{ 'authentication.password' | translate }}">
+                <!-- <mat-error *ngIf="password.invalid && (password.dirty || password.touched)">
+                    <div *ngIf="password.errors.required">
+                      Password is required.
+                    </div>
+                    <div *ngIf="password.errors.minlength">
+                        Email must be at least 8 characters long.
+                    </div>
+                  </mat-error> -->
+            </mat-form-field>
+        </div>
+
+        <div>
+            <mat-checkbox color="primary" name="remember" formControlName="remember">{{ 'authentication.remember' | translate }}</mat-checkbox>
+        </div>
+
+        <div>
+            <button mat-raised-button color="primary" class="w-100" type="submit">{{ 'authentication.login' | translate }}</button>
+        </div>
+
+        <div class="footer">
+          <p> {{ 'authentication.no-exist-label' | translate }} <a (click)="onSignup()" style="cursor: pointer;">{{ 'authentication.register' | translate }}</a> </p>
+        </div>
+    </form>
+
+</div>
+</div>

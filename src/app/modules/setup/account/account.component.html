@@ -1,0 +1,131 @@
+<div *ngIf="isLoadingContent" class="loading">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="account" *ngIf="!isLoadingContent">
+  <div class="profile-picture">
+      <div *ngIf="isLoadingPic">
+          <mat-progress-bar [color]="color" [mode]="mode" [value]="bufferValue"></mat-progress-bar>
+      </div>
+      <form [formGroup]="imageForm" (submit)="onSavePicture()">
+          <input style="display: none" type="file" (change)="onFileChanged($event)" #filePicker>
+          <div class="image-preview">
+              <div *ngIf="avatar; then thenBlock else elseBlock"></div>
+              <ng-template #thenBlock>
+                  <img [src]="avatar" />
+              </ng-template>
+              <ng-template #elseBlock>
+                  <img src="./../../../assets/img/dummy.jpg" style="width: 200px;" />
+              </ng-template>
+          </div>
+      </form>
+      <button mat-stroked-button color="primary" (click)="filePicker.click()" aria-label="Change Profile Picture">
+      Upload
+    </button>
+  </div>
+  <div class="profile-details">
+      <form [formGroup]="form" class="normal-form" (submit)="onUpdate()">
+          <h4 subheading-1>Basic Information</h4>
+          <div class="form-field-block">
+              <mat-form-field>
+                  <input matInput type="text" formControlName="firstname" placeholder="Firstname" uppercase>
+              </mat-form-field>
+              <mat-form-field>
+                  <input matInput type="text" formControlName="midlename" placeholder="Midlename">
+              </mat-form-field>
+              <mat-form-field>
+                  <input matInput type="text" formControlName="lastname" placeholder="Lastname">
+              </mat-form-field>
+          </div>
+          <div class="form-field-block">
+              <mat-radio-group aria-label="Select an option" formControlName="gender" placeholder="Gender">
+                  <mat-radio-button value="Male">Male</mat-radio-button>
+                  <mat-radio-button value="Female">Female</mat-radio-button>
+              </mat-radio-group>
+              <mat-form-field>
+                  <input matInput type="text" formControlName="age" placeholder="Age">
+              </mat-form-field>
+              <mat-form-field>
+                  <input matInput readonly [matDatepicker]="picker" formControlName="birthdate" placeholder="Birthdate">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker startView="multi-year" [startAt]="startDate"></mat-datepicker>
+              </mat-form-field>
+          </div>
+          <div class="form-field-block">
+              <mat-form-field>
+                  <mat-select formControlName="status" placeholder="Status">
+                      <mat-option value="Single">Single</mat-option>
+                      <mat-option value="Maried">Maried</mat-option>
+                      <mat-option value="Widow/er">Widow/er</mat-option>
+                  </mat-select>
+              </mat-form-field>
+              <mat-form-field>
+                  <input matInput type="text" formControlName="contact" placeholder="Mobile Number">
+              </mat-form-field>
+              <!-- <mat-form-field>
+              <mat-select formControlName="expertise" placeholder="Expertise">
+                  <mat-option value="Hairdressers">Hairdressers</mat-option>
+                  <mat-option value="Barbers">Barbers</mat-option>
+                  <mat-option value="Nail Technicians">Nail Technicians</mat-option>
+                  <mat-option value="Makeup Artist">Makeup Artist</mat-option>
+                  <mat-option value="Massage Therapist">Massage Therapist</mat-option>
+                  <mat-option value="Tattoo Artist">Tattoo Artist</mat-option>
+              </mat-select>
+          </mat-form-field> -->
+          </div>
+          <ng-container formArrayName="addresses" *ngIf="addressArray.length > 0">
+              <div *ngFor="let address of addressArray.controls; let i = index;" [formGroupName]="i" class="addressGroup">
+                  <h4 subheading-1>Address {{i+1}}</h4>
+
+                  <div class="form-field-block">
+                      <mat-form-field>
+                          <input matInput type="text" formControlName="address1" placeholder="Street Address">
+                      </mat-form-field>
+                  </div>
+                  <div class="form-field-block">
+                      <mat-form-field>
+                          <input matInput type="text" formControlName="address2" placeholder="Street Address Line 2">
+                      </mat-form-field>
+                  </div>
+                  <div class="form-field-block">
+                      <mat-form-field>
+                          <input matInput type="text" formControlName="city" placeholder="City">
+                      </mat-form-field>
+                      <mat-form-field>
+                          <input matInput type="text" formControlName="province" placeholder="Province">
+                      </mat-form-field>
+                  </div>
+                  <div class="form-field-block">
+                      <mat-form-field>
+                          <input matInput type="text" formControlName="postalCode" placeholder="Postal Code">
+                      </mat-form-field>
+                      <mat-form-field>
+                          <input matInput type="text" formControlName="country" placeholder="Country">
+                      </mat-form-field>
+                  </div>
+
+                  <div class="action">
+                      <button mat-icon-button *ngIf="addressArray.controls.length < 2" (click)="addAddress()" type="button"><mat-icon>add</mat-icon></button>
+                      <button mat-icon-button color="warn" *ngIf="addressArray.controls.length > 1" (click)="removeAddress(i)" type="button"><mat-icon>delete_outline</mat-icon></button>
+                  </div>
+              </div>
+          </ng-container>
+          <h4 subheading-1>Other Information</h4>
+          <div class="form-field-block">
+              <mat-form-field>
+                  <input matInput type="text" formControlName="sss" placeholder="SSS">
+              </mat-form-field>
+              <mat-form-field>
+                  <input matInput type="text" formControlName="tin" placeholder="TIN">
+              </mat-form-field>
+              <mat-form-field>
+                  <input matInput type="text" formControlName="philhealth" placeholder="Philhealth">
+              </mat-form-field>
+          </div>
+          <div class="action-group">
+              <button mat-raised-button color="primary" type="submit">Update & Continue</button> &nbsp;
+              <button mat-raised-button color="accent" type="button" (click)="onSkip('classifications')" style="float: right;">Skip</button>
+          </div>
+
+      </form>
+  </div>
+</div>
