@@ -15,7 +15,7 @@ import { PromptDialogComponent } from './modules/prompt-dialog/prompt-dialog.com
 import { AuthenticationInterceptor } from './modules/authentication/authentication-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 import { CookieService } from 'ngx-cookie-service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
   MatSnackBarModule,
@@ -55,6 +55,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
     HttpClientModule,
     LayoutModule,
     FormsModule,
+    ReactiveFormsModule,
     MatToolbarModule,
     MatInputModule,
     MatButtonModule,
@@ -63,7 +64,6 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
     MatListModule,
     MatSnackBarModule,
     MatDialogModule,
-
     // ngx-translate and the loader module
     HttpClientModule,
     TranslateModule.forRoot({

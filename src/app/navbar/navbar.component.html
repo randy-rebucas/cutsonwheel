@@ -5,6 +5,7 @@
             <a mat-list-item [routerLink]="['/about']" routerLinkActive="mat-accent">{{'navigation.about' | translate}}</a>
             <a mat-list-item [routerLink]="['/team']" routerLinkActive="mat-accent">{{'navigation.team' | translate}}</a>
             <a mat-list-item [routerLink]="['/contact']" routerLinkActive="mat-accent">{{'navigation.contact' | translate}}</a>
+            <a mat-list-item [routerLink]="['/book-now']" routerLinkActive="mat-accent">{{'booknow.title' | translate}}</a>
             <a mat-list-item [routerLink]="['/dashboard']" routerLinkActive="mat-accent" *ngIf="userIsAuthenticated">{{'navigation.dashboard' | translate}}</a>
             <a mat-list-item (click)="onLogout()" *ngIf="userIsAuthenticated">{{'navigation.logout' | translate}}</a>
         </mat-nav-list>

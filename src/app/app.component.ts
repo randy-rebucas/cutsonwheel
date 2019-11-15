@@ -20,8 +20,9 @@ export class AppComponent implements OnInit {
     private translate: TranslateService,
     private appConfigurationService: AppConfigurationService
   ) {
-    // load language setting
+
     translate.setDefaultLang('de'); // default language
+    this.translate.use('en'); // override language
   }
 
   async loadConfig() {
@@ -32,13 +33,12 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
+    // load language setting
     await this.loadConfig().then((config) => {
       this.appVersion  = config.config.appVersion;
       this.appName = config.config.appName;
       this.lang = config.config.language;
     });
-    console.log(this.lang);
-    this.translate.use(this.lang); // override language
   }
 
 

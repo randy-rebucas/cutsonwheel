@@ -34,6 +34,9 @@
   "dashboard": {
     "title": "Dashboard"
   },
+  "booknow": {
+    "title": "Book Now"
+  },
   "common": {
     "error": "Error",
     "okey": "Okey",

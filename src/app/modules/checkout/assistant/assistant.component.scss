@@ -1,0 +1,61 @@
+::ng-deep .mat-list-item-content span {
+  visibility: hidden;
+}
+
+::ng-deep .mat-list-item-content:hover span {
+  text-align: right;
+  flex: 1;
+  cursor: pointer;
+  visibility: visible;
+}
+
+.service-members {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.service-members > div {
+  width: 25%;
+  margin: 10px;
+  position: relative;
+  border: 2px solid transparent;
+}
+
+.service-members > div:hover {
+  border: 2px solid gainsboro;
+}
+
+.service-members > div img {
+  width: 100%;
+}
+
+.service-members > div p {
+  padding: 0 1em;
+}
+
+.service-members > div.selected:before,
+.service-members > div.selected:after {
+  box-sizing: border-box;
+}
+
+.service-members > div.selected:before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-top: 30px solid #428BCA;
+  border-left: 30px solid transparent;
+  border-right: 30px solid #428BCA;
+  border-bottom: 30px solid transparent;
+}
+
+.service-members > div.selected:after {
+  font-family: 'Material Icons';
+  content: "check";
+  position: absolute;
+  right: 5px;
+  top: 0;
+  font-size: 30px;
+  color: #fff;
+}
+
