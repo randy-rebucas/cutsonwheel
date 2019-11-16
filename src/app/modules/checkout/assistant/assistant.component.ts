@@ -73,7 +73,10 @@ export class AssistantComponent implements OnInit, OnDestroy {
 
   onSelect(assistandtId: string) {
     this.cartService.setAssistant(assistandtId);
-    // this.router.navigate(['../step-two'], {relativeTo: this.activatedRoute});
+  }
+
+  onNext() {
+    this.router.navigate(['../step-two'], {relativeTo: this.activatedRoute});
   }
 
   ngOnDestroy() {

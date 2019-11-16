@@ -8,7 +8,7 @@
       <mat-list>
           <mat-list-item *ngFor="let service of services" [title]="service.type"> {{ service.type }} <span style="justify-content: flex-end;">{{ service.price | currency:'PHP':'symbol-narrow' }}</span></mat-list-item>
       </mat-list>
-      <ng-container *ngIf="services.length === 0">
+      <ng-container *ngIf="total === 0">
           <p>No items found!</p>
       </ng-container>
 

@@ -25,7 +25,8 @@ import {
   MatSidenavModule,
   MatIconModule,
   MatListModule,
-  MatDialogModule
+  MatDialogModule,
+  MatCheckboxModule
 } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { NotActivatedComponent } from './modules/not-activated/not-activated.component';
@@ -34,6 +35,7 @@ import { AppConfigurationService } from './configs/app-configuration.service';
 // import ngx-translate and the http loader
 import {TranslateLoader, TranslateModule, TranslateCompiler} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
 // import ngx-translate-messageformat-compiler
 // import {TranslateMessageFormatCompiler} from 'ngx-translate-messageformat-compiler';
 // import { MESSAGE_FORMAT_CONFIG } from 'ngx-translate-messageformat-compiler';
@@ -64,6 +66,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
     MatListModule,
     MatSnackBarModule,
     MatDialogModule,
+    MatCheckboxModule,
     // ngx-translate and the loader module
     HttpClientModule,
     TranslateModule.forRoot({

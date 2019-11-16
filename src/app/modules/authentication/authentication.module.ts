@@ -22,7 +22,7 @@ import { HttpLoaderFactory } from 'src/app/app.module';
   declarations: [
     AuthenticationComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
   ],
   imports: [
     CommonModule,

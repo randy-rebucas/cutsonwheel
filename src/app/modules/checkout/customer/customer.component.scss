@@ -1,0 +1,13 @@
+.customers {
+  display: flex;
+  flex-direction: row;
+  margin: 2em 0;
+}
+
+.customers > div:first-child {
+  margin-right: 1em;
+}
+
+.customers > div:last-child {
+  flex: 1 1 auto;
+}

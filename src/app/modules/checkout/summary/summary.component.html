@@ -1,1 +1,70 @@
-<p>summary works!</p>
+<div class="summary">
+  <mat-card class="services-card">
+    <mat-card-header>
+      <mat-card-title>Services</mat-card-title>
+      <mat-card-subtitle>{{servicesCount}} service item(s)</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-list role="list">
+          <mat-list-item *ngFor="let service of services; let i = index;" role="listitem">{{i + 1}}. {{service.type}}
+            <span style="flex: 1 1 auto; text-align: right;">{{service.price | currency:'PHP':'symbol-narrow'}}</span>
+          </mat-list-item>
+          <mat-list-item>
+              Total:<span style="flex: 1 1 auto; text-align: right;">{{total | currency:'PHP':'symbol-narrow'}}</span>
+          </mat-list-item>
+        </mat-list>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-button [routerLink]="['/book-now']" routerLinkActive="router-link-active" >Update</button>
+    </mat-card-actions>
+  </mat-card>
+  <mat-card class="assistant-card">
+      <mat-card-header>
+        <mat-card-title>Assistant</mat-card-title>
+        <mat-card-subtitle>{{classification}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <img [src]="avatar"/>
+        <p>Fullname: {{fullname}}</p>
+        <p>Age: {{theAge}} yrs old</p>
+        <bar-rating [(rate)]="rate" [max]="5" [theme]="'stars'" [titles]="'Ratings'" [readOnly]="true"></bar-rating>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button [routerLink]="['/checkout/step-one']" routerLinkActive="router-link-active" >Change</button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-card class="schedule-card">
+        <mat-card-header>
+          <mat-card-title>Schedule</mat-card-title>
+          <mat-card-subtitle>In house</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{theDate | date:'fullDate'}}</p>
+          <p>Time: {{theTimezone}}</p>
+          <p></p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button [routerLink]="['/checkout/step-two']" routerLinkActive="router-link-active" >Change</button>
+        </mat-card-actions>
+      </mat-card>
+      <mat-card class="schedule-card">
+          <mat-card-header>
+            <mat-card-title>Your Location</mat-card-title>
+            <mat-card-subtitle>long/lat</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+              <ng-container *ngFor="let userAddress of userAddresses">
+                <address>
+                  {{userAddress.address1}} <br/>
+                  {{userAddress.address2}} <br/>
+                  {{userAddress.province}} {{userAddress.city}} <br/>
+                  {{userAddress.country}} {{userAddress.postalCode}}
+                </address>
+              </ng-container>
+          </mat-card-content>
+          <mat-card-actions>
+              <button mat-button [routerLink]="['/setup/account']" routerLinkActive="router-link-active" >Update</button>
+          </mat-card-actions>
+        </mat-card>
+</div>
+<button mat-raised-button color="primary" (click)="onNext()">Next</button>

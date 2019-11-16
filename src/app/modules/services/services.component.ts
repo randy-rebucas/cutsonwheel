@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -12,7 +12,7 @@ import { Cart } from '../cart/cart';
   templateUrl: './services.component.html',
   styleUrls: ['./services.component.scss']
 })
-export class ServicesComponent implements OnInit, OnDestroy {
+export class ServicesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public isLoading: boolean;
   public isSelected: boolean;
@@ -61,9 +61,13 @@ export class ServicesComponent implements OnInit, OnDestroy {
         this.classificationDescription = classificationData.description;
         this.classificationImage = classificationData.image;
         this.classificationServices = classificationData.services;
-        setTimeout(() => this.formControlObj.setValue(this.selectedServiceItem), 1000);
       });
     });
+  }
+
+  ngAfterViewInit() {
+
+    this.formControlObj.setValue(this.selectedServiceItem);
   }
 
   onSelection(event, value) {

@@ -1,0 +1,29 @@
+@import '~ngx-bar-rating/themes/br-stars-theme';
+.summary {
+  display: flex;
+  margin: 2em 0;
+}
+.summary mat-card:first-child {
+  flex: 1 1 auto;
+}
+.summary mat-card {
+  border-radius: 0;
+  box-shadow: none;
+}
+.summary mat-card img {
+  width: 200px;
+}
+:host ::ng-deep .mat-card-header-text {
+  /* CSS styles go here */
+  margin: 0px;
+  width: 100%;
+}
+
+p.total {
+  font-size: 20px;
+  text-align: right;
+}
+
+mat-card-content p {
+  font-size: 16px;
+}
