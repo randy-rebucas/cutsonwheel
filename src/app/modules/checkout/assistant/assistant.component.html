@@ -7,7 +7,7 @@
     </mat-list-item>
   </mat-list>
 </div>
-<p>Select assistant to do the services.</p>
+<p>Select your assistant.</p>
 <div class="service-members">
   <div *ngFor="let classifiedAssistant of classifiedAssistants;" (click)="onSelect(classifiedAssistant.id)" [ngClass]="{ 'selected': classifiedAssistant.id === selectedAssistant }">
       <ng-container *ngIf="classifiedAssistant.avatar != null">

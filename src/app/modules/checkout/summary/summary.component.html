@@ -1,3 +1,5 @@
+<h3>Dear Randy Rebucas</h3>
+<p>Here are the details of your booking. Please check all information if its correct.</p>
 <div class="summary">
   <mat-card class="services-card">
     <mat-card-header>
@@ -50,7 +52,7 @@
       <mat-card class="schedule-card">
           <mat-card-header>
             <mat-card-title>Your Location</mat-card-title>
-            <mat-card-subtitle>long/lat</mat-card-subtitle>
+            <mat-card-subtitle>Current address</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
               <ng-container *ngFor="let userAddress of userAddresses">
@@ -67,4 +69,4 @@
           </mat-card-actions>
         </mat-card>
 </div>
-<button mat-raised-button color="primary" (click)="onNext()">Next</button>
+<button mat-raised-button color="primary" (click)="onConfirmed()">Confirmed</button>

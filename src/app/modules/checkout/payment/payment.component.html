@@ -1,1 +1,14 @@
-<p>payment works!</p>
+<p>Do you want to pay ahead or pay later.</p>
+<form [formGroup]="form" class="normal-form" (submit)="onSubmit()">
+  <mat-radio-group aria-label="Select an payment option"  formControlName="paymentOption" class="radio-group" [(ngModel)]="paymentOption" placeholder="Payment">
+    <mat-radio-button class="radio-button" value="later">Pay Later</mat-radio-button>
+    <mat-radio-button class="radio-button" value="now">Pay Now</mat-radio-button>
+  </mat-radio-group>
+  <ng-container *ngIf="paymentOption == 'now'">
+    <p>Now</p>
+  </ng-container>
+  <div>Your payment option is: {{paymentOption}}</div>
+
+  <button mat-raised-button color="primary" type="submit">Submit</button> &nbsp;
+
+</form>

@@ -35,6 +35,7 @@ import { AppConfigurationService } from './configs/app-configuration.service';
 // import ngx-translate and the http loader
 import {TranslateLoader, TranslateModule, TranslateCompiler} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { PaymentComponent } from './modules/payment/payment.component';
 
 // import ngx-translate-messageformat-compiler
 // import {TranslateMessageFormatCompiler} from 'ngx-translate-messageformat-compiler';
@@ -47,7 +48,8 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
     FooterComponent,
     ErrorComponent,
     PromptDialogComponent,
-    NotActivatedComponent
+    NotActivatedComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,

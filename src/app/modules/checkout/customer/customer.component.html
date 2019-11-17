@@ -13,6 +13,7 @@
         {{address.province}} <br/>
         {{address.city}} , {{address.country}} {{address.postalCode}}
       </address>
+      <a [routerLink]="['/setup/account']" routerLinkActive="router-link-active">Update</a>
     </div>
   </div>
   <button mat-flat-button color="primary" (click)="onNext()">Next</button>

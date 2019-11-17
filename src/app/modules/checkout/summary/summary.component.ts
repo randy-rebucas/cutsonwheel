@@ -21,7 +21,7 @@ export class SummaryComponent implements OnInit {
   public fullname: string;
   public classification: string;
   public theAge: number;
-  public theDate: Date;
+  public theDate: string;
   public theHour: any;
   public theMin: any;
   public theTimezone: string;
@@ -66,14 +66,12 @@ export class SummaryComponent implements OnInit {
     // get schedules
     this.schedule = this.cartService.getSchedule();
     const pureDate = new Date(this.schedule.date);
-    const transformedDate = pureDate.getUTCFullYear() + '-' + pureDate.getUTCMonth() + '-' + pureDate.getUTCDate();
-    const transformedTime = this.pad(this.schedule.hour) + ':' + this.pad(this.schedule.minute) + ':00.000Z';
+    const transformedDate = pureDate.getFullYear() + '-' + (pureDate.getMonth() + 1) + '-' + pureDate.getDate();
+    const transformedTime = this.pad(this.schedule.hour) + ':' + this.pad(this.schedule.minute) + ':00';
     const finalMutation = new Date(transformedDate + 'T' + transformedTime);
 
-    this.theDate = finalMutation;
-    // this.theHour = this.pad(finalMutation.getHours());
-    // this.theMin = this.pad(finalMutation.getMinutes());
-    this.theTimezone = finalMutation.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+    this.theDate = finalMutation.toDateString();
+    this.theTimezone = finalMutation.toLocaleString('en-PH', { hour: 'numeric', minute: 'numeric', hour12: true });
 
     // ratings
     this.rate = 3.14;
@@ -92,7 +90,8 @@ export class SummaryComponent implements OnInit {
     return n;
   }
 
-  onNext() {
+  onConfirmed() {
+    // submit to booking
     this.router.navigate(['../step-five'], {relativeTo: this.activatedRoute});
   }
 }

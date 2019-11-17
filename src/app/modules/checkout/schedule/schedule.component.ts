@@ -32,10 +32,9 @@ export class ScheduleComponent implements OnInit {
       scheduleDate: [null, [Validators.required]],
       scheduleHour: [null, [Validators.required]],
       scheduleMinute: [null, [Validators.required]],
-      scheduleAPM: [null, [Validators.required]],
     });
 
-    for (let index = 1; index < 13; index++) {
+    for (let index = 1; index < 25; index++) {
       this.hours.push(index);
     }
     for (let index = 0; index < 60; index++) {
@@ -47,8 +46,7 @@ export class ScheduleComponent implements OnInit {
       this.form.patchValue({
         scheduleDate: this.schedule.date,
         scheduleHour: this.schedule.hour,
-        scheduleMinute: this.schedule.minute,
-        scheduleAPM: this.schedule.apm
+        scheduleMinute: this.schedule.minute
       });
     }
 
@@ -57,12 +55,17 @@ export class ScheduleComponent implements OnInit {
 
   }
 
+  leadingZero(input) {
+    if (!isNaN(input.value) && input.value.length === 1) {
+      input.value = '0' + input.value;
+    }
+  }
+
   onSchedule() {
     const schedule = {
       date: this.form.value.scheduleDate,
       hour: this.form.value.scheduleHour,
-      minute: this.form.value.scheduleMinute,
-      apm: this.form.value.scheduleAPM,
+      minute: this.form.value.scheduleMinute
     };
 
     this.cartService.setSchedule(schedule);

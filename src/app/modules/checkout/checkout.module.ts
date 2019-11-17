@@ -20,13 +20,13 @@ import {
   MatInputModule,
   MatButtonModule,
   MatCheckboxModule,
-  MatCardModule
+  MatCardModule,
+  MatRadioModule
 } from '@angular/material';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpLoaderFactory } from 'src/app/app.module';
 import { BarRatingModule } from 'ngx-bar-rating';
-
 
 @NgModule({
   declarations: [
@@ -53,6 +53,7 @@ import { BarRatingModule } from 'ngx-bar-rating';
     MatIconModule,
     MatCheckboxModule,
     MatCardModule,
+    MatRadioModule,
     HttpClientModule,
     BarRatingModule,
     TranslateModule.forChild({
