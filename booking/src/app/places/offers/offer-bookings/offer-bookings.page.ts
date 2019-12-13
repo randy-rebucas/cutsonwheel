@@ -1,30 +1,45 @@
-import { Component, OnInit } from '@angular/core';
-import { Places } from '../../places';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
+
 import { PlacesService } from '../../places.service';
+import { Places } from '../../places';
 
 @Component({
   selector: 'app-offer-bookings',
   templateUrl: './offer-bookings.page.html',
-  styleUrls: ['./offer-bookings.page.scss'],
+  styleUrls: ['./offer-bookings.page.scss']
 })
-export class OfferBookingsPage implements OnInit {
+export class OfferBookingsPage implements OnInit, OnDestroy {
   place: Places;
+  private placeSub: Subscription;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private navController: NavController,
-    private placesService: PlacesService) { }
+    private route: ActivatedRoute,
+    private navCtrl: NavController,
+    private placesService: PlacesService
+  ) {}
 
   ngOnInit() {
-    this.activatedRoute.paramMap.subscribe(paramMap => {
+    this.route.paramMap.subscribe(paramMap => {
       if (!paramMap.has('placeId')) {
-        this.navController.navigateBack('places/offers');
+        this.navCtrl.navigateBack('/places/offers');
         return;
       }
-      this.place = this.placesService.getPlace(paramMap.get('placeId'));
+      console.log(paramMap.get('placeId'));
+      this.placeSub = this.placesService
+        .getPlace(paramMap.get('placeId'))
+        .subscribe(place => {
+          console.log(place);
+          this.place = place;
+        });
     });
   }
 
+  ngOnDestroy() {
+    if (this.placeSub) {
+      this.placeSub.unsubscribe();
+    }
+  }
 }

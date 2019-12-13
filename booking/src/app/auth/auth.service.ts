@@ -1,19 +1,28 @@
 import { Injectable } from '@angular/core';
+import { FirebaseAuthentication } from '@ionic-native/firebase-authentication/ngx';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  userISAuthenticated$ = true;
+  private userISAuthenticated$ = false;
+  private userId$ = 'abc';
 
   get userIsAuthenticated() {
     return this.userISAuthenticated$;
   }
 
-  constructor() { }
+  get userId() {
+    return this.userId$;
+  }
 
-  login() {
+  constructor(private firebaseAuthentication: FirebaseAuthentication) { }
+
+  login(email, password) {
+    this.firebaseAuthentication.createUserWithEmailAndPassword('test@gmail.com', '123')
+      .then((res: any) => console.log(res))
+      .catch((error: any) => console.error(error));
     this.userISAuthenticated$ = true;
   }
 
