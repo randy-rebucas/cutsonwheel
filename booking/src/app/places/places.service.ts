@@ -119,6 +119,16 @@ export class PlacesService {
       );
   }
 
+  uploadImage(image: File) {
+    const uploadData = new FormData();
+    uploadData.append('image', image);
+
+    return this.http.post<{imageUrl: string, imagePath: string}>(
+      'https://us-central1-ionic-angular-course.cloudfunctions.net/storeImage',
+      uploadData
+    );
+  }
+  
   addPlace(
     title: string,
     description: string,
