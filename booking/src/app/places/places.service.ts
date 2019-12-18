@@ -31,6 +31,51 @@ export class PlacesService {
   constructor(private authService: AuthService, private http: HttpClient) {}
 
   fetchPlaces() {
+    let fetchUserId: string;
+    return this.authService.userId.pipe(
+      take(1),
+      switchMap(userId => {
+      if (!userId) {
+        throw new Error('User not found');
+      }
+      fetchUserId = userId;
+      return this.authService.token;
+    }),
+    take(1),
+    switchMap(token => {
+      return this.http
+        .get<{ [key: string]: PlaceData }>(
+          `https://cutsonwheel-233209.firebaseio.com/offered-places.json?orderBy="userId"&equalTo="${fetchUserId}"&auth=${token}`
+        );
+      }),
+      map(resData => {
+        const places = [];
+        for (const key in resData) {
+          if (resData.hasOwnProperty(key)) {
+            places.push(
+              new Places(
+                key,
+                resData[key].title,
+                resData[key].description,
+                resData[key].imageUrl,
+                resData[key].price,
+                new Date(resData[key].availableFrom),
+                new Date(resData[key].availableTo),
+                resData[key].userId,
+                resData[key].location
+              )
+            );
+          }
+        }
+        return places;
+      }),
+      tap(places => {
+        this.placeSub.next(places);
+      })
+    );
+  }
+
+  fetchAllPlaces() {
     return this.authService.token.pipe(
       take(1),
       switchMap(token => {
