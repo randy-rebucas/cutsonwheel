@@ -18,7 +18,7 @@ const routes: Routes = [
     path: 'bookings',
     canLoad: [AuthGuard],
     loadChildren: () => import('./bookings/bookings.module').then( m => m.BookingsPageModule)
-  },
+  }
 ];
 
 @NgModule({

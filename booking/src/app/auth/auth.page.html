@@ -1,5 +1,8 @@
 <ion-header>
     <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
         <ion-title>{{ !isLogin ? 'Signup' : 'Login'}}</ion-title>
     </ion-toolbar>
 </ion-header>
@@ -9,6 +12,8 @@
         <ion-grid>
             <ion-row>
                 <ion-col size-sm="6" offset-sm="3">
+                  <h3>Welcome to cutsonwheel! <br/>
+                    Offer or Book Services to get started.</h3>
                     <ion-list>
                         <ion-item>
                             <ion-label position="floating">E-mail</ion-label>
@@ -29,8 +34,8 @@
             </ion-row>
             <ion-row>
                 <ion-col size-md="6" offset-md="3">
+                  <ion-button type="submit" color="primary" expand="block" [disabled]="!f.valid">{{ !isLogin ? 'Signup' : 'Login'}}</ion-button>
                     <ion-button type="button" color="primary" fill="clear" expand="block" (click)="onSwitchMode()">Switch to {{ isLogin ? 'Signup' : 'Login'}}</ion-button>
-                    <ion-button type="submit" color="primary" expand="block" [disabled]="!f.valid">{{ !isLogin ? 'Signup' : 'Login'}}</ion-button>
                 </ion-col>
             </ion-row>
         </ion-grid>
