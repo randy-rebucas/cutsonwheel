@@ -16,7 +16,7 @@ import { CreateBookingComponent } from '../../../bookings/create-booking/create-
 import { AuthService } from '../../../auth/auth.service';
 import { BookingsService } from '../../../bookings/bookings.service';
 import { Places } from '../../places';
-import { MapModalComponent } from 'src/app/shared/map-modal/map-modal.component';
+import { MapModalComponent } from '../../../shared/map-modal/map-modal.component';
 
 @Component({
   selector: 'app-place-detail',

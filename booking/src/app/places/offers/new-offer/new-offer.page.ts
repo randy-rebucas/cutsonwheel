@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 
 import { PlacesService } from '../../places.service';
-import { PlaceLocation } from '../../location.model';
+import { PlaceLocation } from '../../location';
 import { switchMap } from 'rxjs/operators';
 
 function base64toBlob(base64Data, contentType) {
@@ -90,14 +90,14 @@ export class NewOfferPage implements OnInit {
                 new Date(this.form.value.dateFrom),
                 new Date(this.form.value.dateTo),
                 this.form.value.location,
-                // uploadRes.imageUrl
+                uploadRes.imageUrl
               );
             })
           )
           .subscribe(() => {
             loadingEl.dismiss();
             this.form.reset();
-            this.router.navigate(['/places/tabs/offers']);
+            this.router.navigate(['/places/offers']);
           });
       });
   }

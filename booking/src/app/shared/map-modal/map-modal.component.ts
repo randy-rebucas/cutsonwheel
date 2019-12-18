@@ -38,17 +38,17 @@ export class MapModalComponent implements OnInit, AfterViewInit, OnDestroy {
       .then(googleMaps => {
         this.googleMaps = googleMaps;
         const mapEl = this.mapElementRef.nativeElement;
-        const map = new googleMaps.Map(mapEl, {
+        const mapView = new googleMaps.Map(mapEl, {
           center: this.center,
           zoom: 16
         });
 
-        this.googleMaps.event.addListenerOnce(map, 'idle', () => {
+        this.googleMaps.event.addListenerOnce(mapView, 'idle', () => {
           this.renderer.addClass(mapEl, 'visible');
         });
 
         if (this.selectable) {
-          this.clickListener = map.addListener('click', event => {
+          this.clickListener = mapView.addListener('click', event => {
             const selectedCoords = {
               lat: event.latLng.lat(),
               lng: event.latLng.lng()
@@ -58,10 +58,10 @@ export class MapModalComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           const marker = new googleMaps.Marker({
             position: this.center,
-            map: map,
+            map: mapView,
             title: 'Picked Location'
           });
-          marker.setMap(map);
+          marker.setMap(mapView);
         }
       })
       .catch(err => {

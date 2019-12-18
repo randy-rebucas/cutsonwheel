@@ -1,4 +1,4 @@
-import { PlaceLocation } from './location.model';
+import { PlaceLocation } from './location';
 
 export class Places {
   constructor(
