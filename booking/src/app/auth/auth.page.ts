@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './auth.service';
+import { AuthService, AuthResponseData } from './auth.service';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
+import { Observable } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-auth',
@@ -11,30 +14,75 @@ import { NgForm } from '@angular/forms';
 })
 export class AuthPage implements OnInit {
   // @ViewChild(..., { static: false })
-
+  isLoading = false;
   isLogin = true;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private alertController: AlertController
   ) { }
 
   ngOnInit() {
   }
 
-  onLogin() {
-    this.authService.login();
+  authenticate(email: string, password: string) {
     this.loadingController.create({
       keyboardClose: true,
       message: 'Loagging in...'
     }).then(loadingEl => {
       loadingEl.present();
-      setTimeout(() => {
+      let authObs: Observable<AuthResponseData>;
+      if (this.isLogin) {
+        authObs = this.authService.login(email, password);
+      } else {
+        authObs = this.authService.signup(email, password);
+      }
+      authObs.subscribe(resData => {
+        this.isLoading = false;
         loadingEl.dismiss();
         this.router.navigateByUrl('places/discover');
-      }, 1500);
+      }, errRes => {
+        loadingEl.dismiss();
+        const code = errRes.error.error.message;
+        this.showAlert(code);
+      });
     });
+  }
+
+  private showAlert(code: string) {
+    let alertMessage = '';
+    switch (code) {
+      case 'EMAIL_EXISTS':
+        alertMessage = 'The email address is already in use by another account.';
+        break;
+      case 'OPERATION_NOT_ALLOWED':
+        alertMessage = 'Password sign-in is disabled for this project.';
+        break;
+      case 'TOO_MANY_ATTEMPTS_TRY_LATER':
+        alertMessage = 'We have blocked all requests from this device due to unusual activity. Try again later.';
+        break;
+      case 'EMAIL_NOT_FOUND':
+        alertMessage = 'There is no user record corresponding to this identifier. The user may have been deleted.';
+        break;
+      case 'INVALID_PASSWORD':
+        alertMessage = 'The password is invalid or the user does not have a password.';
+        break;
+      case 'USER_DISABLED':
+        alertMessage = ' The user account has been disabled by an administrator.';
+        break;
+      default:
+        alertMessage = 'Encounter an error!Please try again.';
+        break;
+    }
+
+    this.alertController.create({
+      header: 'Authentication failed',
+      message: alertMessage,
+      buttons: ['okey']
+    })
+    .then(alertEl => alertEl.present());
   }
 
   onSwitchMode() {
@@ -47,15 +95,8 @@ export class AuthPage implements OnInit {
     }
     const email = form.value.email;
     const password = form.value.password;
-    console.log(email);
-    console.log(password);
 
-    this.onLogin();
-
-    if (this.isLogin) {
-
-    } else {
-
-    }
+    this.authenticate(email, password);
+    form.reset();
   }
 }

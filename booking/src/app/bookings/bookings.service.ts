@@ -40,20 +40,36 @@ export class BookingsService {
     dateTo: Date
   ) {
     let generatedId: string;
-    const newBooking = new Bookings(
-      Math.random().toString(),
-      placeId,
-      this.authService.userId,
-      placeTitle,
-      placeImage,
-      firstName,
-      lastName,
-      guestNumber,
-      dateFrom,
-      dateTo
-    );
-    return this.http.post<{name: string}>('https://cutsonwheel-233209.firebaseio.com/bookings.json', { ...newBooking, id: null })
-    .pipe(switchMap(resData => {
+    let newBooking: Bookings;
+    let fetchUserId: string;
+
+    return this.authService.userId.pipe(take(1), switchMap(
+      userId => {
+      if (!userId) {
+        throw new Error('No user id found!');
+      }
+      fetchUserId = userId;
+      return this.authService.token;
+    }),
+    take(1),
+    switchMap(token => {
+      newBooking = new Bookings(
+        Math.random().toString(),
+        placeId,
+        fetchUserId,
+        placeTitle,
+        placeImage,
+        firstName,
+        lastName,
+        guestNumber,
+        dateFrom,
+        dateTo
+      );
+      return this.http.post<{name: string}>(
+        `https://cutsonwheel-233209.firebaseio.com/bookings.json?auth=${token}`,
+        { ...newBooking, id: null });
+    }),
+    switchMap(resData => {
       generatedId = resData.name;
       return this.bookings;
     }),
@@ -65,20 +81,38 @@ export class BookingsService {
   }
 
   cancelBooking(bookingId: string) {
-    return this.http.delete(`https://cutsonwheel-233209.firebaseio.com/bookings/${bookingId}.json`)
-    .pipe(switchMap(() => {
+    return this.authService.token.pipe(
+      take(1),
+      switchMap(token => {
+        return this.http.delete(`https://cutsonwheel-233209.firebaseio.com/bookings/${bookingId}.json?auth=${token}`);
+      }),
+      switchMap(() => {
       return this.bookings;
-    }),
-    take(1),
-    tap(bookings => {
-      this.bookings$.next(bookings.filter(b => b.id !== bookingId));
-    }));
+      }),
+      take(1),
+      tap(bookings => {
+        this.bookings$.next(bookings.filter(b => b.id !== bookingId));
+      })
+    );
   }
 
   fetchBookings() {
-    return this.http.get<{ [key: string]: BookingData }>(
-      `https://cutsonwheel-233209.firebaseio.com/bookings.json?orderBy="userId"&equalTo="${this.authService.userId}"`
-    ).pipe(
+    let fetchUserId: string;
+    return this.authService.userId.pipe(
+      take(1),
+      switchMap(userId => {
+      if (!userId) {
+        throw new Error('User not found');
+      }
+      fetchUserId = userId;
+      return this.authService.token;
+    }),
+    take(1),
+    switchMap(token => {
+      return this.http.get<{ [key: string]: BookingData }>(
+        `https://cutsonwheel-233209.firebaseio.com/bookings.json?orderBy="userId"&equalTo="${fetchUserId}"&auth=${token}`
+      );
+    }),
       map(bookingData => {
         const bookings = [];
         for (const key in bookingData) {
