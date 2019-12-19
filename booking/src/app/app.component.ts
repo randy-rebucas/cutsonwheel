@@ -10,6 +10,7 @@ import { Plugins, Capacitor, AppState } from '@capacitor/core';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -29,6 +30,8 @@ export class AppComponent implements OnInit, OnDestroy {
   private authSub: Subscription;
   private previousAuthState = false;
 
+  public email: string;
+
   initializeApp() {
     this.platform.ready().then(() => {
       if (Capacitor.isPluginAvailable('SplashScreen')) {
@@ -46,6 +49,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     Plugins.App.addListener('appStateChange', this.checkAuthOnResume.bind(this));
+
   }
 
   onLogout() {

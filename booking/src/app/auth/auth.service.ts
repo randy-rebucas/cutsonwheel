@@ -60,6 +60,18 @@ export class AuthService implements OnDestroy {
     );
   }
 
+  get email() {
+    return this.auth.asObservable().pipe(
+      map(auths => {
+        if (auths) {
+          return auths.email;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
   constructor(private http: HttpClient) { }
 
   login(enteredEmail: string, enteredPassword: string) {
