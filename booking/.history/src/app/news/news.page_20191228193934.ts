@@ -9,14 +9,14 @@ import { NewsService } from './news.service';
   styleUrls: ['./news.page.scss'],
 })
 export class NewsPage implements OnInit {
-  public news$: Observable<News[]>;
+  public newsData: Observable<News[]>;
 
   constructor(
     private newsService: NewsService
   ) {}
 
   ngOnInit() {
-    this.news$ = this.newsService.getNewsData();
+    this.newsData = this.newsService.getNewsData();
   }
 
 }

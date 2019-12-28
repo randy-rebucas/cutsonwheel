@@ -19,4 +19,8 @@ export class NewsPage implements OnInit {
     this.news$ = this.newsService.getNewsData();
   }
 
+  onNewsDetail(newsId: string) {
+    console.log(newsId);
+  }
+
 }
