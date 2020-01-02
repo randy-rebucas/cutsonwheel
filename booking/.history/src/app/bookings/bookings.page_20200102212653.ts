@@ -22,7 +22,7 @@ export class BookingsPage implements OnInit {
 
   ngOnInit() {
     const user = this.authService.getUsersProfile();
-    this.loadedBookings$ = this.bookingService.getBookingsByClient(user.uid);
+    this.loadedBookings$ = this.bookingService.getBookingByUserId(user.uid);
   }
 
   ionViewWillEnter() {

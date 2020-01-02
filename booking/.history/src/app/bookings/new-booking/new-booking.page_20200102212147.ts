@@ -298,6 +298,7 @@ export class NewBookingPage implements OnInit {
             this.router.navigateByUrl('/t/bookings');
         });
       });
+    console.log('confirmed');
   }
 
   onCancel() {

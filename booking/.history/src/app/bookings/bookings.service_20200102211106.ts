@@ -16,36 +16,7 @@ export class BookingsService {
     private http: HttpClient,
     private afs: AngularFirestore
   ) {
-    this.bookingsCollection = this.afs.collection<Bookings>('bookings', ref =>
-      ref.orderBy('firstName', 'asc')
-    );
-    this.bookings = this.bookingsCollection.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        });
-      })
-    );
-  }
-
-  getBookingsByClient(clientId: string) {
-    this.bookingsCollection = this.afs.collection<Bookings>('bookings', ref =>
-      ref.orderBy('status', 'asc').where('userId', '==', clientId)
-    );
-    return this.bookingsCollection.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        });
-      })
-    );
-  }
-
-  populateBookings() {
+    this.bookingsCollection = this.afs.collection<Bookings>('bookings');
     this.bookings = this.bookingsCollection.snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {

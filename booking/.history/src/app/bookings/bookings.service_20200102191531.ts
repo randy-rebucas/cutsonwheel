@@ -16,9 +16,7 @@ export class BookingsService {
     private http: HttpClient,
     private afs: AngularFirestore
   ) {
-    this.bookingsCollection = this.afs.collection<Bookings>('bookings', ref =>
-      ref.orderBy('firstName', 'asc')
-    );
+    this.bookingsCollection = this.afs.collection<Bookings>('bookings');
     this.bookings = this.bookingsCollection.snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {
@@ -30,42 +28,11 @@ export class BookingsService {
     );
   }
 
-  getBookingsByClient(clientId: string) {
-    this.bookingsCollection = this.afs.collection<Bookings>('bookings', ref =>
-      ref.orderBy('status', 'asc').where('userId', '==', clientId)
-    );
-    return this.bookingsCollection.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        });
-      })
-    );
-  }
-
-  populateBookings() {
-    this.bookings = this.bookingsCollection.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        });
-      })
-    );
-  }
-
-  getBookings(): Observable<Bookings[]> {
-    return this.bookings;
-  }
-
-  getBookingByUserId(userId: string) {
+  getBookings(searchKey: string): Observable<Bookings[]> {
     return this.bookings.pipe(
       map(bookings =>
         bookings.filter((booking) => {
-          return booking.userId.indexOf(userId) > -1;
+          return booking.offerTitle.indexOf(searchKey) > -1;
         })
       )
     );

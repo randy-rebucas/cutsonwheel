@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, AlertController, LoadingController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { map, switchMap } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
@@ -14,9 +14,6 @@ import { Users } from './../../users/users';
 import { OffersService } from '../../services/offers/offers.service';
 import { Offers } from 'src/app/services/offers/offers';
 import { CreateBookingComponent } from '../create-booking/create-booking.component';
-import { BookingsService } from '../bookings.service';
-import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth/auth.service';
 
 interface Schedule {
   datePicked: string;
@@ -59,12 +56,8 @@ export class NewBookingPage implements OnInit {
     private modalCtrl: ModalController,
     private http: HttpClient,
     private alertCtrl: AlertController,
-    private authService: AuthService,
     private usersService: UsersService,
-    private offersService: OffersService,
-    private bookingsService: BookingsService,
-    private loadingCtrl: LoadingController,
-    private router: Router
+    private offersService: OffersService
   ) {}
 
   ngOnInit() {
@@ -277,31 +270,42 @@ export class NewBookingPage implements OnInit {
     &key=${environment.googleMapsApiKey}`;
   }
 
-  onConfirmed() {
-    this.loadingCtrl
-      .create({
-        message: 'Creating offer...'
-      })
-      .then(loadingEl => {
-        loadingEl.present();
-        const user = this.authService.getUsersProfile();
-        const booking  = {
-          userId: user.uid,
-          location: this.getLocation(),
-          assistant: this.getAssistant(),
-          schedule: this.getSchedule(),
-          status: 'pending'
-        };
-        this.bookingsService.insertBooking(booking).then(() => {
-            loadingEl.dismiss();
-            localStorage.clear();
-            this.router.navigateByUrl('/t/bookings');
-        });
-      });
+  onPayment() {
+    const token = 'EAAAEIKOwP4ojSpukxBGfuBhhD8eHp7OG5dIR4II9x5MmfcJtCBb35Q1toPQaVjS';
+    const paymentData = {
+      idempotency_key: '4935a656-a929-4792-b97c-8848be85c27c',
+      amount_money: {
+        amount: 200,
+        currency: 'USD'
+      },
+      source_id: 'ccof:uIbfJXhXETSP197M3GB',
+      autocomplete: true,
+      customer_id: 'VDKXEEKPJN48QDG3BGGFAK05P8',
+      location_id: 'XK3DBG77NJBFX',
+      reference_id: '123456',
+      note: 'Brief description',
+      app_fee_money: {
+        amount: 10,
+        currency: 'USD'
+      }
+    };
+    return this.http.post<{response: any}>(
+      'https://connect.squareup.com/v2/payments',
+      paymentData,
+      {
+        headers: {
+          'Square-Version': '2019-12-17',
+          Authorization: 'Bearer ' + token
+        }
+      }
+    );
+  }
+
+  onPaymentLater() {
+
   }
 
   onCancel() {
-    localStorage.clear();
-    this.router.navigateByUrl('/t/services/discover');
+
   }
 }

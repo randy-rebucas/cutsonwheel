@@ -32,7 +32,7 @@ export class BookingsService {
 
   getBookingsByClient(clientId: string) {
     this.bookingsCollection = this.afs.collection<Bookings>('bookings', ref =>
-      ref.orderBy('status', 'asc').where('userId', '==', clientId)
+      ref.orderBy('firstName', 'asc').where('userId', '==', clientId)
     );
     return this.bookingsCollection.snapshotChanges().pipe(
       map(actions => {

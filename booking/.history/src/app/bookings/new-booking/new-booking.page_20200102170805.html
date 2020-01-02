@@ -229,26 +229,18 @@
         <strong>Payment</strong>
       </ion-label>
     </ion-item>
-    <ion-list>
-      <ion-list-header>
-        Amount to Pay
-      </ion-list-header>
-      <ion-item>
-        <ion-label>{{offerInfo?.type}}</ion-label>
-        <ion-label class="ion-text-right" slot="end">
-          <strong>{{offerInfo?.cost | currency }}</strong>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-
-    <ion-item lines="none">
-      <!-- <div slot="end"> -->
-        <ion-button expand="block" slot="end" fill="outline" (click)="onConfirmed()">Confirm & Pay Later</ion-button>
-        <!-- <ion-button expand="block" (click)="onPayment()">Pay Now</ion-button> -->
-      <!-- </div> -->
-
-      <ion-button expand="block" color="danger" (click)="onCancel()">Cancel</ion-button>
+    <ion-item>
+      <ion-button expand="block" fill="outline" (click)="onPaymentLater()">Pay Later</ion-button>
+      <ion-button expand="block" (click)="onPayment()">Pay Now</ion-button>
     </ion-item>
-
+    <ion-item lines="none">
+        <ion-button fill="outline" slot="start" (click)="onPrev('review')">
+        <ion-icon name="arrow-back" slot="start"></ion-icon>
+        Back
+      </ion-button>
+      <!-- <ion-button slot="end" (click)="onPayment()">
+        Payment
+      </ion-button> -->
+    </ion-item>
   </ng-container>
 </ion-content>

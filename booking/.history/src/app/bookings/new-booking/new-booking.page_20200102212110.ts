@@ -295,9 +295,10 @@ export class NewBookingPage implements OnInit {
         this.bookingsService.insertBooking(booking).then(() => {
             loadingEl.dismiss();
             localStorage.clear();
-            this.router.navigateByUrl('/t/bookings');
+            // this.router.navigate(['/t/services/offers']);
         });
       });
+    console.log('confirmed');
   }
 
   onCancel() {

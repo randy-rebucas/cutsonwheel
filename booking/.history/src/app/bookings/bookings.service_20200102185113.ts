@@ -16,9 +16,7 @@ export class BookingsService {
     private http: HttpClient,
     private afs: AngularFirestore
   ) {
-    this.bookingsCollection = this.afs.collection<Bookings>('bookings', ref =>
-      ref.orderBy('firstName', 'asc')
-    );
+    this.bookingsCollection = this.afs.collection<Bookings>('bookings');
     this.bookings = this.bookingsCollection.snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {
@@ -30,42 +28,11 @@ export class BookingsService {
     );
   }
 
-  getBookingsByClient(clientId: string) {
-    this.bookingsCollection = this.afs.collection<Bookings>('bookings', ref =>
-      ref.orderBy('status', 'asc').where('userId', '==', clientId)
-    );
-    return this.bookingsCollection.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        });
-      })
-    );
-  }
-
-  populateBookings() {
-    this.bookings = this.bookingsCollection.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        });
-      })
-    );
-  }
-
-  getBookings(): Observable<Bookings[]> {
-    return this.bookings;
-  }
-
-  getBookingByUserId(userId: string) {
+  getBookings(searchKey: string): Observable<Bookings[]> {
     return this.bookings.pipe(
       map(bookings =>
         bookings.filter((booking) => {
-          return booking.userId.indexOf(userId) > -1;
+          return booking.offerTitle.indexOf(searchKey) > -1;
         })
       )
     );
@@ -96,5 +63,35 @@ export class BookingsService {
     return this.bookingsCollection.doc(id).delete();
   }
 
-
+  paymentProcess() {
+    const token = 'EAAAEIKOwP4ojSpukxBGfuBhhD8eHp7OG5dIR4II9x5MmfcJtCBb35Q1toPQaVjS';
+    const paymentData = {
+      idempotency_key: '4935a656-a929-4792-b97c-8848be85c27c',
+      amount_money: {
+        amount: 200,
+        currency: 'USD'
+      },
+      source_id: 'ccof:uIbfJXhXETSP197M3GB',
+      autocomplete: true,
+      customer_id: 'VDKXEEKPJN48QDG3BGGFAK05P8',
+      location_id: 'XK3DBG77NJBFX',
+      reference_id: '123456',
+      note: 'Brief description',
+      app_fee_money: {
+        amount: 10,
+        currency: 'USD'
+      }
+    };
+    return this.http.post<{response: any}>(
+      'https://connect.squareup.com/v2/payments',
+      paymentData,
+      {
+        headers: {
+          'Square-Version': '2019-12-17',
+          'Access-Control-Allow-Origin': '*',
+          Authorization: 'Bearer ' + token
+        }
+      }
+    );
+  }
 }

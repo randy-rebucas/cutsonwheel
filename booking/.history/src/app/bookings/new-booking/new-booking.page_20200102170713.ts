@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, AlertController, LoadingController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { map, switchMap } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
@@ -14,9 +14,6 @@ import { Users } from './../../users/users';
 import { OffersService } from '../../services/offers/offers.service';
 import { Offers } from 'src/app/services/offers/offers';
 import { CreateBookingComponent } from '../create-booking/create-booking.component';
-import { BookingsService } from '../bookings.service';
-import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth/auth.service';
 
 interface Schedule {
   datePicked: string;
@@ -59,12 +56,8 @@ export class NewBookingPage implements OnInit {
     private modalCtrl: ModalController,
     private http: HttpClient,
     private alertCtrl: AlertController,
-    private authService: AuthService,
     private usersService: UsersService,
-    private offersService: OffersService,
-    private bookingsService: BookingsService,
-    private loadingCtrl: LoadingController,
-    private router: Router
+    private offersService: OffersService
   ) {}
 
   ngOnInit() {
@@ -277,31 +270,11 @@ export class NewBookingPage implements OnInit {
     &key=${environment.googleMapsApiKey}`;
   }
 
-  onConfirmed() {
-    this.loadingCtrl
-      .create({
-        message: 'Creating offer...'
-      })
-      .then(loadingEl => {
-        loadingEl.present();
-        const user = this.authService.getUsersProfile();
-        const booking  = {
-          userId: user.uid,
-          location: this.getLocation(),
-          assistant: this.getAssistant(),
-          schedule: this.getSchedule(),
-          status: 'pending'
-        };
-        this.bookingsService.insertBooking(booking).then(() => {
-            loadingEl.dismiss();
-            localStorage.clear();
-            this.router.navigateByUrl('/t/bookings');
-        });
-      });
+  onPayment() {
+
   }
 
-  onCancel() {
-    localStorage.clear();
-    this.router.navigateByUrl('/t/services/discover');
+  onPaymentLater() {
+
   }
 }
