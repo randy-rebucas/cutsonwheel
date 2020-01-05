@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "booking",
+  "appId": "cutsonwheel",
+  "appName": "cutsonwheel",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
