@@ -5,15 +5,22 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { LoadingController, AlertController, ToastController } from '@ionic/angular';
+import { auth } from 'firebase/app';
+
 import { map } from 'rxjs/operators';
+
+declare var gapi: any;
+
+const hoursFromNow = (n) => new Date(Date.now() + n * 1000 * 60 * 60 ).toISOString();
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   newUser: any;
-  user: firebase.User;
-
+  user$: Observable<firebase.User>;
+  calendarItems: any[];
+  
   constructor(
     private http: HttpClient,
     private angularFireAuth: AngularFireAuth,
@@ -22,7 +29,59 @@ export class AuthService {
     private loadingController: LoadingController,
     private alertController: AlertController,
     private toastCtrl: ToastController
-  ) { }
+  ) {
+    this.initClient();
+    this.user$ = angularFireAuth.authState;
+  }
+
+  initClient() {
+    gapi.load('client', () => {
+      console.log('loaded client');
+
+      gapi.client.init({
+        apiKey: 'AIzaSyC1P3bJSJZpzs7cd0QoizMEkkZqCqMCFCs',
+        clientId: '572167105904-rmdv7093tf7pevuutettf23pasd8nej7.apps.googleusercontent.com',
+        discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
+        scope: 'https://www.googleapis.com/auth/calendar'
+      });
+
+      gapi.client.load('calendar', 'v3', () => {
+        console.log('loaded calendar');
+      });
+    });
+  }
+
+  async getCalendar() {
+    const events = await gapi.client.calendar.events.list({
+      calendarId: 'primary',
+      timeMin: new Date().toISOString(),
+      showDeleted: false,
+      singleEvents: true,
+      maxResults: 10,
+      orderBy: 'startTime'
+    });
+  
+    console.log(events);
+  
+    this.calendarItems = events.result.items;
+  }
+
+  async insertEvent() {
+    const insert = await gapi.client.calendar.events.insert({
+      calendarId: 'primary',
+      start: {
+        dateTime: hoursFromNow(2),
+        timeZone: 'UTC +8'
+      },
+      end: {
+        dateTime: hoursFromNow(3),
+        timeZone: 'UTC +8'
+      },
+      summary: 'test cutsonwheel',
+      description: 'Do some cool stuff and have fun.'
+    });
+    await this.getCalendar();
+  }
 
   getUserState() {
     return this.angularFireAuth.authState;
@@ -109,6 +168,11 @@ export class AuthService {
   }
 
   login(enteredEmail: string, enteredPassword: string) {
+    // const googleAuth = gapi.auth2.getAuthInstance();
+    // const googleUser = await googleAuth.signIn();
+
+    // const token = googleUser.getAuthResponse().id_token;
+
     this.loadingController.create({
       keyboardClose: true,
       message: 'Loging in...'
@@ -129,7 +193,7 @@ export class AuthService {
     });
   }
 
-  createUser(user) {
+  createUser(user: any) {
     this.loadingController.create({
       keyboardClose: true,
       message: 'Creating account...'
