@@ -10,15 +10,15 @@
             <div id="my-content">
 
                 <ion-list>
-                  <ion-item>
-                    <ion-avatar slot="start">
-                        <img [src]="user?.photoURL ? user?.photoURL : 'https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y'">
-                    </ion-avatar>
-                    <ion-label>
-                      <h3>{{user?.displayName}}</h3>
-                      <p>{{user?.email}}</p>
-                    </ion-label>
-                  </ion-item>
+                    <ion-item>
+                        <ion-avatar slot="start">
+                            <img [src]="user?.photoURL ? user?.photoURL : 'https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y'">
+                        </ion-avatar>
+                        <ion-label>
+                            <h3>{{user?.displayName}}</h3>
+                            <p>{{user?.email}}</p>
+                        </ion-label>
+                    </ion-item>
                     <ion-menu-toggle>
                         <ion-item lines="none" routerLink="/t/services/discover">
                             <ion-icon name="business" slot="start"></ion-icon>
@@ -26,17 +26,23 @@
                         </ion-item>
                     </ion-menu-toggle>
                     <ng-container *ngIf="userInfo?.profile.role === 'assistant'">
-                      <ion-menu-toggle>
-                        <ion-item lines="none" routerLink="/t/services/offers">
-                            <ion-icon name="globe" slot="start"></ion-icon>
-                            <ion-label>My Offers</ion-label>
-                        </ion-item>
-                      </ion-menu-toggle>
+                        <ion-menu-toggle>
+                            <ion-item lines="none" routerLink="/t/services/offers">
+                                <ion-icon name="globe" slot="start"></ion-icon>
+                                <ion-label>My Offers</ion-label>
+                            </ion-item>
+                        </ion-menu-toggle>
                     </ng-container>
                     <ion-menu-toggle>
                         <ion-item lines="none" routerLink="/t/bookings">
                             <ion-icon name="calendar" slot="start"></ion-icon>
                             <ion-label>My Bookings</ion-label>
+                        </ion-item>
+                    </ion-menu-toggle>
+                    <ion-menu-toggle>
+                        <ion-item lines="none" routerLink="/t/payments">
+                            <ion-icon name="cash" slot="start"></ion-icon>
+                            <ion-label>Payment History</ion-label>
                         </ion-item>
                     </ion-menu-toggle>
                     <ion-menu-toggle>

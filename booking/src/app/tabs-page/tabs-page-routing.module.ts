@@ -28,6 +28,11 @@ const routes: Routes = [
         loadChildren: () => import('./../bookings/bookings.module').then( m => m.BookingsPageModule)
       },
       {
+        path: 'payments',
+        canActivate: [AngularFireAuthGuard],
+        loadChildren: () => import('./../payments/payments.module').then( m => m.PaymentsPageModule)
+      },
+      {
         path: 'profiles',
         canActivate: [AngularFireAuthGuard],
         loadChildren: () => import('./../profiles/profiles.module').then( m => m.ProfilesPageModule)

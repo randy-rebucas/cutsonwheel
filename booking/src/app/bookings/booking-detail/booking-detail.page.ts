@@ -127,7 +127,12 @@ export class BookingDetailPage implements OnInit {
         this.bookingsService.updateStatus(booking).then(() => {
             loadingEl.dismiss();
             localStorage.clear();
-            this.router.navigateByUrl('/t/bookings');
+            if (bookingStatus === 'done') {
+              localStorage.setItem('bookingId', bookingId);
+              this.router.navigateByUrl('/t/payments/new');
+            } else {
+              this.router.navigateByUrl('/t/bookings');
+            }
         });
       });
   }
