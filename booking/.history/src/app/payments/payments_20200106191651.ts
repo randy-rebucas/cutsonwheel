@@ -32,14 +32,12 @@ interface Transaction {
   description: string;
   invoiceNumber: number;
   itemList: ItemList;
-  bookingId: string;
-  from: string;
-  to: string;
 }
 
 export class Payments {
     constructor(
       public id: string,
+      public bookings: Bookings,
       public intent: string,
       public payer: Payer,
       public transactions: Transaction,

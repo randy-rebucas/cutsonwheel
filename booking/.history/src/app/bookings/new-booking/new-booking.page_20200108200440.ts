@@ -34,7 +34,7 @@ interface Assistant {
   styleUrls: ['./new-booking.page.scss'],
 })
 export class NewBookingPage implements OnInit {
-  public assistants$: Observable<Users[]>;
+  public users$: Observable<Users[]>;
   public offers$: Observable<Offers[]>;
 
   selectedSegment: string;
@@ -65,25 +65,21 @@ export class NewBookingPage implements OnInit {
     private bookingsService: BookingsService,
     private loadingCtrl: LoadingController,
     private router: Router
-  ) {
-    this.assistants$ = this.usersService.getUsersByRole('assistant');
-  }
+  ) {}
 
   ngOnInit() {
-    /** Set default segment */
     this.selectedSegment = this.onGetSegment() ? this.onGetSegment() : 'location';
 
-    /** Set Location */
     this.locationSelected = this.getLocation();
 
-    /** Load all assistants */
+    this.users$ = this.usersService.getUsersByRole('assistant');
+
     this.assistant = this.getAssistant();
     if (this.assistant) {
       this.isNextAssistant = false;
       this.prePopulateAssistant(this.assistant);
     }
 
-    /** Set Schedule */
     this.schedule = this.getSchedule();
     if (this.schedule) {
       this.isNextSchedule = false;
@@ -127,6 +123,16 @@ export class NewBookingPage implements OnInit {
       });
   }
 
+  private showErrorAlert() {
+    this.alertCtrl
+      .create({
+        header: 'Could not fetch location',
+        message: 'Please use the map to pick a location!',
+        buttons: ['Okay']
+      })
+      .then(alertEl => alertEl.present());
+  }
+
   onOpenMap() {
     this.modalCtrl.create({ component: MapModalComponent }).then(modalEl => {
       modalEl.onDidDismiss().then(modalData => {
@@ -141,16 +147,6 @@ export class NewBookingPage implements OnInit {
       });
       modalEl.present();
     });
-  }
-
-  private showErrorAlert() {
-    this.alertCtrl
-      .create({
-        header: 'Could not fetch location',
-        message: 'Please use the map to pick a location!',
-        buttons: ['Okay']
-      })
-      .then(alertEl => alertEl.present());
   }
 
   private createPlace(latitude: number, longitude: number) {
@@ -206,24 +202,9 @@ export class NewBookingPage implements OnInit {
    * @param userId
    * return void
    */
-
   onPickedAssistant(userId: string) {
     this.isSelectedAssistant = true;
     this.offers$ = this.offersService.getMyOffers(userId);
-  }
-
-  getAssistant() {
-    return JSON.parse(localStorage.getItem('assistant'));
-  }
-
-  prePopulateAssistant(assistant: Assistant) {
-    this.usersService.getUser(assistant.assisstantId).subscribe((user) => {
-      this.userInfo = user;
-    });
-
-    this.offersService.getOffer(assistant.offerId).subscribe((offer) => {
-      this.offerInfo = offer;
-    });
   }
 
   onPickedService(serviceId: string) {
@@ -240,15 +221,35 @@ export class NewBookingPage implements OnInit {
     });
   }
 
-  /**
-   * Schedule set
-   */
-  getSchedule() {
-    return JSON.parse(localStorage.getItem('schedule'));
-  }
-
   prePopulateSchedule(schedule: Schedule) {
     this.schedule = schedule;
+  }
+
+  prePopulateAssistant(assistant: Assistant) {
+    this.usersService.getUser(assistant.assisstantId).subscribe((user) => {
+      this.userInfo = user;
+    });
+
+    this.offersService.getOffer(assistant.offerId).subscribe((offer) => {
+      this.offerInfo = offer;
+    });
+  }
+
+  segmentChanged(ev: any) {
+    this.onSetSegment(ev.detail.value);
+  }
+
+  onGetSegment() {
+    return localStorage.getItem('segment');
+  }
+
+  onSetSegment(target: string) {
+    localStorage.setItem('segment', target);
+    this.selectedSegment = target;
+  }
+
+  getSchedule() {
+    return JSON.parse(localStorage.getItem('schedule'));
   }
 
   onOpenDatePicker() {
@@ -273,19 +274,13 @@ export class NewBookingPage implements OnInit {
     localStorage.setItem('schedule', JSON.stringify(scheduled));
   }
 
-
-  segmentChanged(ev: any) {
-    this.onSetSegment(ev.detail.value);
+  getAssistant() {
+    return JSON.parse(localStorage.getItem('assistant'));
   }
 
-  onGetSegment() {
-    return localStorage.getItem('segment');
-  }
 
-  onSetSegment(target: string) {
-    localStorage.setItem('segment', target);
-    this.selectedSegment = target;
-  }
+
+
 
   onConfirmed() {
     this.loadingCtrl

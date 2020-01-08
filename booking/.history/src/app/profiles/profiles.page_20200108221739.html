@@ -87,16 +87,13 @@
       <ion-item>
         <ion-label>Visibility</ion-label>
           <ion-select [ngModel]="selectedVisibility" (ionChange)="visibilityChanged($event, userInfo?.uid)">
-            <ion-select-option value="public" >Public</ion-select-option>
-            <ion-select-option value="private" >Private</ion-select-option>
+            <ion-select-option *ngFor="let visibility of visibilities" [value]="visibility.val" >{{visibility.label}}</ion-select-option>
           </ion-select>
       </ion-item>
       <ion-item *ngIf="userInfo?.roles.assistant">
         <ion-label>Experience level</ion-label>
         <ion-select [ngModel]="selectedExperience" (ionChange)="experienceChanged($event, userInfo?.uid)">
-          <ion-select-option value="entry" >Entry</ion-select-option>
-          <ion-select-option value="intermediate" >Intermediate</ion-select-option>
-          <ion-select-option value="expert" >Expert</ion-select-option>
+          <ion-select-option *ngFor="let experience of experiences" [value]="experience.val" >{{experience.label}}</ion-select-option>
         </ion-select>
       </ion-item>
       <ion-radio-group (click)="classificationChanged($event, userInfo?.uid)" *ngIf="userInfo?.roles.assistant">

@@ -111,6 +111,7 @@ export class PaymentCreatePage implements OnInit {
       .then(loadingEl => {
         loadingEl.present();
         const payment = {
+          // bookings: this.bookings,
           intent: 'authorize',
           payer: {
             paymentMethod: this.paymentMethod

@@ -10,6 +10,7 @@
 <ion-content class="ion-padding">
   <ng-container *ngIf="isLoading">
       <ion-card class="ion-text-center">
+          <!-- <img [src]="detail?.offer.imageUrl"> -->
           <ion-card-header>
               <ion-card-subtitle>
                   <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
@@ -52,9 +53,6 @@
                   Add Note
               </ion-label>
               <ion-textarea rows="6" ngModel name="note" #note="ngModel" required></ion-textarea>
-          </ion-item>
-          <ion-item *ngIf="!note.valid && note.touched" lines="none">
-            <p>Please add note!</p>
           </ion-item>
       </ion-list>
       <section>

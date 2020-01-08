@@ -8,7 +8,6 @@ import { UsersService } from 'src/app/users/users.service';
 import { PaymentsService } from '../payments.service';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-payment-create',
@@ -99,11 +98,7 @@ export class PaymentCreatePage implements OnInit {
     return localStorage.getItem('bookingId');
   }
 
-  onPaymentConfirm(form: NgForm) {
-    if (!form.valid) {
-      return;
-    }
-
+  onPaymentConfirm() {
     this.loadingCtrl
       .create({
         message: 'saving payment...'
@@ -111,6 +106,7 @@ export class PaymentCreatePage implements OnInit {
       .then(loadingEl => {
         loadingEl.present();
         const payment = {
+          bookings: this.bookings,
           intent: 'authorize',
           payer: {
             paymentMethod: this.paymentMethod
@@ -134,12 +130,9 @@ export class PaymentCreatePage implements OnInit {
                 recipientName: this.clientName,
                 address: this.clientAddress
               }
-            },
-            bookingId: this.bookings.id,
-            from: this.bookings.userId,
-            to: this.bookings.assistant.assisstantId
+            }
           },
-          note: form.value.note,
+          note: this.note,
           datePaid: new Date().toISOString()
         };
         this.paymentsService.insertPayment(payment).then(() => {
@@ -150,7 +143,7 @@ export class PaymentCreatePage implements OnInit {
             status: 'paid'
           };
           this.bookingsService.updateStatus(booking).then(() => {
-            this.router.navigateByUrl('/t/payments');
+            this.router.navigateByUrl('/payments');
           });
         });
       });

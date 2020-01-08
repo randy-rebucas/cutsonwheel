@@ -65,25 +65,21 @@ export class NewBookingPage implements OnInit {
     private bookingsService: BookingsService,
     private loadingCtrl: LoadingController,
     private router: Router
-  ) {
-    this.assistants$ = this.usersService.getUsersByRole('assistant');
-  }
+  ) {}
 
   ngOnInit() {
-    /** Set default segment */
     this.selectedSegment = this.onGetSegment() ? this.onGetSegment() : 'location';
 
-    /** Set Location */
     this.locationSelected = this.getLocation();
 
-    /** Load all assistants */
+    this.assistants$ = this.usersService.getUsersByRole('assistant');
+
     this.assistant = this.getAssistant();
     if (this.assistant) {
       this.isNextAssistant = false;
       this.prePopulateAssistant(this.assistant);
     }
 
-    /** Set Schedule */
     this.schedule = this.getSchedule();
     if (this.schedule) {
       this.isNextSchedule = false;

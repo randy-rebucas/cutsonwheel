@@ -79,12 +79,12 @@
     </ion-item>
 
     <ng-container *ngIf="isNextAssistant && !isSelectedAssistant">
-      <ion-item *ngFor="let user of assistants$ | async" (click)="onPickedAssistant(user?.id)">
+      <ion-item *ngFor="let user of users$ | async" (click)="onPickedAssistant(user?.id)">
         <ion-label>
           {{user?.firstname}} {{user?.lastname}}
         </ion-label>
       </ion-item>
-      <ion-card *ngIf="!(assistants$ | async)?.length">
+      <ion-card *ngIf="!(users$ | async)?.length">
         <ion-card-content>
           <ion-icon slot="start" name="information"></ion-icon>
           No assistant on record for now!
@@ -106,15 +106,14 @@
       </ion-item>
       <ion-item>
         <ion-label>
-          {{offerInfo?.title}}
+          <!-- {{userInfo?.location.address}} -->
         </ion-label>
-        <ion-note slot="end">Service</ion-note>
       </ion-item>
       <ion-item>
         <ion-label>
           {{offerInfo?.category}}
         </ion-label>
-        <ion-note slot="end">Category</ion-note>
+        <ion-note slot="end">Service Type</ion-note>
       </ion-item>
       <ion-item>
         <ion-label>
@@ -126,7 +125,7 @@
         <ion-label>
           {{offerInfo?.charges | currency:'PHP':'symbol-narrow' }}
         </ion-label>
-        <ion-note slot="end">Charges</ion-note>
+        <ion-note slot="end">Cost</ion-note>
       </ion-item>
     </ng-container>
 
@@ -202,7 +201,7 @@
       </ion-item>
       <ion-item>
         <ion-label>{{offerInfo?.category}}</ion-label>
-        <ion-label slot="end" class="ion-text-right">{{offerInfo?.charges | currency:'PHP':'symbol-narrow' }}</ion-label>
+        <ion-label slot="end">{{offerInfo?.charges | currency:'PHP':'symbol-narrow' }}</ion-label>
       </ion-item>
 
       <ion-list-header>

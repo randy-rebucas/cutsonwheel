@@ -136,6 +136,7 @@ export class ProfilesPage implements OnInit {
 
   notificationSelect(ev: any, userId: string) {
     this.userService.setNotification(this.notifications, userId).then(() => {
+      this.showToast('Notificaiton updated.');
       this.getNotification(userId).subscribe((detail) => {
         this.notifications = detail.notification ? detail.notification : this.notifications;
       });

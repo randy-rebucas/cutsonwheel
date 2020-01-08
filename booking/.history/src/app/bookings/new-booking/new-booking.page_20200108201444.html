@@ -79,12 +79,12 @@
     </ion-item>
 
     <ng-container *ngIf="isNextAssistant && !isSelectedAssistant">
-      <ion-item *ngFor="let user of assistants$ | async" (click)="onPickedAssistant(user?.id)">
+      <ion-item *ngFor="let user of users$ | async" (click)="onPickedAssistant(user?.id)">
         <ion-label>
           {{user?.firstname}} {{user?.lastname}}
         </ion-label>
       </ion-item>
-      <ion-card *ngIf="!(assistants$ | async)?.length">
+      <ion-card *ngIf="!(users$ | async)?.length">
         <ion-card-content>
           <ion-icon slot="start" name="information"></ion-icon>
           No assistant on record for now!

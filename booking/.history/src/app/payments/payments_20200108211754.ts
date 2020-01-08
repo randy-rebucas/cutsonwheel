@@ -40,6 +40,7 @@ interface Transaction {
 export class Payments {
     constructor(
       public id: string,
+      // public bookings: Bookings,
       public intent: string,
       public payer: Payer,
       public transactions: Transaction,

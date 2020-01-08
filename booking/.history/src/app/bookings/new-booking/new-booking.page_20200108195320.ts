@@ -34,7 +34,7 @@ interface Assistant {
   styleUrls: ['./new-booking.page.scss'],
 })
 export class NewBookingPage implements OnInit {
-  public assistants$: Observable<Users[]>;
+  public users$: Observable<Users[]>;
   public offers$: Observable<Offers[]>;
 
   selectedSegment: string;
@@ -65,37 +65,113 @@ export class NewBookingPage implements OnInit {
     private bookingsService: BookingsService,
     private loadingCtrl: LoadingController,
     private router: Router
-  ) {
-    this.assistants$ = this.usersService.getUsersByRole('assistant');
-  }
+  ) {}
 
   ngOnInit() {
-    /** Set default segment */
     this.selectedSegment = this.onGetSegment() ? this.onGetSegment() : 'location';
 
-    /** Set Location */
-    this.locationSelected = this.getLocation();
+    this.users$ = this.usersService.getUsersByRole('assistant');
 
-    /** Load all assistants */
-    this.assistant = this.getAssistant();
+    this.getLocation().subscribe((location) => {
+      this.locationSelected = location;
+    });
+
+    this.getAssistant().subscribe((assistant) => {
+      this.assistant = assistant;
+    });
+
+    this.getSchedule().subscribe((schedule) => {
+      this.schedule = schedule;
+    });
+
     if (this.assistant) {
       this.isNextAssistant = false;
       this.prePopulateAssistant(this.assistant);
     }
 
-    /** Set Schedule */
-    this.schedule = this.getSchedule();
     if (this.schedule) {
       this.isNextSchedule = false;
       this.prePopulateSchedule(this.schedule);
     }
   }
-  /**
-   * Location set
-   * @param userId
-   * return void
-   */
-  getLocation() {
+
+  onPickedAssistant(userId: string) {
+    this.isSelectedAssistant = true;
+    this.offers$ = this.offersService.getMyOffers(userId);
+  }
+
+  onPickedService(serviceId: string) {
+    this.isSelectedOffer = true;
+
+    this.offersService.getOffer(serviceId).subscribe((offer) => {
+      const assistantData = {
+        assisstantId: offer.userId,
+        offerId: offer.id
+      };
+      localStorage.setItem('assistant', JSON.stringify(assistantData));
+      this.prePopulateAssistant(assistantData);
+      this.isNextAssistant = false;
+    });
+  }
+
+  prePopulateSchedule(schedule: Schedule) {
+    this.schedule = schedule;
+  }
+
+  prePopulateAssistant(assistant: Assistant) {
+    this.usersService.getUser(assistant.assisstantId).subscribe((user) => {
+      this.userInfo = user;
+    });
+
+    this.offersService.getOffer(assistant.offerId).subscribe((offer) => {
+      this.offerInfo = offer;
+    });
+  }
+
+  segmentChanged(ev: any) {
+    this.onSetSegment(ev.detail.value);
+  }
+
+  onGetSegment() {
+    return localStorage.getItem('segment');
+  }
+
+  onSetSegment(target: string) {
+    localStorage.setItem('segment', target);
+    this.selectedSegment = target;
+  }
+
+  getSchedule(): Observable<Schedule> {
+    return JSON.parse(localStorage.getItem('schedule'));
+  }
+
+  onOpenDatePicker() {
+    this.modalCtrl
+      .create({
+        component: CreateBookingComponent,
+        componentProps: { selectedOffer: this.offerInfo }
+      })
+      .then(modalEl => {
+        modalEl.present();
+        return modalEl.onDidDismiss();
+      })
+      .then(resultData => {
+        if (resultData.role === 'confirm') {
+          this.setSchedule(resultData.data.scheduleDateTime);
+          this.prePopulateSchedule(resultData.data.scheduleDateTime);
+        }
+      });
+  }
+
+  setSchedule(scheduled: any) {
+    localStorage.setItem('schedule', JSON.stringify(scheduled));
+  }
+
+  getAssistant(): Observable<Assistant> {
+    return JSON.parse(localStorage.getItem('assistant'));
+  }
+
+  getLocation(): Observable<PlaceLocation> {
     return JSON.parse(localStorage.getItem('location'));
   }
 
@@ -127,6 +203,16 @@ export class NewBookingPage implements OnInit {
       });
   }
 
+  private showErrorAlert() {
+    this.alertCtrl
+      .create({
+        header: 'Could not fetch location',
+        message: 'Please use the map to pick a location!',
+        buttons: ['Okay']
+      })
+      .then(alertEl => alertEl.present());
+  }
+
   onOpenMap() {
     this.modalCtrl.create({ component: MapModalComponent }).then(modalEl => {
       modalEl.onDidDismiss().then(modalData => {
@@ -141,16 +227,6 @@ export class NewBookingPage implements OnInit {
       });
       modalEl.present();
     });
-  }
-
-  private showErrorAlert() {
-    this.alertCtrl
-      .create({
-        header: 'Could not fetch location',
-        message: 'Please use the map to pick a location!',
-        buttons: ['Okay']
-      })
-      .then(alertEl => alertEl.present());
   }
 
   private createPlace(latitude: number, longitude: number) {
@@ -174,7 +250,9 @@ export class NewBookingPage implements OnInit {
         pickedLocation.staticMapImageUrl = staticMapImageUrl;
         this.selectedLocationImage = staticMapImageUrl;
         this.setLocation(JSON.stringify(pickedLocation));
-        this.locationSelected = this.getLocation();
+        this.getLocation().subscribe((location) => {
+          this.locationSelected = location;
+        });
       });
   }
 
@@ -201,92 +279,6 @@ export class NewBookingPage implements OnInit {
     &key=${environment.googleMapsApiKey}`;
   }
 
-  /**
-   * Asssistant set
-   * @param userId
-   * return void
-   */
-
-  onPickedAssistant(userId: string) {
-    this.isSelectedAssistant = true;
-    this.offers$ = this.offersService.getMyOffers(userId);
-  }
-
-  getAssistant() {
-    return JSON.parse(localStorage.getItem('assistant'));
-  }
-
-  prePopulateAssistant(assistant: Assistant) {
-    this.usersService.getUser(assistant.assisstantId).subscribe((user) => {
-      this.userInfo = user;
-    });
-
-    this.offersService.getOffer(assistant.offerId).subscribe((offer) => {
-      this.offerInfo = offer;
-    });
-  }
-
-  onPickedService(serviceId: string) {
-    this.isSelectedOffer = true;
-
-    this.offersService.getOffer(serviceId).subscribe((offer) => {
-      const assistantData = {
-        assisstantId: offer.userId,
-        offerId: offer.id
-      };
-      localStorage.setItem('assistant', JSON.stringify(assistantData));
-      this.prePopulateAssistant(assistantData);
-      this.isNextAssistant = false;
-    });
-  }
-
-  /**
-   * Schedule set
-   */
-  getSchedule() {
-    return JSON.parse(localStorage.getItem('schedule'));
-  }
-
-  prePopulateSchedule(schedule: Schedule) {
-    this.schedule = schedule;
-  }
-
-  onOpenDatePicker() {
-    this.modalCtrl
-      .create({
-        component: CreateBookingComponent,
-        componentProps: { selectedOffer: this.offerInfo }
-      })
-      .then(modalEl => {
-        modalEl.present();
-        return modalEl.onDidDismiss();
-      })
-      .then(resultData => {
-        if (resultData.role === 'confirm') {
-          this.setSchedule(resultData.data.scheduleDateTime);
-          this.prePopulateSchedule(resultData.data.scheduleDateTime);
-        }
-      });
-  }
-
-  setSchedule(scheduled: any) {
-    localStorage.setItem('schedule', JSON.stringify(scheduled));
-  }
-
-
-  segmentChanged(ev: any) {
-    this.onSetSegment(ev.detail.value);
-  }
-
-  onGetSegment() {
-    return localStorage.getItem('segment');
-  }
-
-  onSetSegment(target: string) {
-    localStorage.setItem('segment', target);
-    this.selectedSegment = target;
-  }
-
   onConfirmed() {
     this.loadingCtrl
       .create({
@@ -297,9 +289,9 @@ export class NewBookingPage implements OnInit {
         const user = this.authService.getUsersProfile();
         const booking  = {
           userId: user.uid,
-          location: this.getLocation(),
-          assistant: this.getAssistant(),
-          schedule: this.getSchedule(),
+          // location: this.getLocation(),
+          // assistant: this.getAssistant(),
+          // schedule: this.getSchedule(),
           status: 'pending'
         };
         this.bookingsService.insertBooking(booking).then(() => {

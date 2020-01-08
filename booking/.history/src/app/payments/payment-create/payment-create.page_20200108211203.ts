@@ -111,6 +111,7 @@ export class PaymentCreatePage implements OnInit {
       .then(loadingEl => {
         loadingEl.present();
         const payment = {
+          // bookings: this.bookings,
           intent: 'authorize',
           payer: {
             paymentMethod: this.paymentMethod
@@ -135,11 +136,10 @@ export class PaymentCreatePage implements OnInit {
                 address: this.clientAddress
               }
             },
-            bookingId: this.bookings.id,
             from: this.bookings.userId,
             to: this.bookings.assistant.assisstantId
           },
-          note: form.value.note,
+          note: this.note,
           datePaid: new Date().toISOString()
         };
         this.paymentsService.insertPayment(payment).then(() => {

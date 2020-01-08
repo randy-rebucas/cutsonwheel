@@ -87,8 +87,7 @@
       <ion-item>
         <ion-label>Visibility</ion-label>
           <ion-select [ngModel]="selectedVisibility" (ionChange)="visibilityChanged($event, userInfo?.uid)">
-            <ion-select-option value="public" >Public</ion-select-option>
-            <ion-select-option value="private" >Private</ion-select-option>
+            <ion-select-option *ngFor="let visibility of visibilities" [value]="visibility.val" >{{visibility.label}}</ion-select-option>
           </ion-select>
       </ion-item>
       <ion-item *ngIf="userInfo?.roles.assistant">

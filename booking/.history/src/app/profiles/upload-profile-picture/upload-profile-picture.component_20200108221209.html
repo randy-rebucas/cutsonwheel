@@ -13,7 +13,7 @@
   <form [formGroup]="form">
     <app-image-picker [showPreview]="form.get('image').value" (imagePick)="onImagePicked($event)"></app-image-picker>
   </form>
-  <section>
+  <div class="ion-padding">
     <ion-button type="button" color="primary" (click)="onUpload()" expand="block" [disabled]="!form.get('image').value">Upload</ion-button>
-  </section>
+  </div>
 </ion-content>

@@ -164,7 +164,6 @@ export class AuthService {
       firstname: this.newUser.firstName,
       lastname: this.newUser.lastName,
       email: userCredential.user.email,
-      displayName: this.newUser.firstName + ' ' + this.newUser.lastName,
       roles: {
         client: (this.newUser.role === 'client') ? true : false,
         assistant: (this.newUser.role === 'assistant') ? true : false,

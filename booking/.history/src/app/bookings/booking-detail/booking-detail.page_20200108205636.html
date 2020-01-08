@@ -83,7 +83,7 @@
               </ng-template>
 
             </ng-template>
-            <ion-button slot="end" color="danger" fill="outline" (click)="onUpdateStatus(detail?.id, 'canceled')" *ngIf="role === 'client' && detail?.status != 'canceled' && detail?.status != 'declined' && detail?.status != 'done' && detail?.status != 'paid'">Cancel</ion-button>
+            <ion-button slot="end" color="danger" fill="outline" (click)="onUpdateStatus(detail?.id, 'canceled')" *ngIf="role === 'client' && detail?.status != 'canceled' && detail?.status != 'declined' && detail?.status != 'paid'">Cancel</ion-button>
             <ion-button slot="end" color="primary" fill="outline" (click)="onUpdateStatus(detail?.id, 'done')" *ngIf="role != 'client' && detail?.status === 'accepted'">Done</ion-button>
         </ion-item>
         <ion-item *ngIf="detail?.status === 'pending' && role === 'client'" lines="none">

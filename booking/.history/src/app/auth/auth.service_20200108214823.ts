@@ -5,7 +5,6 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { LoadingController, AlertController, ToastController } from '@ionic/angular';
-import { Users } from '../users/users';
 
 @Injectable({
   providedIn: 'root'
@@ -163,44 +162,11 @@ export class AuthService {
     return this.afs.collection('users').doc(userCredential.user.uid).set({
       firstname: this.newUser.firstName,
       lastname: this.newUser.lastName,
-      email: userCredential.user.email,
-      displayName: this.newUser.firstName + ' ' + this.newUser.lastName,
       roles: {
         client: (this.newUser.role === 'client') ? true : false,
         assistant: (this.newUser.role === 'assistant') ? true : false,
-      },
-      visibility : 'public',
-      notification: [
-        { label: 'Send push notification', val: 'send-push-notification', isChecked: true },
-        { label: 'Send an email for invitations', val: 'send-for-invitations', isChecked: true },
-        { label: 'Send an email events and updates', val: 'send-events-updates', isChecked: true }
-      ]
-    });
-  }
-
-  canRead(user: Users): boolean {
-    const allowed = ['admin', 'client', 'assistant'];
-    return this.checkAuthorization(user, allowed);
-  }
-
-  canEdit(user: Users): boolean {
-    const allowed = ['admin', 'client'];
-    return this.checkAuthorization(user, allowed);
-  }
-
-  canDelete(user: Users): boolean {
-    const allowed = ['admin'];
-    return this.checkAuthorization(user, allowed);
-  }
-
-  private checkAuthorization(user: Users, allowedRoles: string[]): boolean {
-    if (!user) { return false; }
-    for (const role of allowedRoles) {
-      if (user.roles[role]) {
-        return true;
       }
-    }
-    return false;
+    });
   }
 
   logout() {

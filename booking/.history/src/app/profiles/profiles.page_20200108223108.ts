@@ -85,6 +85,24 @@ export class ProfilesPage implements OnInit {
     });
 
     this.classifications = this.classificationsService.getClassifications();
+
+    // this.notifications = [
+    //   { val: 'send-push-notification', label: 'Send push notification', isChecked: true },
+    //   { val: 'send-for-invitations', label: 'Send an email for invitations', isChecked: true },
+    //   { val: 'send-events-updates', label: 'Send an email events and updates', isChecked: true }
+    // ];
+
+    // this.experiences = [
+    //   { val: 'entry', label: 'Entry' },
+    //   { val: 'intermediate', label: 'Intermediate' },
+    //   { val: 'expert', label: 'Expert' }
+    // ];
+
+    // this.visibilities = [
+    //   { val: 'public', label: 'Public' },
+    //   { val: 'private', label: 'Private' }
+    // ];
+
   }
 
   getAvatar(userId: string): Observable<Users> {
@@ -136,6 +154,7 @@ export class ProfilesPage implements OnInit {
 
   notificationSelect(ev: any, userId: string) {
     this.userService.setNotification(this.notifications, userId).then(() => {
+      this.showToast('Notificaiton updated.');
       this.getNotification(userId).subscribe((detail) => {
         this.notifications = detail.notification ? detail.notification : this.notifications;
       });

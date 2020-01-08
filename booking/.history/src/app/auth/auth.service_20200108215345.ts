@@ -164,33 +164,11 @@ export class AuthService {
       firstname: this.newUser.firstName,
       lastname: this.newUser.lastName,
       email: userCredential.user.email,
-      displayName: this.newUser.firstName + ' ' + this.newUser.lastName,
       roles: {
         client: (this.newUser.role === 'client') ? true : false,
         assistant: (this.newUser.role === 'assistant') ? true : false,
-      },
-      visibility : 'public',
-      notification: [
-        { label: 'Send push notification', val: 'send-push-notification', isChecked: true },
-        { label: 'Send an email for invitations', val: 'send-for-invitations', isChecked: true },
-        { label: 'Send an email events and updates', val: 'send-events-updates', isChecked: true }
-      ]
+      }
     });
-  }
-
-  canRead(user: Users): boolean {
-    const allowed = ['admin', 'client', 'assistant'];
-    return this.checkAuthorization(user, allowed);
-  }
-
-  canEdit(user: Users): boolean {
-    const allowed = ['admin', 'client'];
-    return this.checkAuthorization(user, allowed);
-  }
-
-  canDelete(user: Users): boolean {
-    const allowed = ['admin'];
-    return this.checkAuthorization(user, allowed);
   }
 
   private checkAuthorization(user: Users, allowedRoles: string[]): boolean {

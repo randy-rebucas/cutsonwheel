@@ -78,12 +78,12 @@ export class NewBookingPage implements OnInit {
 
     /** Load all assistants */
     this.assistant = this.getAssistant();
+
     if (this.assistant) {
       this.isNextAssistant = false;
       this.prePopulateAssistant(this.assistant);
     }
 
-    /** Set Schedule */
     this.schedule = this.getSchedule();
     if (this.schedule) {
       this.isNextSchedule = false;

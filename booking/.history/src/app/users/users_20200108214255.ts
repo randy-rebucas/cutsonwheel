@@ -21,7 +21,7 @@ export class Users {
     public avatarUrl: string,
     public displayName: string,
     public phoneNumber: string,
-    public roles: Roles,
+    public role: string,
     public experience: string,
     public visibility: string,
     public classification: string,

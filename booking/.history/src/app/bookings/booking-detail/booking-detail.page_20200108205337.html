@@ -62,10 +62,7 @@
             </ng-container>
             <ng-template #declined>
               <ng-container *ngIf="detail?.status === 'paid'; else other">
-                <ion-chip outline color="primary">
-                  <ion-icon name="checkmark"></ion-icon>
-                  <ion-label>{{ detail?.status | uppercase }}</ion-label>
-                </ion-chip>
+                paid
               </ng-container>
               <ng-template #other>
                 <ng-container *ngIf="detail?.status === 'done'">
@@ -83,7 +80,7 @@
               </ng-template>
 
             </ng-template>
-            <ion-button slot="end" color="danger" fill="outline" (click)="onUpdateStatus(detail?.id, 'canceled')" *ngIf="role === 'client' && detail?.status != 'canceled' && detail?.status != 'declined' && detail?.status != 'done' && detail?.status != 'paid'">Cancel</ion-button>
+            <ion-button slot="end" color="danger" fill="outline" (click)="onUpdateStatus(detail?.id, 'canceled')" *ngIf="role === 'client' && detail?.status != 'canceled' && detail?.status != 'declined'">Cancel</ion-button>
             <ion-button slot="end" color="primary" fill="outline" (click)="onUpdateStatus(detail?.id, 'done')" *ngIf="role != 'client' && detail?.status === 'accepted'">Done</ion-button>
         </ion-item>
         <ion-item *ngIf="detail?.status === 'pending' && role === 'client'" lines="none">
