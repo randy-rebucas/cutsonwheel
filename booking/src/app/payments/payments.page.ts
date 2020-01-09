@@ -10,37 +10,33 @@ import { Observable, Subscription, of } from 'rxjs';
   templateUrl: './payments.page.html',
   styleUrls: ['./payments.page.scss'],
 })
-export class PaymentsPage implements OnInit {
+export class PaymentsPage implements OnInit, OnDestroy {
 
-  isLoading: boolean;
   public payments$: Observable<Payments[]>;
+  public isLoading: boolean;
+  public selectedSegment: string;
+  private authSub: Subscription;
 
   constructor(
     private authsService: AuthService,
     private paymentsService: PaymentsService
   ) {
     this.isLoading = true;
+    this.selectedSegment = 'today';
   }
 
   ngOnInit() {
-
-    this.authsService.getUserState().subscribe((user) => {
+    this.authSub = this.authsService.getUserState().subscribe((user) => {
       this.isLoading = false;
       this.payments$ = this.paymentsService.getByAssistant(user.uid);
     });
-
-    // this.authsService.getUserState().pipe(
-    //   switchMap(user => {
-    //     return this.paymentsService.getByAssistant(user.uid);
-    //   })
-    // ).subscribe((payments) => {
-    //   this.isLoading = false;
-    //   this.payments$ = payments;
-    // });
   }
 
-  onViewDetails(paymentId: string) {
-    console.log(paymentId);
+  segmentChanged(ev: any) {
+    this.selectedSegment = ev.detail.value;
   }
 
+  ngOnDestroy() {
+    this.authSub.unsubscribe();
+  }
 }

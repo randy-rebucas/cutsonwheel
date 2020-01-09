@@ -7,61 +7,63 @@ import {
   AngularFirestore,
   DocumentReference
 } from '@angular/fire/firestore';
-import { News } from './news';
+
+import { News as useClass } from './news';
+
+const collection = 'news';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NewsService {
 
-  private news: Observable<News[]>;
-  private newsCollection: AngularFirestoreCollection<News>;
-
   constructor(
     private afs: AngularFirestore
-  ) {
-    this.newsCollection = this.afs.collection<News>('news');
-    this.news = this.newsCollection.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        });
-      })
-    );
+  ) {}
+
+  private defaultCollection(): AngularFirestoreCollection<useClass> {
+    return this.afs.collection<useClass>(collection);
   }
 
-  getNewsData(): Observable<News[]> {
-    return this.news;
+  private fetchData(col: AngularFirestoreCollection): Observable<any> {
+    return col.snapshotChanges().pipe(
+        map(actions => {
+          return actions.map(a => {
+            const data = a.payload.doc.data();
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          });
+        })
+      );
   }
 
-  getNewsDetail(id: string): Observable<News> {
-    return this.newsCollection.doc<News>(id).valueChanges().pipe(
+  getAll(): Observable<useClass[]> {
+    return this.fetchData(this.defaultCollection());
+  }
+
+  getOne(id: string): Observable<useClass> {
+    return this.defaultCollection().doc<useClass>(id).valueChanges().pipe(
       take(1),
-      map(news => {
-        news.id = id;
-        return news;
+      map(data => {
+        data.id = id;
+        return data;
       })
     );
   }
 
-  insertNews(offer: any): Promise<DocumentReference> {
-    return this.newsCollection.add(offer);
+  insert(data: any): Promise<DocumentReference> {
+    return this.defaultCollection().add(data);
   }
 
-  updateNews(news: any): Promise<void> {
-    return this.newsCollection.doc(news.id).update({
-      title: news.title,
-      description: news.description,
-      type: news.type,
-      url: news.url,
-      published: news.published
+  update(data: any): Promise<void> {
+    return this.defaultCollection().doc(data.id).update({
+      title: data.title,
+      description: data.description
     });
   }
 
-  deleteNews(id: string): Promise<void> {
-    return this.newsCollection.doc(id).delete();
+  delete(id: string): Promise<void> {
+    return this.defaultCollection().doc(id).delete();
   }
 
 }

@@ -54,7 +54,7 @@ export class PaymentCreatePage implements OnInit {
 
   ngOnInit() {
     this.bookingId = this.getBookingId();
-    this.bookingsService.getBooking(this.bookingId)
+    this.bookingsService.getOne(this.bookingId)
     .pipe(
       map(booking => {
         this.bookings = booking;
@@ -149,7 +149,7 @@ export class PaymentCreatePage implements OnInit {
             id: this.bookings.id,
             status: 'paid'
           };
-          this.bookingsService.updateStatus(booking).then(() => {
+          this.bookingsService.update(booking).then(() => {
             this.router.navigateByUrl('/t/payments');
           });
         });

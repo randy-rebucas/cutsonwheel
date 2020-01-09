@@ -302,7 +302,7 @@ export class NewBookingPage implements OnInit {
           schedule: this.getSchedule(),
           status: 'pending'
         };
-        this.bookingsService.insertBooking(booking).then(() => {
+        this.bookingsService.insert(booking).then(() => {
             loadingEl.dismiss();
             localStorage.clear();
             this.router.navigateByUrl('/t/bookings');

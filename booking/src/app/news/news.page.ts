@@ -16,7 +16,7 @@ export class NewsPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.news$ = this.newsService.getNewsData();
+    this.news$ = this.newsService.getAll();
   }
 
 }

@@ -36,10 +36,10 @@ export class BookingsPage implements OnInit {
         this.isAssistant = this.userInfo.profile.roles.assistant;
         if (this.userInfo.profile.roles.assistant) {
           /** assistant */
-          loadedBooking = this.bookingService.getBookingsByAssistant(currenctUser.uid);
+          loadedBooking = this.bookingService.getByAssistantId(currenctUser.uid);
         } else {
           /** client */
-          loadedBooking = this.bookingService.getBookingsByClient(currenctUser.uid);
+          loadedBooking = this.bookingService.getByClientId(currenctUser.uid);
         }
         this.loadedBookings$ = loadedBooking;
       });

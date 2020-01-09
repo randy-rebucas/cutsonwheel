@@ -10,6 +10,8 @@ import { Plugins, Capacitor } from '@capacitor/core';
 import { switchMap } from 'rxjs/operators';
 import { UsersService } from './users/users.service';
 import { Observable, of } from 'rxjs';
+import { OffersService } from './services/offers/offers.service';
+import { BookingsService } from './bookings/bookings.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +21,8 @@ import { Observable, of } from 'rxjs';
 export class AppComponent implements OnInit {
   user: firebase.User;
   userInfo: any;
-  // isAssistant: boolean;
+  
+  totalOffer: number;
 
   constructor(
     private platform: Platform,
@@ -27,9 +30,12 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar,
     private authService: AuthService,
     private userService: UsersService,
+    private offersService: OffersService,
+    private bookingsService: BookingsService,
     private router: Router,
   ) {
     this.initializeApp();
+    this.totalOffer = 0;
   }
 
   initializeApp() {
@@ -52,6 +58,15 @@ export class AppComponent implements OnInit {
       })
     ).subscribe((profile) => {
       this.userInfo = { ...profile, ...this.user };
+      /** count offers */
+      this.offersService.getSizeById(this.user.uid).subscribe((res) => {
+        this.totalOffer = res.docs.length;
+      });
+
+      /** count bookings */
+      // this.bookingsService.getSizeById(this.user.uid).subscribe((res) => {
+      //   this.totalOffer = res.docs.length;
+      // });
     });
   }
 

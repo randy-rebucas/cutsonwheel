@@ -29,7 +29,7 @@ export class NewsDetailPage implements OnInit {
         return;
       }
       this.isLoading = true;
-      this.newsService.getNewsDetail(paramMap.get('newsId')).subscribe((news) => {
+      this.newsService.getOne(paramMap.get('newsId')).subscribe((news) => {
         this.isLoading = false;
         this.news = news;
       });

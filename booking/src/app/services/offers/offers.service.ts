@@ -48,6 +48,16 @@ export class OffersService {
       );
   }
 
+  getSize() {
+    return this.afs.collection<useClass>(collection).get();
+  }
+
+  getSizeById(userId: string) {
+    return this.afs.collection<useClass>(collection,
+      ref => ref
+      .where('userId', '==', userId)).get();
+  }
+
   getAll(searchKey: string): Observable<useClass[]> {
     const datas = this.fetchData(this.defaultCollection());
     return datas.pipe(

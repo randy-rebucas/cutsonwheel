@@ -8,6 +8,20 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+    <ion-segment (ionChange)="segmentChanged($event)">
+        <ion-segment-button value="today" checked>
+            <ion-label>Today</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="week">
+            <ion-label>Week</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="month">
+            <ion-label>Month</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="custom">
+            <ion-label>Custom</ion-label>
+        </ion-segment-button>
+    </ion-segment>
     <!-- show skeleton loading -->
     <ion-list id="skeleton" *ngIf="isLoading">
         <ion-item>
@@ -32,7 +46,7 @@
                 <p>{{payment.transactions.description}}</p>
                 <p>{{payment.transactions.amount.total | currency:payment.transactions.amount.currency:'symbol-narrow'}}</p>
             </ion-label>
-            <ion-note slot="end">{{payment?.created | date}}</ion-note>
+            <ion-note slot="end">{{ payment?.datePaid | date }}</ion-note>
         </ion-item>
     </ion-virtual-scroll>
 

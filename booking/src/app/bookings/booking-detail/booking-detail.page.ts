@@ -56,7 +56,7 @@ export class BookingDetailPage implements OnInit {
         return;
       }
       this.isLoading = true;
-      this.bookingsService.getBooking(paramMap.get('bookingId')).pipe(
+      this.bookingsService.getOne(paramMap.get('bookingId')).pipe(
         map( bookings => {
           this.bookings = bookings;
           return bookings;
@@ -126,7 +126,7 @@ export class BookingDetailPage implements OnInit {
           id: bookingId,
           status: bookingStatus
         };
-        this.bookingsService.updateStatus(booking).then(() => {
+        this.bookingsService.update(booking).then(() => {
             loadingEl.dismiss();
             localStorage.clear();
             if (bookingStatus === 'done') {
