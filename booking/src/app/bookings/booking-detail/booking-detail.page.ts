@@ -33,7 +33,8 @@ export class BookingDetailPage implements OnInit {
   fullname: string;
   avatar: string;
   lbl: string;
-  role: string;
+  assistantRole: boolean;
+  clientRole: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -61,7 +62,7 @@ export class BookingDetailPage implements OnInit {
           return bookings;
         }),
         mergeMap( booking => {
-          const offer = this.offersService.getOffer(booking.assistant.offerId);
+          const offer = this.offersService.getOne(booking.assistant.offerId);
           const assistant = this.usersService.getUser(booking.assistant.assisstantId);
           const client = this.usersService.getUser(booking.userId);
           return forkJoin([offer, assistant, client]);
@@ -69,13 +70,14 @@ export class BookingDetailPage implements OnInit {
       ).subscribe((details) => {
         this.usersService.getUser(this.authService.getUsersProfile().uid).subscribe((user) => {
           const assistantName = details[1].firstname + ' ' + details[1].lastname;
-          const assistantAvatar = details[1].avatarUrl;
+          const assistantAvatar = details[1].photoURL;
           const clientName = details[2].firstname + ' ' + details[2].lastname;
-          const clientAvatar = details[2].avatarUrl;
+          const clientAvatar = details[2].photoURL;
           this.fullname = (user.roles.assistant) ? clientName : assistantName;
           this.avatar = (user.roles.assistant) ? clientAvatar : assistantAvatar;
           this.lbl = (user.roles.assistant) ? 'Client' : 'Assistant';
-          this.role = user.roles;
+          this.assistantRole = user.roles.assistant;
+          this.clientRole = user.roles.client;
         });
 
         this.isLoading = false;

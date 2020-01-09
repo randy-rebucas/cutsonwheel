@@ -23,7 +23,7 @@ export class DiscoverPage implements OnInit {
   userInfo: any;
 
   get offersData() {
-    return this.offersService.getOffers('');
+    return this.offersService.getAll('');
   }
 
   constructor(
@@ -70,7 +70,7 @@ export class DiscoverPage implements OnInit {
     if (!searchTerm) {
       this.offers$ = this.offersData;
     }
-    this.offers$ = this.offersService.getOffers(searchTerm);
+    this.offers$ = this.offersService.getAll(searchTerm);
   }
 
 }

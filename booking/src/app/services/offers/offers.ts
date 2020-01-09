@@ -9,7 +9,6 @@ export class Offers {
     public category: string,
     public duration: string,
     public charges: number,
-    // public services: Service,
     public userId: string
   ) {}
 }

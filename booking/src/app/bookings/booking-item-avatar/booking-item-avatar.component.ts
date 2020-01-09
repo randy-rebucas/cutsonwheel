@@ -17,7 +17,7 @@ export class BookingItemAvatarComponent implements OnInit {
 
   ngOnInit() {
     this.usersService.getUser(this.userId).subscribe((avatar) => {
-      this.avatar = avatar.avatarUrl;
+      this.avatar = avatar.photoURL;
     });
   }
 

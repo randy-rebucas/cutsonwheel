@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 })
 export class BookingsPage implements OnInit {
   isLoading = false;
+  isAssistant: boolean;
   userInfo: any;
 
   public loadedBookings$: Observable<Bookings[]>;
@@ -32,7 +33,8 @@ export class BookingsPage implements OnInit {
     if (currenctUser) {
       this.userService.getUser(currenctUser.uid).subscribe((profile) => {
         this.userInfo = { profile, ...currenctUser };
-        if (this.userInfo.profile.role === 'assistant') {
+        this.isAssistant = this.userInfo.profile.roles.assistant;
+        if (this.userInfo.profile.roles.assistant) {
           /** assistant */
           loadedBooking = this.bookingService.getBookingsByAssistant(currenctUser.uid);
         } else {

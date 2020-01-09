@@ -19,6 +19,7 @@ import { Observable, of } from 'rxjs';
 export class AppComponent implements OnInit {
   user: firebase.User;
   userInfo: any;
+  // isAssistant: boolean;
 
   constructor(
     private platform: Platform,

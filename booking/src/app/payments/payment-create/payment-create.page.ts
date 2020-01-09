@@ -61,7 +61,7 @@ export class PaymentCreatePage implements OnInit {
         return booking;
       }),
       mergeMap( booking => {
-        const offer = this.offersService.getOffer(booking.assistant.offerId);
+        const offer = this.offersService.getOne(booking.assistant.offerId);
         const assistant = this.usersService.getUser(booking.assistant.assisstantId);
         const client = this.usersService.getUser(booking.userId);
 
@@ -142,7 +142,7 @@ export class PaymentCreatePage implements OnInit {
           note: form.value.note,
           datePaid: new Date().toISOString()
         };
-        this.paymentsService.insertPayment(payment).then(() => {
+        this.paymentsService.insert(payment).then(() => {
           loadingEl.dismiss();
           localStorage.removeItem('bookingId');
           const booking  = {

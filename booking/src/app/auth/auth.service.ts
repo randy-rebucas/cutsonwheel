@@ -108,11 +108,6 @@ export class AuthService {
   }
 
   login(enteredEmail: string, enteredPassword: string) {
-    // const googleAuth = gapi.auth2.getAuthInstance();
-    // const googleUser = await googleAuth.signIn();
-
-    // const token = googleUser.getAuthResponse().id_token;
-
     this.loadingController.create({
       keyboardClose: true,
       message: 'Loging in...'
@@ -143,14 +138,15 @@ export class AuthService {
         .then( userCredential => {
           this.newUser = user;
           userCredential.user.updateProfile( {
-            displayName: user.firstName + ' ' + user.lastName
-          });
-
-          this.insertUserData(userCredential)
+            displayName: user.firstName + ' ' + user.lastName,
+            photoURL: null
+          }).then(() => {
+            this.insertUserData(userCredential)
             .then(() => {
               loadingEl.dismiss();
               this.router.navigateByUrl('/t/services/discover');
             });
+          });
         })
         .catch( error => {
           loadingEl.dismiss();
@@ -164,10 +160,12 @@ export class AuthService {
       firstname: this.newUser.firstName,
       lastname: this.newUser.lastName,
       email: userCredential.user.email,
-      displayName: this.newUser.firstName + ' ' + this.newUser.lastName,
+      displayName: userCredential.user.displayName,
+      photoURL: userCredential.user.photoURL,
+      emailVerified: false,
       roles: {
         client: (this.newUser.role === 'client') ? true : false,
-        assistant: (this.newUser.role === 'assistant') ? true : false,
+        assistant: (this.newUser.role === 'assistant') ? true : false
       },
       visibility : 'public',
       notification: [
@@ -176,31 +174,6 @@ export class AuthService {
         { label: 'Send an email events and updates', val: 'send-events-updates', isChecked: true }
       ]
     });
-  }
-
-  canRead(user: Users): boolean {
-    const allowed = ['admin', 'client', 'assistant'];
-    return this.checkAuthorization(user, allowed);
-  }
-
-  canEdit(user: Users): boolean {
-    const allowed = ['admin', 'client'];
-    return this.checkAuthorization(user, allowed);
-  }
-
-  canDelete(user: Users): boolean {
-    const allowed = ['admin'];
-    return this.checkAuthorization(user, allowed);
-  }
-
-  private checkAuthorization(user: Users, allowedRoles: string[]): boolean {
-    if (!user) { return false; }
-    for (const role of allowedRoles) {
-      if (user.roles[role]) {
-        return true;
-      }
-    }
-    return false;
   }
 
   logout() {

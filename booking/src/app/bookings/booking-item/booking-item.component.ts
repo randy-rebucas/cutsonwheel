@@ -13,7 +13,7 @@ import { Users } from 'src/app/users/users';
 })
 export class BookingItemComponent implements OnInit {
   @Input() booking: Bookings;
-  @Input() role: string;
+  @Input() isAssistantRole: boolean;
 
   offer: Offers;
   fullname: string;
@@ -25,16 +25,16 @@ export class BookingItemComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.offersService.getOffer(this.booking.assistant.offerId)
+    this.offersService.getOne(this.booking.assistant.offerId)
     .subscribe((offer) => {
       this.offer = offer;
-      this.lbl = (this.role === 'assistant') ? 'Client' : 'Assistant';
+      this.lbl = (!this.isAssistantRole) ? 'Client' : 'Assistant';
       this.getFullname();
     });
   }
 
   getFullname() {
-    const id = (this.role === 'assistant') ? this.booking.userId : this.booking.assistant.assisstantId;
+    const id = (!this.isAssistantRole) ? this.booking.userId : this.booking.assistant.assisstantId;
     this.usersService.getUser(id).pipe(
       map((user) => {
         return user.firstname + ' ' + user.lastname;

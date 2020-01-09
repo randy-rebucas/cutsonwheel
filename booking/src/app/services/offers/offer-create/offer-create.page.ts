@@ -101,7 +101,7 @@ export class OfferCreatePage implements OnInit {
                 charges: +this.form.value.charges,
                 userId: this.user.uid
               };
-              return this.offersService.insertOffer(offer);
+              return this.offersService.insert(offer);
             })
           )
           .subscribe(() => {

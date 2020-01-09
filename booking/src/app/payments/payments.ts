@@ -1,15 +1,14 @@
-import { Bookings } from '../bookings/bookings';
 
-interface Amount {
+export interface Amount {
   total: number;
   currency: string;
 }
 
-interface Payer {
+export interface Payer {
   paymentMethod: string;
 }
 
-interface Items {
+export interface Items {
   name: string;
   description: string;
   quantity: number;
@@ -17,17 +16,17 @@ interface Items {
   currency: string;
 }
 
-interface ShippingAddress {
+export interface ShippingAddress {
   recipientName: string;
   address: string;
 }
 
-interface ItemList {
+export interface ItemList {
   items: Items;
   shippingAddress: ShippingAddress;
 }
 
-interface Transaction {
+export interface Transaction {
   amount: Amount;
   description: string;
   invoiceNumber: number;

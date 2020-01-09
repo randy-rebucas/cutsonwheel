@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IonItemSliding, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { AuthService } from 'src/app/auth/auth.service';
 import { OffersService } from './offers.service';
@@ -12,46 +12,50 @@ import { Offers } from './offers';
   templateUrl: './offers.page.html',
   styleUrls: ['./offers.page.scss']
 })
-export class OffersPage implements OnInit {
-  isLoading = false;
+export class OffersPage implements OnInit, OnDestroy {
   public offers$: Observable<Offers[]>;
-  user: firebase.User;
+  public isLoading: boolean;
+
+  private auth$: Subscription;
 
   constructor(
     private offersService: OffersService,
     private router: Router,
     private authService: AuthService,
     private loadingCtrl: LoadingController,
-  ) {}
+  ) {
+    this.isLoading = true;
+  }
 
   ngOnInit() {
-    this.isLoading = true;
-
-    this.authService.getUserState()
+    this.auth$ = this.authService.getUserState()
       .subscribe( user => {
         this.isLoading = false;
-        this.user = user;
-        this.offers$ = this.offersService.getMyOffers(user.uid);
+        this.offers$ = this.offersService.getByUserId(user.uid);
       }
     );
   }
 
-  onDeleteOffer(offerId: string, slidingItem: IonItemSliding) {
+  onDelete(offerId: string, slidingItem: IonItemSliding) {
     this.loadingCtrl
       .create({
-        message: 'Deleting offer...'
+        message: 'Deleting...'
       })
       .then(loadingEl => {
         loadingEl.present();
-        this.offersService.deleteOffer(offerId).then(() => {
+        this.offersService.delete(offerId).then(() => {
           loadingEl.dismiss();
           slidingItem.close();
         });
       });
   }
 
-  onDeailOffer(offerId: string, slidingItem: IonItemSliding) {
+  onDeail(offerId: string, slidingItem: IonItemSliding) {
     slidingItem.close();
     this.router.navigateByUrl('/t/services/offers/offer-detail/' + offerId);
+  }
+
+  ngOnDestroy() {
+    this.auth$.unsubscribe();
   }
 }

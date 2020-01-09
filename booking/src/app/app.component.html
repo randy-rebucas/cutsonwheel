@@ -12,7 +12,7 @@
                 <ion-list>
                     <ion-item>
                         <ion-avatar slot="start">
-                            <img [src]="userInfo?.avatarUrl ? userInfo?.avatarUrl : '../../assets/images/avatar.png'">
+                            <img [src]="userInfo?.photoURL ? userInfo?.photoURL : '../../assets/images/avatar.png'">
                         </ion-avatar>
                         <ion-label>
                             <h3>{{userInfo?.displayName}}</h3>
@@ -25,18 +25,18 @@
                             <ion-label>Discover</ion-label>
                         </ion-item>
                     </ion-menu-toggle>
-                    <ng-container *ngIf="userInfo?.roles.assistant">
-                        <ion-menu-toggle>
-                            <ion-item lines="none" routerLink="/t/services/offers">
-                                <ion-icon name="globe" slot="start"></ion-icon>
-                                <ion-label>Offers</ion-label>
-                            </ion-item>
-                        </ion-menu-toggle>
-                    </ng-container>
+                    <ion-menu-toggle>
+                        <ion-item lines="none" routerLink="/t/services/offers">
+                            <ion-icon name="globe" slot="start"></ion-icon>
+                            <ion-label>Offers</ion-label>
+                            <ion-badge slot="end" color="danger">0</ion-badge>
+                        </ion-item>
+                    </ion-menu-toggle>
                     <ion-menu-toggle>
                         <ion-item lines="none" routerLink="/t/bookings">
                             <ion-icon name="calendar" slot="start"></ion-icon>
                             <ion-label>Bookings</ion-label>
+                            <ion-badge slot="end" color="danger">0</ion-badge>
                         </ion-item>
                     </ion-menu-toggle>
                     <ion-menu-toggle>

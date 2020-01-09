@@ -66,7 +66,7 @@ export class NewBookingPage implements OnInit {
     private loadingCtrl: LoadingController,
     private router: Router
   ) {
-    this.assistants$ = this.usersService.getUsersByRole('assistant');
+    this.assistants$ = this.usersService.getByAssistant();
   }
 
   ngOnInit() {
@@ -209,7 +209,7 @@ export class NewBookingPage implements OnInit {
 
   onPickedAssistant(userId: string) {
     this.isSelectedAssistant = true;
-    this.offers$ = this.offersService.getMyOffers(userId);
+    this.offers$ = this.offersService.getByUserId(userId);
   }
 
   getAssistant() {
@@ -221,7 +221,7 @@ export class NewBookingPage implements OnInit {
       this.userInfo = user;
     });
 
-    this.offersService.getOffer(assistant.offerId).subscribe((offer) => {
+    this.offersService.getOne(assistant.offerId).subscribe((offer) => {
       this.offerInfo = offer;
     });
   }
@@ -229,7 +229,7 @@ export class NewBookingPage implements OnInit {
   onPickedService(serviceId: string) {
     this.isSelectedOffer = true;
 
-    this.offersService.getOffer(serviceId).subscribe((offer) => {
+    this.offersService.getOne(serviceId).subscribe((offer) => {
       const assistantData = {
         assisstantId: offer.userId,
         offerId: offer.id

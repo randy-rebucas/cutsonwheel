@@ -8,31 +8,31 @@ import {
   DocumentReference
 } from '@angular/fire/firestore';
 
-import { Offers as useClass } from './offers';
+import { Categories as useClass } from './categories';
 
-const collection = 'offers';
-const indexKey = 'userId';
-const orderField = 'title';
+const collection = 'categories';
+const indexKey = 'slug';
+const orderField = 'name';
 const orderBy = 'asc';
 
 @Injectable({
   providedIn: 'root'
 })
-export class OffersService {
+export class CategoriesService {
 
   constructor(
     private afs: AngularFirestore
-  ) {}
+  ) { }
 
   private defaultCollection(): AngularFirestoreCollection<useClass> {
     return this.afs.collection<useClass>(collection, ref => ref.orderBy(orderField, orderBy));
   }
 
-  private filterByUserId(userId: string) {
+  private filterBySlug(slug: string) {
     return this.afs.collection<useClass>(
       collection,
       ref => ref
-      .where(indexKey, '==', userId)
+      .where(indexKey, '==', slug)
     );
   }
 
@@ -48,12 +48,12 @@ export class OffersService {
       );
   }
 
-  getAll(searchKey: string): Observable<useClass[]> {
+  getAll(searchKey: string = null): Observable<useClass[]> {
     const datas = this.fetchData(this.defaultCollection());
     return datas.pipe(
       map(dataList =>
         dataList.filter((data: useClass) => {
-          return data.title.toLowerCase().includes(searchKey.toLowerCase());
+          return data.name.toLowerCase().includes(searchKey.toLowerCase());
         })
       )
     );
@@ -69,8 +69,8 @@ export class OffersService {
     );
   }
 
-  getByUserId(userId: string): Observable<useClass[]> {
-    return this.fetchData(this.filterByUserId(userId));
+  getBySlug(slug: string): Observable<useClass[]> {
+    return this.fetchData(this.filterBySlug(slug));
   }
 
   insert(data: any): Promise<DocumentReference> {
@@ -87,5 +87,4 @@ export class OffersService {
   delete(id: string): Promise<void> {
     return this.defaultCollection().doc(id).delete();
   }
-
 }

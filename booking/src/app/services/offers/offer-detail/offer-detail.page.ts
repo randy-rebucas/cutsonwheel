@@ -58,7 +58,7 @@ export class OfferDetailPage implements OnInit, OnDestroy {
         return;
       }
       this.isLoading = true;
-      this.offersService.getOffer(paramMap.get('offerId')).subscribe(offer => {
+      this.offersService.getOne(paramMap.get('offerId')).subscribe(offer => {
         this.isLoading = false;
 
         this.offer = offer;
@@ -75,7 +75,7 @@ export class OfferDetailPage implements OnInit, OnDestroy {
         this.usersService.getUser(this.user.uid).subscribe((activeUser) => {
           this.userDetail = activeUser;
 
-          if (activeUser.role !== 'assistant') {
+          if (activeUser.roles.client) {
             this.isBookable = true;
           }
         });
@@ -162,7 +162,7 @@ export class OfferDetailPage implements OnInit, OnDestroy {
     })
     .then(loadingEl => {
       loadingEl.present();
-      this.offersService.deleteOffer(offerId).then(() => {
+      this.offersService.delete(offerId).then(() => {
         loadingEl.dismiss();
         this.router.navigateByUrl('/t/services/offers');
       });

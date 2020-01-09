@@ -23,18 +23,20 @@ export class PaymentsPage implements OnInit {
   }
 
   ngOnInit() {
-    this.authsService.getUserState().pipe(
-      switchMap(user => {
-        if (user) {
-          return this.paymentsService.getPaymentsByAssistantId(user.uid);
-        } else {
-          return of(null);
-        }
-      })
-    ).subscribe((payments) => {
+
+    this.authsService.getUserState().subscribe((user) => {
       this.isLoading = false;
-      this.payments$ = payments;
+      this.payments$ = this.paymentsService.getByAssistant(user.uid);
     });
+
+    // this.authsService.getUserState().pipe(
+    //   switchMap(user => {
+    //     return this.paymentsService.getByAssistant(user.uid);
+    //   })
+    // ).subscribe((payments) => {
+    //   this.isLoading = false;
+    //   this.payments$ = payments;
+    // });
   }
 
   onViewDetails(paymentId: string) {
