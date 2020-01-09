@@ -157,4 +157,7 @@ export class UsersService {
     return this.defaultCollection().doc(user.id).update(user);
   }
 
+  // updateAvatar(image: string, userId: string) {
+  //   return this.defaultCollection().doc(userId).update();
+  // }
 }

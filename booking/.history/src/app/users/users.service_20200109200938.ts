@@ -153,8 +153,16 @@ export class UsersService {
     }, { merge: true });
   }
 
-  update(user: any): Promise<void> {
-    return this.defaultCollection().doc(user.id).update(user);
+  updateUser(user: any): Promise<void> {
+    return this.defaultCollection().doc(user.id).update({
+      firstname: user.firstname,
+      lastname: user.lastname
+    });
   }
 
+  updateAvatar(image: string, userId: string) {
+    return this.defaultCollection().doc(userId).update({
+      photoURL: image
+    });
+  }
 }

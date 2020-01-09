@@ -1,3 +1,0 @@
-gcalc
-client ID: 572167105904-rmdv7093tf7pevuutettf23pasd8nej7.apps.googleusercontent.com
-client secret: 8nr3ZYZPiW04UStfH0ignK4k

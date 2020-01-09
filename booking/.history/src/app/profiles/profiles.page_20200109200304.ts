@@ -74,8 +74,8 @@ export class ProfilesPage implements OnInit {
         this.getLocation(this.userInfo.uid).subscribe((location) => {
           this.location = location;
         });
-        this.getNotification(this.userInfo.uid).subscribe((notification) => {
-          this.notifications = notification;
+        this.getNotification(this.userInfo.uid).subscribe((detail) => {
+          this.notifications = detail.notification ? detail.notification : this.notifications;
         });
         this.getSetting(this.userInfo.uid).subscribe((detail) => {
           this.selectedExperience = detail.experience ? detail.experience : '';
@@ -95,8 +95,8 @@ export class ProfilesPage implements OnInit {
     return this.profileService.getSetLocations(userId);
   }
 
-  getNotification(userId: string): Observable<Notification> {
-    return this.profileService.getSetNotifications(userId);
+  getNotification(userId: string): Observable<any> {
+    return this.userService.getUser(userId);
   }
 
   getSetting(userId: string): Observable<any> {
@@ -136,8 +136,8 @@ export class ProfilesPage implements OnInit {
 
   notificationSelect(ev: any, userId: string) {
     this.userService.setNotification(this.notifications, userId).then(() => {
-      this.getNotification(userId).subscribe((notification) => {
-        this.notifications = notification;
+      this.getNotification(userId).subscribe((detail) => {
+        this.notifications = detail.notification ? detail.notification : this.notifications;
       });
     });
   }

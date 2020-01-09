@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
     ).subscribe((profile) => {
       this.userInfo = { ...profile, ...this.user };
       /** count offers */
-      if (this.user) {
+      if (this.user.uid) {
         this.offersService.getSizeById(this.user.uid).subscribe((res) => {
           this.totalOffer = res.docs.length;
         });

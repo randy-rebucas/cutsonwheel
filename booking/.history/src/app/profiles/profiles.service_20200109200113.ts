@@ -11,7 +11,7 @@ export class ProfilesService {
     private userService: UsersService
   ) { }
 
-  getSetLocations(userId: string): any {
+  public getSetLocations(userId: string): any {
     return new Observable(observer => {
       this.userService.getUser(userId).subscribe((detail) => {
         observer.next(detail.location);
@@ -19,11 +19,4 @@ export class ProfilesService {
     });
   }
 
-  getSetNotifications(userId: string): any {
-    return new Observable(observer => {
-      this.userService.getUser(userId).subscribe((detail) => {
-        observer.next(detail.notification);
-      });
-    });
-  }
 }
