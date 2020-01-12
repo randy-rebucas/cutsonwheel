@@ -115,7 +115,6 @@ export class AssistantPage implements OnInit {
 
   onEdit() {
     this.activeNext = false;
-    localStorage.removeItem('assistant');
   }
 
   onPickedAssistant(userId: string) {

@@ -9,7 +9,7 @@ import { Misc } from './../../../shared/class/misc';
 import { map } from 'rxjs/operators';
 
 interface Assistant {
-  assistantId: string;
+  assisstantId: string;
   selectedServices: any[];
   subTotal: number;
 }

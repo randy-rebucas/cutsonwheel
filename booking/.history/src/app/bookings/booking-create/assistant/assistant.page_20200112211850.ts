@@ -113,11 +113,6 @@ export class AssistantPage implements OnInit {
     this.navCtrl.navigateBack('/t/bookings/booking-create/' + target);
   }
 
-  onEdit() {
-    this.activeNext = false;
-    localStorage.removeItem('assistant');
-  }
-
   onPickedAssistant(userId: string) {
     this.modalCtrl.create({
         component: ServicesComponent,

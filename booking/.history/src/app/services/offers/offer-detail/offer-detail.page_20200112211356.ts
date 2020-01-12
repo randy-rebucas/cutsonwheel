@@ -110,10 +110,16 @@ export class OfferDetailPage implements OnInit, OnDestroy {
   }
 
   canDeleteAction(userId: string, key: any): boolean {
+    return this.checkAuthorization(userId, key);
+  }
+
+  private checkAuthorization(userId: string, key: any): boolean {
     if (!userId) { return false; }
+
     if (userId === key) {
       return true;
     }
+
     return false;
   }
 
@@ -131,7 +137,7 @@ export class OfferDetailPage implements OnInit, OnDestroy {
           offer.qty = 1;
           const assistant = {
             assistantId: offer.userId,
-            selectedServices: [offer],
+            selectedServices: offer,
             subTotal: offer.charges
           };
           this.setAssistant(assistant);

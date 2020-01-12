@@ -50,7 +50,7 @@ export class ReviewPage implements OnInit {
 
     // get assistant
     this.assistant = this.getAssistant();
-    this.usersServce.getUser(this.assistant.assistantId).subscribe((user) => {
+    this.usersServce.getUser(this.assistant.assisstantId).subscribe((user) => {
       this.user = user;
     });
 

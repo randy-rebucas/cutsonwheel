@@ -9,7 +9,7 @@ import { map, mergeMap } from 'rxjs/operators';
 import { Offers } from 'src/app/services/offers/offers';
 
 interface Assistant {
-  assistantId: string;
+  assisstantId: string;
   selectedServices: any[];
   subTotal: number;
 }
@@ -111,11 +111,6 @@ export class AssistantPage implements OnInit {
 
   onNext(target: string) {
     this.navCtrl.navigateBack('/t/bookings/booking-create/' + target);
-  }
-
-  onEdit() {
-    this.activeNext = false;
-    localStorage.removeItem('assistant');
   }
 
   onPickedAssistant(userId: string) {

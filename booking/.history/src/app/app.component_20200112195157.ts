@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { Plugins, Capacitor } from '@capacitor/core';
 import { switchMap } from 'rxjs/operators';
 import { UsersService } from './users/users.service';
-import { of, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { OffersService } from './services/offers/offers.service';
 import { BookingsService } from './bookings/bookings.service';
 
@@ -25,7 +25,6 @@ export class AppComponent implements OnInit {
   totalOffer: number;
   totalBooking: number;
   isOfferActive: boolean;
-
   authSub: Subscription;
 
 
@@ -73,12 +72,12 @@ export class AppComponent implements OnInit {
         this.offersService.getSizeById(this.user.uid).subscribe((res) => {
           this.totalOffer = res.docs.length;
         });
-        /** count bookings */
-        this.bookingsService.getSizeById(this.user.uid).subscribe((res) => {
-          this.totalBooking = res.docs.length;
-        });
       }
 
+      /** count bookings */
+      this.bookingsService.getSizeById(this.user.uid).subscribe((res) => {
+        this.totalBooking = res.docs.length;
+      });
     });
   }
 

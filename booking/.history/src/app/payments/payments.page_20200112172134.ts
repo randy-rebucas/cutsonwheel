@@ -29,9 +29,9 @@ export class PaymentsPage implements OnInit, OnDestroy {
     this.authSub = this.authsService.getUserState().subscribe((user) => {
       if (user) {
         this.isLoading = false;
-        const start = new Date().toISOString();
-        console.log(start);
-        const end = new Date().toISOString();
+        const start = new Date();
+        console.log(start.toLocaleDateString());
+        const end = new Date();
 
         this.payments$ = this.paymentsService.getByAssistant(user.uid, start, end);
       }

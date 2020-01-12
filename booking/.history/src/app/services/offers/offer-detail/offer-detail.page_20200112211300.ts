@@ -110,28 +110,33 @@ export class OfferDetailPage implements OnInit, OnDestroy {
   }
 
   canDeleteAction(userId: string, key: any): boolean {
+    return this.checkAuthorization(userId, key);
+  }
+
+  private checkAuthorization(userId: string, key: any): boolean {
     if (!userId) { return false; }
+
     if (userId === key) {
       return true;
     }
+
     return false;
   }
 
   onBookOffer(offerId: string) {
     this.loadingCtrl
     .create({
-      message: 'Booking service...'
+      message: 'Booking offer...'
     })
     .then(loadingEl => {
       loadingEl.present();
 
       this.offerSub = this.offersService.getOne(offerId)
         .subscribe(offer => {
-          loadingEl.dismiss();
           offer.qty = 1;
           const assistant = {
             assistantId: offer.userId,
-            selectedServices: [offer],
+            selectedServices: offer,
             subTotal: offer.charges
           };
           this.setAssistant(assistant);
@@ -148,7 +153,7 @@ export class OfferDetailPage implements OnInit, OnDestroy {
   onDeleteOffer(offerId: string) {
     this.loadingCtrl
     .create({
-      message: 'Deleting service...'
+      message: 'Deleting offer...'
     })
     .then(loadingEl => {
       loadingEl.present();

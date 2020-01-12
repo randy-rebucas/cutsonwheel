@@ -131,7 +131,7 @@ export class OfferDetailPage implements OnInit, OnDestroy {
           offer.qty = 1;
           const assistant = {
             assistantId: offer.userId,
-            selectedServices: [offer],
+            selectedServices: offer,
             subTotal: offer.charges
           };
           this.setAssistant(assistant);

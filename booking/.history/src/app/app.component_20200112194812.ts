@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { Plugins, Capacitor } from '@capacitor/core';
 import { switchMap } from 'rxjs/operators';
 import { UsersService } from './users/users.service';
-import { of, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { OffersService } from './services/offers/offers.service';
 import { BookingsService } from './bookings/bookings.service';
 
@@ -25,9 +25,7 @@ export class AppComponent implements OnInit {
   totalOffer: number;
   totalBooking: number;
   isOfferActive: boolean;
-
-  authSub: Subscription;
-
+  subscription: Subscription;
 
   constructor(
     private platform: Platform,
@@ -53,7 +51,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authSub = this.authService.getUserState().pipe(
+
+    const authSub = this.authService.getUserState().pipe(
       switchMap(user => {
         if (user) {
           this.user = user;
@@ -70,21 +69,23 @@ export class AppComponent implements OnInit {
       }
       /** count offers */
       if (this.user) {
-        this.offersService.getSizeById(this.user.uid).subscribe((res) => {
+        const offerCount = this.offersService.getSizeById(this.user.uid).subscribe((res) => {
           this.totalOffer = res.docs.length;
         });
+        this.subscription.add(offerCount);
         /** count bookings */
-        this.bookingsService.getSizeById(this.user.uid).subscribe((res) => {
+        const bookingCount = this.bookingsService.getSizeById(this.user.uid).subscribe((res) => {
           this.totalBooking = res.docs.length;
         });
+        this.subscription.add(bookingCount);
       }
-
     });
+    this.subscription.add(authSub);
   }
 
   onLogout() {
     this.authService.logout();
-    this.authSub.unsubscribe();
+    this.subscription.unsubscribe();
     this.router.navigateByUrl('/home');
   }
 

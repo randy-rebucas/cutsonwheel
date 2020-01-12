@@ -76,8 +76,10 @@ export class OfferDetailPage implements OnInit, OnDestroy {
             if (user) {
               // validate can delete access
               this.canDelete = this.canDeleteAction(user.uid, offer.userId);
-
-              // validate client permission to booked
+              console.log(this.canDelete);
+              // if (user.uid === offer.userId) {
+              //   this.canDelete = true;
+              // }
               this.usersService.getUser(user.uid)
                 .subscribe((activeUser) => {
                   this.userDetail = activeUser;
@@ -89,6 +91,19 @@ export class OfferDetailPage implements OnInit, OnDestroy {
             }
           }
         );
+        // this.user = this.authService.getUsersProfile();
+
+        // if (this.user.uid === this.offer.userId) {
+        //   this.canDelete = true;
+        // }
+        // this.usersService.getUser(this.user.uid)
+        //   .subscribe((activeUser) => {
+        //     this.userDetail = activeUser;
+        //     if (activeUser.roles.client) {
+        //       this.isBookable = true;
+        //     }
+        //   }
+        // );
       },
       error => {
         this.alertCtrl
@@ -110,35 +125,69 @@ export class OfferDetailPage implements OnInit, OnDestroy {
   }
 
   canDeleteAction(userId: string, key: any): boolean {
+    return this.checkAuthorization(userId, key);
+  }
+
+  private checkAuthorization(userId: string, key: any): boolean {
     if (!userId) { return false; }
+
     if (userId === key) {
       return true;
     }
+
     return false;
   }
 
-  onBookOffer(offerId: string) {
-    this.loadingCtrl
-    .create({
-      message: 'Booking service...'
-    })
-    .then(loadingEl => {
-      loadingEl.present();
+  onBookOffer() {
+    this.actionSheetCtrl
+      .create({
+        header: 'Choose an Action',
+        buttons: [
+          {
+            text: 'Select Date',
+            handler: () => {
+              this.openBookingModal();
+            }
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel'
+          }
+        ]
+      })
+      .then(actionSheetEl => {
+        actionSheetEl.present();
+      });
+  }
 
-      this.offerSub = this.offersService.getOne(offerId)
-        .subscribe(offer => {
-          loadingEl.dismiss();
-          offer.qty = 1;
-          const assistant = {
-            assistantId: offer.userId,
-            selectedServices: [offer],
-            subTotal: offer.charges
-          };
-          this.setAssistant(assistant);
-          this.router.navigateByUrl('/t/bookings/booking-create/location');
+  openBookingModal() {
+    this.modalCtrl
+      .create({
+        component: DatetimePickerComponent,
+        componentProps: { selectedOffer: this.offer }
+      })
+      .then(modalEl => {
+        modalEl.present();
+        return modalEl.onDidDismiss();
+      })
+      .then(resultData => {
+        if (resultData.role === 'confirm') {
+          this.loadingCtrl
+            .create({ message: 'Booking offer...' })
+            .then(loadingEl => {
+              loadingEl.present();
+
+              this.setAssistant(resultData.data.serviceSelected);
+              this.setSchedule(resultData.data.scheduleDateTime);
+              this.router.navigateByUrl('/t/bookings/new-booking');
+              loadingEl.dismiss();
+            });
         }
-      );
-    });
+      });
+  }
+
+  setSchedule(scheduled: any) {
+    localStorage.setItem('schedule', JSON.stringify(scheduled));
   }
 
   setAssistant(serviceSelected: any) {
@@ -148,7 +197,7 @@ export class OfferDetailPage implements OnInit, OnDestroy {
   onDeleteOffer(offerId: string) {
     this.loadingCtrl
     .create({
-      message: 'Deleting service...'
+      message: 'Deleting offer...'
     })
     .then(loadingEl => {
       loadingEl.present();
@@ -160,7 +209,9 @@ export class OfferDetailPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.offerSub.unsubscribe();
+    if (this.offerSub) {
+      this.offerSub.unsubscribe();
+    }
   }
 
 }
