@@ -29,7 +29,9 @@
     "@ionic/pwa-elements": "^1.4.1",
     "capacitor": "^0.5.5",
     "core-js": "^2.5.4",
-    "firebase": "^7.6.1",
+    "firebase": "^7.6.2",
+    "firebaseui": "^4.4.0",
+    "firebaseui-angular": "^4.0.1",
     "rxjs": "^6.5.4",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"

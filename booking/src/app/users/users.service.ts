@@ -131,7 +131,7 @@ export class UsersService {
     return this.defaultCollection().doc<useClass>(userId).valueChanges().pipe(
       take(1),
       map(user => {
-        user.id = userId;
+        // user.uid = userId;
         return user;
       })
     );
@@ -167,8 +167,33 @@ export class UsersService {
     }, { merge: true });
   }
 
+  setProfile(user: any, userId: string) {
+    return this.defaultCollection().doc(userId).set({
+      firstname: user.firstname,
+      lastname: user.lastname
+    }, { merge: true });
+  }
+
   update(user: any): Promise<void> {
     return this.defaultCollection().doc(user.id).update(user);
+  }
+
+  insert(user: firebase.User) {
+    return this.defaultCollection().doc(user.uid).set({
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      emailVerified: user.emailVerified,
+      phoneNumber: user.phoneNumber,
+      isAnonymous: user.isAnonymous,
+      tenantId: user.tenantId,
+      metadata: {
+        lastSignInTime: user.metadata.lastSignInTime,
+        creationTime: user.metadata.creationTime
+      },
+      isSetupCompleted: false,
+      isValidated: false
+    });
   }
 
 }

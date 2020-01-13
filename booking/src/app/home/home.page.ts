@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
   slideOpts: any;
 
   user: firebase.User;
   token: firebase.auth.IdTokenResult;
+  private authSub: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -24,18 +26,15 @@ export class HomePage implements OnInit {
       speed: 400
     };
 
-    this.authService.getUserState()
+    this.authSub = this.authService.getUserState()
       .subscribe( user => {
         if (user) {
           this.router.navigateByUrl('/t/services/discover');
         }
     });
-
-    // this.authService.getIdToken()
-    //   .subscribe((token) => {
-    //     console.log(token);
-    //   }
-    // );
   }
 
+  ngOnDestroy() {
+    this.authSub.unsubscribe();
+  }
 }

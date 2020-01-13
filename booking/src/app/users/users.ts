@@ -12,22 +12,33 @@ export interface Roles {
   admin?: boolean;
 }
 
+export interface Metadata {
+  lastSignInTime: Date;
+  creationTime: Date;
+}
+
 export class Users {
   constructor(
-    public id: string,
-    public firstname: string,
-    public lastname: string,
     public email: string,
-    public password: string,
     public emailVerified: boolean,
     public photoURL: string,
     public displayName: string,
     public phoneNumber: string,
-    public roles: Roles,
-    public experience: string,
-    public visibility: string,
-    public classification: string,
-    public location: PlaceLocation,
-    public notification: Notification
+    public isAnonymous: boolean,
+    public tenantId: string,
+    public id: string,
+    public metadata: Metadata,
+    public isSetupCompleted: boolean,
+    public isValidated: boolean,
+
+    public experience?: string,
+    public visibility?: string,
+    public classification?: string,
+    public location?: PlaceLocation,
+    public notification?: Notification,
+    public roles?: Roles,
+    public password?: string,
+    public firstname?: string,
+    public lastname?: string,
   ) {}
 }
