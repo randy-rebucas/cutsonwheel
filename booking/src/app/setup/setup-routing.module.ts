@@ -6,15 +6,11 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
-  },
-  {
-    path: 'option',
-    loadChildren: () => import('./option/option.module').then( m => m.OptionPageModule)
-  },
-  {
-    path: 'photo',
-    loadChildren: () => import('./photo/photo.module').then( m => m.PhotoPageModule)
+  },  {
+    path: 'skill',
+    loadChildren: () => import('./skill/skill.module').then( m => m.SkillPageModule)
   }
+
 ];
 
 @NgModule({
