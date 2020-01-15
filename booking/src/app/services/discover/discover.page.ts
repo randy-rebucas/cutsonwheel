@@ -48,8 +48,6 @@ export class DiscoverPage implements OnInit {
         }
       })
     ).subscribe((profile) => {
-      console.log(profile);
-      // this.userInfo = { profile, ...this.user };
       this.isLoading = false;
     });
   }

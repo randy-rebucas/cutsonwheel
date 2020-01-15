@@ -5,17 +5,13 @@ import { IonicModule } from '@ionic/angular';
 import { LocationPickerComponent } from './pickers/location-picker/location-picker.component';
 import { MapModalComponent } from './map-modal/map-modal.component';
 import { ImagePickerComponent } from './pickers/image-picker/image-picker.component';
-import { ToastComponent } from './toast/toast.component';
 import { FormsModule } from '@angular/forms';
-import { DateTimeModalComponent } from './date-time-modal/date-time-modal.component';
 
 @NgModule({
   declarations: [
     LocationPickerComponent,
     MapModalComponent,
-    DateTimeModalComponent,
-    ImagePickerComponent,
-    ToastComponent
+    ImagePickerComponent
   ],
   imports: [
     CommonModule,
@@ -25,10 +21,8 @@ import { DateTimeModalComponent } from './date-time-modal/date-time-modal.compon
   exports: [
     LocationPickerComponent,
     MapModalComponent,
-    DateTimeModalComponent,
-    ImagePickerComponent,
-    ToastComponent
+    ImagePickerComponent
   ],
-  entryComponents: [DateTimeModalComponent, MapModalComponent]
+  entryComponents: [MapModalComponent]
 })
 export class SharedModule {}

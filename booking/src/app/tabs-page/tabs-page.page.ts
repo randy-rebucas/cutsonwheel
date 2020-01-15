@@ -1,27 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { UsersService } from '../users/users.service';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { Users } from '../users/users';
 
 @Component({
   selector: 'app-tabs-page',
   templateUrl: './tabs-page.page.html',
   styleUrls: ['./tabs-page.page.scss'],
 })
-export class TabsPagePage implements OnInit {
-
-  isLoading: boolean;
+export class TabsPagePage implements OnInit, OnDestroy {
   user: firebase.User;
-  userInfo: any;
-
+  users: Users;
+  private authSub: Subscription;
   constructor(
     private authService: AuthService,
     private userService: UsersService
   ) { }
 
   ngOnInit() {
-    this.authService.getUserState().pipe(
+    // check current user state
+    this.authSub = this.authService.getUserState().pipe(
       switchMap(user => {
         if (user) {
           this.user = user;
@@ -31,8 +31,11 @@ export class TabsPagePage implements OnInit {
         }
       })
     ).subscribe((profile) => {
-      this.userInfo = profile;
+      this.users = profile;
     });
   }
 
+  ngOnDestroy() {
+    this.authSub.unsubscribe();
+  }
 }

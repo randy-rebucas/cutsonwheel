@@ -29,7 +29,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.authSub = this.authService.getUserState()
       .subscribe( user => {
         if (user) {
-          this.router.navigateByUrl('/t/services/discover');
+          this.user = user;
         }
     });
   }

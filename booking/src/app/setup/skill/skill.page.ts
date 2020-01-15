@@ -73,7 +73,7 @@ export class SkillPage implements OnInit, OnDestroy {
     };
     // update user profile
     this.usersService.update(data).then(() => {
-      this.router.navigateByUrl('/home');
+      this.router.navigateByUrl('/t/services/discover');
     });
   }
 

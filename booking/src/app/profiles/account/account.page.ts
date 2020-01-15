@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { UsersService } from 'src/app/users/users.service';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { of, Observable, Subscription } from 'rxjs';
 import { Users } from 'src/app/users/users';
 import { UploadProfilePictureComponent } from './upload-profile-picture/upload-profile-picture.component';
@@ -21,7 +21,7 @@ export class AccountPage implements OnInit, OnDestroy {
   users: Users;
   location: PlaceLocation;
   isLoading: boolean;
-  classifications: Observable<Classifications[]>;
+  classifications: Classifications[];
   selectedClassification: string;
   selectedExperience: string;
   private authSub: Subscription;
@@ -59,7 +59,9 @@ export class AccountPage implements OnInit, OnDestroy {
       );
     });
 
-    this.classifications = this.classificationsService.getClassifications();
+    this.classificationsService.getClassifications().subscribe((classifications) => {
+      this.classifications = classifications;
+    });
   }
 
   presentPopover(e: CustomEvent) {

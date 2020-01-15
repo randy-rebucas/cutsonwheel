@@ -23,6 +23,7 @@
                 <p>Email: {{users?.email}}</p>
                 <p>Joined: {{users?.metadata.creationTime | date }}</p>
             </ion-label>
+            <!-- <ion-icon name="create" slot="end"></ion-icon> -->
         </ion-item>
     </ion-list>
     <ion-card *ngIf="!isLoading">
@@ -30,7 +31,7 @@
             <ion-item *ngIf="users.roles.assistant">
                 <ion-label>Expertise</ion-label>
                 <ion-select [(ngModel)]="selectedClassification">
-                    <ion-select-option [value]="classification.name" *ngFor="let classification of (classifications | async)">{{classification.name}}</ion-select-option>
+                    <ion-select-option [value]="classification.name" *ngFor="let classification of classifications">{{classification.name}}</ion-select-option>
                 </ion-select>
             </ion-item>
             <ion-item *ngIf="users.roles.assistant">

@@ -38,12 +38,12 @@ export class AuthPage implements OnInit, OnDestroy {
       // check if user state was logedin
       if (profile) {
         // check if user already done the setup
-        if (profile.isSetupCompleted) {
-          // redirect to discover
-          this.router.navigateByUrl('/t/services/discover');
-        } else {
+        if (!profile.isSetupCompleted) {
           // redirect to user setup
           this.router.navigateByUrl('/setup');
+        } else {
+          // redirect to discover
+          this.router.navigateByUrl('/home');
         }
       }
     });
