@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ModalController, LoadingController } from '@ionic/angular';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ImagePickerService } from '../../../shared/components/image-picker/image-picker.service';
@@ -6,16 +6,20 @@ import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../../../auth/auth.service';
 import { ImagePicker } from '../../../shared/components/image-picker/image-picker';
 import { UsersService } from 'src/app/users/users.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-upload-profile-picture',
   templateUrl: './upload-profile-picture.component.html',
   styleUrls: ['./upload-profile-picture.component.scss'],
 })
-export class UploadProfilePictureComponent implements OnInit {
+export class UploadProfilePictureComponent implements OnInit, OnDestroy {
   form: FormGroup;
   user: firebase.User;
   imagePicker: ImagePicker;
+
+  private authSub: Subscription;
+  private uploadSub: Subscription;
 
   constructor(
     private modalCtrl: ModalController,
@@ -30,7 +34,7 @@ export class UploadProfilePictureComponent implements OnInit {
       image: new FormControl(null)
     });
 
-    this.authService.getUserState()
+    this.authSub = this.authService.getUserState()
       .subscribe( user => {
         this.user = user;
       }
@@ -51,7 +55,8 @@ export class UploadProfilePictureComponent implements OnInit {
       })
       .then(loadingEl => {
         loadingEl.present();
-        this.imagePickerService
+
+        this.uploadSub = this.imagePickerService
           .uploadImage(this.form.get('image').value)
           .pipe(
             switchMap(uploadRes => {
@@ -89,5 +94,10 @@ export class UploadProfilePictureComponent implements OnInit {
       imageFile = imageData;
     }
     this.form.patchValue({ image: imageFile });
+  }
+
+  ngOnDestroy() {
+    this.authSub.unsubscribe();
+    this.uploadSub.unsubscribe();
   }
 }

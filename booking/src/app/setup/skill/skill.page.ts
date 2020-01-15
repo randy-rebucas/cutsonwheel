@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Classifications } from 'src/app/classifications/classifications';
 import { Observable, Subscription, of } from 'rxjs';
-import { ClassificationsService } from 'src/app/classifications/classifications.service';
 import { Router } from '@angular/router';
-import { UsersService } from 'src/app/users/users.service';
-import { AuthService } from 'src/app/auth/auth.service';
+import { UsersService } from './../../users/users.service';
+import { AuthService } from './../../auth/auth.service';
 import { switchMap } from 'rxjs/operators';
+import { Classifications } from './../../shared/class/classifications';
+import { ClassificationsService } from './../../shared/services/classifications.service';
 
 @Component({
   selector: 'app-skill',

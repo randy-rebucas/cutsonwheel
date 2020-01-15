@@ -2,8 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   NavController,
-  ModalController,
-  ActionSheetController,
   LoadingController,
   AlertController
 } from '@ionic/angular';
@@ -14,7 +12,6 @@ import { Offers } from '../../offers/offers';
 import { OffersService } from '../../offers/offers.service';
 import { UsersService } from '../../../users/users.service';
 import { Users } from 'src/app/users/users';
-import { DatetimePickerComponent } from './../../../bookings/booking-create/schedule/datetime-picker/datetime-picker.component';
 
 @Component({
   selector: 'app-offer-detail',
@@ -30,14 +27,15 @@ export class OfferDetailPage implements OnInit, OnDestroy {
   userDetail: Users;
   canDelete: boolean;
   offer: Offers;
+
   private offerSub: Subscription;
+  private authSub: Subscription;
+  private userSub: Subscription;
 
   constructor(
     private navCtrl: NavController,
     private route: ActivatedRoute,
     private offersService: OffersService,
-    private modalCtrl: ModalController,
-    private actionSheetCtrl: ActionSheetController,
     private loadingCtrl: LoadingController,
     private authService: AuthService,
     private usersService: UsersService,
@@ -56,6 +54,16 @@ export class OfferDetailPage implements OnInit, OnDestroy {
         return;
       }
 
+      this.authSub = this.authService.getUserState()
+          .subscribe((user) => {
+            if (user) {
+              this.user = user;
+              // validate client permission to booked
+              this.canBooked(user.uid);
+            }
+          }
+        );
+
       this.offerSub = this.offersService.getOne(paramMap.get('offerId'))
       .subscribe(offer => {
         // set loading to false
@@ -65,30 +73,10 @@ export class OfferDetailPage implements OnInit, OnDestroy {
         this.offer = offer;
 
         // get assistant details
-        this.usersService.getUser(offer.userId)
-          .subscribe((assistant) => {
-            this.assistantDetail = assistant;
-          }
-        );
+        this.getAssistantRole(offer.userId);
 
-        this.authService.getUserState()
-          .subscribe((user) => {
-            if (user) {
-              // validate can delete access
-              this.canDelete = this.canDeleteAction(user.uid, offer.userId);
-
-              // validate client permission to booked
-              this.usersService.getUser(user.uid)
-                .subscribe((activeUser) => {
-                  this.userDetail = activeUser;
-                  if (activeUser.roles.client) {
-                    this.isBookable = true;
-                  }
-                }
-              );
-            }
-          }
-        );
+        // validate can delete access
+        this.canDelete = this.canDeleteAction(this.user.uid, offer.userId);
       },
       error => {
         this.alertCtrl
@@ -109,12 +97,31 @@ export class OfferDetailPage implements OnInit, OnDestroy {
     });
   }
 
+  getAssistantRole(userId: string) {
+    this.userSub = this.usersService.getUser(userId)
+      .subscribe((assistant) => {
+        this.assistantDetail = assistant;
+      }
+    );
+  }
+
   canDeleteAction(userId: string, key: any): boolean {
     if (!userId) { return false; }
     if (userId === key) {
       return true;
     }
     return false;
+  }
+
+  canBooked(userId: string) {
+    this.userSub = this.usersService.getUser(userId)
+      .subscribe((activeUser) => {
+        this.userDetail = activeUser;
+        if (activeUser.roles.client) {
+          this.isBookable = true;
+        }
+      }
+    );
   }
 
   onBookOffer(offerId: string) {
@@ -160,7 +167,9 @@ export class OfferDetailPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.authSub.unsubscribe();
     this.offerSub.unsubscribe();
+    this.userSub.unsubscribe();
   }
 
 }

@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BookingsService } from '../../bookings.service';
-import { Observable } from 'rxjs';
 import { Bookings } from '../../bookings';
-import { UsersService } from 'src/app/users/users.service';
 import { NgForm } from '@angular/forms';
-import { NavController, ModalController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { Misc } from './../../../shared/class/misc';
 import { map } from 'rxjs/operators';
+import { Subscription, Observable } from 'rxjs';
 
 interface Assistant {
   assistantId: string;
@@ -18,40 +17,35 @@ interface Schedule {
   datePicked: string;
   timePicked: string;
 }
+
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.page.html',
   styleUrls: ['./schedule.page.scss'],
 })
-export class SchedulePage implements OnInit {
+export class SchedulePage implements OnInit, OnDestroy {
   public assistant: Assistant;
-  public booking$: Observable<Bookings[]>;
   public bookings: Bookings;
   public isLoading: boolean;
-  public date: string = new Date().toISOString();
-  datePicked: string;
-  timePicked: string;
-  activeNext: boolean;
   schedule: Schedule;
-  bookingData: any;
-
+  activeNext: boolean;
   pickedSchedule: string;
-  length: any;
+
+  private bookingSub: Subscription;
+  private assistantSub: Subscription;
+  private scheduleSub: Subscription;
 
   constructor(
     private bookingsService: BookingsService,
-    private usersService: UsersService,
     private navCtrl: NavController,
-    private modalCtrl: ModalController
   ) {
     this.isLoading = true;
     this.activeNext = false;
    }
 
   ngOnInit() {
-    this.assistant = this.getAssistant();
-
-    this.bookingsService.getByAssistantId(this.assistant.assistantId, 'pending').pipe(
+    
+    this.bookingSub = this.bookingsService.getByAssistantId(this.assistant.assistantId, 'pending').pipe(
       map(booking => {
         return {
           bookings: booking.map(
@@ -78,17 +72,30 @@ export class SchedulePage implements OnInit {
     ).subscribe((response) => {
       this.isLoading = false;
       this.bookings = response.bookings;
-      this.length = response.bookings.length;
     });
 
-    this.schedule = this.getSchedule();
-    if (this.schedule) {
-      this.activeNext = true;
-      const timePicked = this.schedule.timePicked;
-      const scheduleDate = new Date(this.schedule.datePicked);
+    this.getPickedAssistant();
 
-      this.pickedSchedule = new Misc().mergeDateTime(scheduleDate, timePicked).toISOString();
-    }
+    this.getPickedSchedule();
+  }
+
+  private getPickedSchedule() {
+    this.scheduleSub = this.getSchedule()
+      .subscribe((schedule) => {
+        if (schedule) {
+          this.activeNext = true;
+          const timePicked = schedule.timePicked;
+          const scheduleDate = new Date(schedule.datePicked);
+          this.pickedSchedule = new Misc().mergeDateTime(scheduleDate, timePicked).toISOString();
+        }
+      }
+    );
+  }
+
+  private getPickedAssistant() {
+    this.assistantSub = this.getAssistant().subscribe((assistant) => {
+      this.assistant = assistant;
+    });
   }
 
   onSetSchedule(form: NgForm) {
@@ -123,11 +130,17 @@ export class SchedulePage implements OnInit {
     this.onNext('review');
   }
 
-  private getSchedule() {
+  private getSchedule(): Observable<Schedule> {
     return JSON.parse(localStorage.getItem('schedule'));
   }
 
-  private getAssistant() {
+  private getAssistant(): Observable<Assistant> {
     return JSON.parse(localStorage.getItem('assistant'));
+  }
+
+  ngOnDestroy() {
+    this.bookingSub.unsubscribe();
+    this.assistantSub.unsubscribe();
+    this.scheduleSub.unsubscribe();
   }
 }

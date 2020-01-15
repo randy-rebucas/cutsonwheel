@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { UsersService } from 'src/app/users/users.service';
-import { switchMap, map } from 'rxjs/operators';
-import { of, Observable, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { of, Subscription } from 'rxjs';
 import { Users } from 'src/app/users/users';
 import { UploadProfilePictureComponent } from './upload-profile-picture/upload-profile-picture.component';
 import { PlaceLocation } from 'src/app/services/location';
 import { ModalController, PopoverController } from '@ionic/angular';
-import { ClassificationsService } from 'src/app/classifications/classifications.service';
-import { Classifications } from 'src/app/classifications/classifications';
 import { PopoverComponent } from './popover/popover.component';
+import { Classifications } from './../../shared/class/classifications';
+import { ClassificationsService } from './../../shared/services/classifications.service';
 
 @Component({
   selector: 'app-account',
@@ -50,18 +50,22 @@ export class AccountPage implements OnInit, OnDestroy {
     ).subscribe((users) => {
         this.isLoading = false;
         this.users = users;
-        this.userSub = this.userService.getUser(this.user.uid)
-        .subscribe((detail) => {
-          this.selectedExperience = (detail.skills) ? detail.skills.level : '';
-          this.selectedClassification = (detail.skills) ? detail.skills.name : '';
-          this.location = detail.location;
-        }
-      );
+        this.getUser(this.user.uid);
     });
 
     this.classificationsService.getClassifications().subscribe((classifications) => {
       this.classifications = classifications;
     });
+  }
+
+  getUser(userId: string) {
+    this.userSub = this.userService.getUser(userId)
+      .subscribe((detail) => {
+        this.selectedExperience = (detail.skills) ? detail.skills.level : '';
+        this.selectedClassification = (detail.skills) ? detail.skills.name : '';
+        this.location = detail.location;
+      }
+    );
   }
 
   presentPopover(e: CustomEvent) {
@@ -80,11 +84,7 @@ export class AccountPage implements OnInit, OnDestroy {
     };
     this.userService.update(data)
       .then(() => {
-        this.userService.getUser(userId)
-          .subscribe((user) => {
-            this.location = user.location;
-          }
-        );
+        this.getUser(userId);
       }
     );
   }
@@ -100,13 +100,18 @@ export class AccountPage implements OnInit, OnDestroy {
       })
       .then(resultData => {
         if (resultData.role === 'success') {
-          this.userService.getUser(this.user.uid).subscribe((profile) => {
-            this.users.photoURL = profile.photoURL;
-          });
+          this.getPhotoUrl(this.user.uid);
         }
       });
   }
 
+  getPhotoUrl(userId: string) {
+    this.userSub = this.userService.getUser(this.user.uid)
+      .subscribe((profile) => {
+        this.users.photoURL = profile.photoURL;
+      }
+    );
+  }
   ngOnDestroy() {
     this.authSub.unsubscribe();
     if (this.userSub) {

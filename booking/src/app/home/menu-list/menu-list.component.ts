@@ -6,6 +6,7 @@ import { UsersService } from 'src/app/users/users.service';
 import { OffersService } from 'src/app/services/offers/offers.service';
 import { BookingsService } from 'src/app/bookings/bookings.service';
 import { Router } from '@angular/router';
+import { Users } from 'src/app/users/users';
 
 
 @Component({
@@ -15,13 +16,15 @@ import { Router } from '@angular/router';
 })
 export class MenuListComponent implements OnInit, OnDestroy {
   user: firebase.User;
-  userInfo: any;
+  users: Users;
 
   totalOffer: number;
   totalBooking: number;
   isOfferActive: boolean;
 
-  authSub: Subscription;
+  private authSub: Subscription;
+  private offerSub: Subscription;
+  private bookingSub: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -47,24 +50,34 @@ export class MenuListComponent implements OnInit, OnDestroy {
     ).subscribe((profile) => {
       
       if (this.user) {
-        this.userInfo = { ...profile, ...this.user };
-        // if (this.userInfo.roles.assistant) {
-        //   this.isOfferActive = true;
-        // }
+        this.users = profile;
+        if (profile.roles.assistant) {
+          this.isOfferActive = true;
+        }
         /** count offers */
-        this.offersService.getSizeById(this.user.uid).subscribe((res) => {
-          this.totalOffer = res.docs.length;
-        });
+        this.getTotalOffer(this.user.uid);
         /** count bookings */
-        this.bookingsService.getSizeById(this.user.uid).subscribe((res) => {
-          this.totalBooking = res.docs.length;
-        });
+        this.getTotalBooking(this.user.uid);
       }
 
     });
   }
 
+  getTotalOffer(userId: string) {
+    this.offerSub = this.offersService.getSizeById(userId).subscribe((res) => {
+      this.totalOffer = res.docs.length;
+    });
+  }
+
+  getTotalBooking(userId: string) {
+    this.bookingSub = this.bookingsService.getSizeById(userId).subscribe((res) => {
+      this.totalBooking = res.docs.length;
+    });
+  }
+
   ngOnDestroy(): void {
     this.authSub.unsubscribe();
+    this.offerSub.unsubscribe();
+    this.bookingSub.unsubscribe();
   }
 }

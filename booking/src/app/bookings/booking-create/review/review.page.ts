@@ -15,6 +15,7 @@ interface Schedule {
   datePicked: string;
   timePicked: string;
 }
+
 @Component({
   selector: 'app-review',
   templateUrl: './review.page.html',

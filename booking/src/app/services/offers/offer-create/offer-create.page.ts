@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
@@ -8,19 +8,22 @@ import { AuthService } from './../../../auth/auth.service';
 import { OffersService } from '../offers.service';
 import { ImagePickerService } from '../../../shared/components/image-picker/image-picker.service';
 import { ImagePicker } from 'src/app/shared/components/image-picker/image-picker';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-offer-create',
   templateUrl: './offer-create.page.html',
   styleUrls: ['./offer-create.page.scss'],
 })
-export class OfferCreatePage implements OnInit {
+export class OfferCreatePage implements OnInit, OnDestroy {
 
   form: FormGroup;
   user: firebase.User;
   imagePicker: ImagePicker;
   duration: string;
 
+  private userAuth: Subscription;
+  private offerSub: Subscription;
   constructor(
     private offersService: OffersService,
     private router: Router,
@@ -32,7 +35,8 @@ export class OfferCreatePage implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getUserState().subscribe((user) => {
+    this.userAuth = this.authService.getUserState()
+    .subscribe((user) => {
       this.user = user;
     });
 
@@ -87,7 +91,7 @@ export class OfferCreatePage implements OnInit {
       .then(loadingEl => {
         loadingEl.present();
 
-        this.imagePickerService
+        this.offerSub = this.imagePickerService
           .uploadImage(this.form.get('image').value)
           .pipe(
             switchMap(uploadRes => {
@@ -130,4 +134,8 @@ export class OfferCreatePage implements OnInit {
     this.form.patchValue({ image: imageFile });
   }
 
+  ngOnDestroy() {
+    this.userAuth.unsubscribe();
+    this.offerSub.unsubscribe();
+  }
 }

@@ -11,13 +11,10 @@ const routes: Routes = [
   {
     path: 't',
     loadChildren: () => import('./tabs-page/tabs-page.module').then( m => m.TabsPagePageModule)
-  },  {
-    path: 'payments',
-    loadChildren: () => import('./payments/payments.module').then( m => m.PaymentsPageModule)
   },
   {
-    path: 'classifications',
-    loadChildren: () => import('./classifications/classifications.module').then( m => m.ClassificationsPageModule)
+    path: 'payments',
+    loadChildren: () => import('./payments/payments.module').then( m => m.PaymentsPageModule)
   },
   {
     path: 'setup',

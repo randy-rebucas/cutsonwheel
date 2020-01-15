@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PopoverController, ToastController } from '@ionic/angular';
 import { Subscription, of } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -10,7 +10,7 @@ import { switchMap } from 'rxjs/operators';
   templateUrl: './popover.component.html',
   styleUrls: ['./popover.component.scss'],
 })
-export class PopoverComponent implements OnInit {
+export class PopoverComponent implements OnInit, OnDestroy {
   user: firebase.User;
   pushNotification: boolean;
   emailInvitations: boolean;
@@ -37,15 +37,19 @@ export class PopoverComponent implements OnInit {
         }
       })
     ).subscribe((users) => {
-        this.userSub = this.usersService.getUser(users.id)
-        .subscribe((detail) => {
-          this.pushNotification = (detail.notifications) ? detail.notifications.pushNotification : true;
-          this.emailInvitations = (detail.notifications) ? detail.notifications.emailInvitations : true;
-          this.emailUpdates = (detail.notifications) ? detail.notifications.emailUpdates : true;
-          this.emailEvents = (detail.notifications) ? detail.notifications.emailEvents : true;
-        }
-      );
+      this.getUser(users.id);
     });
+  }
+
+  getUser(userId: string) {
+    this.userSub = this.usersService.getUser(userId)
+      .subscribe((detail) => {
+        this.pushNotification = (detail.notifications) ? detail.notifications.pushNotification : true;
+        this.emailInvitations = (detail.notifications) ? detail.notifications.emailInvitations : true;
+        this.emailUpdates = (detail.notifications) ? detail.notifications.emailUpdates : true;
+        this.emailEvents = (detail.notifications) ? detail.notifications.emailEvents : true;
+      }
+    );
   }
 
   onDismiss() {
@@ -81,5 +85,10 @@ export class PopoverComponent implements OnInit {
         duration: 2000
       }).then(toast => toast.present());
     });
+  }
+
+  ngOnDestroy() {
+    this.authSub.unsubscribe();
+    this.userSub.unsubscribe();
   }
 }

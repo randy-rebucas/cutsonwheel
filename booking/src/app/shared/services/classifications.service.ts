@@ -3,7 +3,7 @@ import { AngularFirestoreCollection, AngularFirestore, DocumentReference } from 
 
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { Classifications } from './classifications';
+import { Classifications } from './../class/classifications';
 
 @Injectable({
   providedIn: 'root'

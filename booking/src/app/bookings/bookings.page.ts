@@ -15,19 +15,17 @@ import { Misc } from './../shared/class/misc';
   styleUrls: ['./bookings.page.scss']
 })
 export class BookingsPage implements OnInit, OnDestroy {
-  isLoading = false;
-  isAssistant: boolean;
-  userInfo: any;
+  public isLoading = false;
+  public users: Users;
   public selectedSegment: string;
-  public loadedBookings$: Observable<Bookings[]>;
   public loadedBookings: Bookings[];
-  length: number;
+  public length: number;
+
   private userSub: Subscription;
-  canceledResponse: boolean;
+  private bookingSub: Subscription;
 
   constructor(
     private bookingService: BookingsService,
-    private loadingCtrl: LoadingController,
     private authService: AuthService,
     private userService: UsersService,
     private router: Router
@@ -39,88 +37,76 @@ export class BookingsPage implements OnInit, OnDestroy {
     const currenctUser = this.authService.getUsersProfile();
     if (currenctUser) {
       this.userSub = this.userService.getUser(currenctUser.uid).subscribe((profile) => {
-        this.isAssistant = profile.roles.assistant;
-        this.userInfo = profile;
+        this.users = profile;
         this.populateBookings(profile, 'pending');
       });
     }
   }
 
   private populateBookings(user: Users, status: string) {
+    let bookings;
     if (user.roles.assistant) {
       /** assistant */
-      this.getAssistantBookings(user.id, status);
+      bookings = this.getAssistantBookings(user.id, status);
     } else {
       /** client */
-      this.getClientBookings(user.id, status);
+      bookings = this.getClientBookings(user.id, status);
     }
+
+    this.bookingSub = bookings.subscribe((response) => {
+      this.isLoading = false;
+      this.loadedBookings = response.bookings;
+      this.length = response.bookings.length;
+    });
   }
 
-  private getAssistantBookings(userId: string, status: string) {
+  private getAssistantBookings(userId: string, status: string): Observable<any> {
     return this.bookingService.getByAssistantId(userId, status).pipe(
       map(booking => {
         return {
           bookings: booking.map(
             b => {
-              const sd = new Date(b.schedule.datePicked);
-              const y = sd.getFullYear();
-              const m = new Misc().pad(sd.getMonth() + 1);
-              const d = new Misc().pad(sd.getDate());
-              const datePicked = y + '-' + m + '-' + d;
-              const timePicked = b.schedule.timePicked;
-              const scheduleDate = new Date(datePicked + 'T' + timePicked);
-              return {
-                id: b.id,
-                assistant: b.assistant,
-                location: b.location,
-                schedule: scheduleDate,
-                status: b.status,
-                userId: b.userId
-              };
+              this.getBooking(b);
             }
           )
         };
       })
-    ).subscribe((response) => {
-      this.isLoading = false;
-      this.loadedBookings = response.bookings;
-      this.length = response.bookings.length;
-    });
+    );
   }
 
-  private getClientBookings(userId: string, status: string) {
+  private getClientBookings(userId: string, status: string): Observable<any> {
     return this.bookingService.getByClientId(userId, status).pipe(
       map(booking => {
         return {
           bookings: booking.map(
             b => {
-              const sd = new Date(b.schedule.datePicked);
-              const y = sd.getFullYear();
-              const m = new Misc().pad(sd.getMonth() + 1);
-              const d = new Misc().pad(sd.getDate());
-              const datePicked = y + '-' + m + '-' + d;
-              const timePicked = b.schedule.timePicked;
-              const scheduleDate = new Date(datePicked + 'T' + timePicked);
-              return {
-                id: b.id,
-                assistant: b.assistant,
-                location: b.location,
-                schedule: scheduleDate,
-                status: b.status,
-                userId: b.userId
-              };
+              this.getBooking(b);
             }
           )
         };
       })
-    ).subscribe((response) => {
-      this.isLoading = false;
-      this.loadedBookings = response.bookings;
-      this.length = response.bookings.length;
-    });
+    );
   }
 
-  segmentChanged(ev: any, user: any) {
+  private getBooking(booking: Bookings) {
+    const sd = new Date(booking.schedule.datePicked);
+    const y = sd.getFullYear();
+    const m = new Misc().pad(sd.getMonth() + 1);
+    const d = new Misc().pad(sd.getDate());
+    const datePicked = y + '-' + m + '-' + d;
+    const timePicked = booking.schedule.timePicked;
+    const scheduleDate = new Date(datePicked + 'T' + timePicked);
+    return {
+      id: booking.id,
+      assistant: booking.assistant,
+      location: booking.location,
+      schedule: scheduleDate,
+      status: booking.status,
+      userId: booking.userId
+    };
+  }
+
+  segmentChanged(ev: any, user: Users) {
     this.selectedSegment = ev.detail.value;
     this.populateBookings(user, ev.detail.value);
   }
@@ -136,5 +122,6 @@ export class BookingsPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.userSub.unsubscribe();
+    this.bookingSub.unsubscribe();
   }
 }

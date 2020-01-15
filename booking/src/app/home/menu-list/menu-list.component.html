@@ -1,11 +1,11 @@
 <ion-list>
     <ion-item>
         <ion-avatar slot="start">
-            <img [src]="userInfo?.photoURL ? userInfo?.photoURL : '../../assets/images/avatar.png'">
+            <img [src]="users?.photoURL ? users?.photoURL : '../../assets/images/avatar.png'">
         </ion-avatar>
         <ion-label>
-            <h3>{{userInfo?.displayName}}</h3>
-            <p>{{userInfo?.email}}</p>
+            <h3>{{users?.displayName}}</h3>
+            <p>{{users?.email}}</p>
         </ion-label>
     </ion-item>
     <ion-menu-toggle>

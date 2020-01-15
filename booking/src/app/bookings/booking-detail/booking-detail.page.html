@@ -18,14 +18,14 @@
         </ion-item>
 
         <ion-list-header>
-            {{lbl}}
+            {{user.roles.assistant ? 'Assistant' : 'Client'}}
         </ion-list-header>
         <ion-item>
             <ion-avatar slot="start">
-                <img [src]="avatar" />
+                <img [src]="users.photoURL" />
             </ion-avatar>
             <ion-label>
-                {{ fullname }}
+                {{ users.displayName }}
             </ion-label>
         </ion-item>
         <ion-list-header>
@@ -82,10 +82,10 @@
                 </ng-template>
 
             </ng-template>
-            <ion-button slot="end" color="danger" fill="outline" (click)="onUpdateStatus(detail?.id, 'canceled')" *ngIf="clientRole && detail?.status != 'canceled' && detail?.status != 'declined' && detail?.status != 'done' && detail?.status != 'paid'">Cancel</ion-button>
-            <ion-button slot="end" color="primary" fill="outline" (click)="onUpdateStatus(detail?.id, 'done')" *ngIf="assistantRole && detail?.status === 'accepted'">Done</ion-button>
+            <ion-button slot="end" color="danger" fill="outline" (click)="onUpdateStatus(detail?.id, 'canceled')" *ngIf="users.roles.client && detail?.status != 'canceled' && detail?.status != 'declined' && detail?.status != 'done' && detail?.status != 'paid'">Cancel</ion-button>
+            <ion-button slot="end" color="primary" fill="outline" (click)="onUpdateStatus(detail?.id, 'done')" *ngIf="users.roles.assistant && detail?.status === 'accepted'">Done</ion-button>
         </ion-item>
-        <ion-item *ngIf="detail?.status === 'pending' && clientRole" lines="none">
+        <ion-item *ngIf="detail?.status === 'pending' && users.roles.client" lines="none">
             <ion-button slot="end" color="danger" fill="outline" (click)="onUpdateStatus(detail?.id, 'canceled')">Cancel</ion-button>
             <ion-chip outline color="secondary">
                 <ion-icon name="information"></ion-icon>
@@ -93,7 +93,7 @@
             </ion-chip>
         </ion-item>
     </ion-list>
-    <section *ngIf="detail?.status === 'pending' && assistantRole">
+    <section *ngIf="detail?.status === 'pending' && users.roles.assistant">
         <ion-button expand="block" (click)="onUpdateStatus(detail?.id, 'accepted')">Accept</ion-button>
         <ion-button clear expand="block" color="danger" fill="outline" (click)="onUpdateStatus(detail?.id, 'declined')">Decline</ion-button>
     </section>
