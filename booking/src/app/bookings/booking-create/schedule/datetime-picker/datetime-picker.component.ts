@@ -5,6 +5,11 @@ import { Offers } from 'src/app/services/offers/offers';
 
 const currenctTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+interface Schedule {
+  datePicked: string;
+  timePicked: string;
+}
+
 @Component({
   selector: 'app-datetime-picker',
   templateUrl: './datetime-picker.component.html',
@@ -14,8 +19,7 @@ export class DatetimePickerComponent implements OnInit {
   @Input() selectedOffer: Offers;
   @ViewChild('f', { static: false }) form: NgForm;
   date: string = new Date().toISOString();
-  datePicked: string;
-  timePicked: string;
+  schedule: Schedule;
 
   constructor(private modalCtrl: ModalController) {}
 

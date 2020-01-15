@@ -27,9 +27,9 @@ export class SchedulePage implements OnInit, OnDestroy {
   public assistant: Assistant;
   public bookings: Bookings;
   public isLoading: boolean;
-  schedule: Schedule;
-  activeNext: boolean;
-  pickedSchedule: string;
+  public schedule: Schedule;
+  public activeNext: boolean;
+  public pickedSchedule: string;
 
   private bookingSub: Subscription;
   private assistantSub: Subscription;
@@ -44,6 +44,7 @@ export class SchedulePage implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
+    // get bookings
     this.bookingSub = this.bookingsService.getByAssistantId(this.assistant.assistantId, 'pending').pipe(
       map(booking => {
         return {
@@ -73,18 +74,23 @@ export class SchedulePage implements OnInit, OnDestroy {
       this.bookings = response.bookings;
     });
 
+    // seg assistant
     this.getPickedAssistant();
 
+    // get schedule
     this.getPickedSchedule();
   }
 
   private getPickedSchedule() {
+    // get schedule
     this.scheduleSub = this.getSchedule()
       .subscribe((schedule) => {
         if (schedule) {
           this.activeNext = true;
+
           const timePicked = schedule.timePicked;
           const scheduleDate = new Date(schedule.datePicked);
+          // merge date and time
           this.pickedSchedule = new Misc().mergeDateTime(scheduleDate, timePicked).toISOString();
         }
       }
