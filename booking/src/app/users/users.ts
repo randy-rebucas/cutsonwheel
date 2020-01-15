@@ -1,9 +1,10 @@
 import { PlaceLocation } from '../services/location';
 
 export interface Notification {
-  val: string;
-  label: string;
-  isChecked: boolean;
+  emailEvents: boolean;
+  emailUpdates: boolean;
+  emailInvitations: boolean;
+  pushNotification: boolean;
 }
 
 export interface Roles {
@@ -37,7 +38,7 @@ export class Users {
     public experience?: string,
     public skills?: Skill,
     public location?: PlaceLocation,
-    public notification?: Notification,
+    public notifications?: Notification,
     public roles?: Roles,
     public firstname?: string,
     public lastname?: string,

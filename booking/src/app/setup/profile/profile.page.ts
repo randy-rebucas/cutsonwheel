@@ -26,7 +26,7 @@ export class PhoneNumber {
 export class ProfilePage implements OnInit, OnDestroy {
   private authSub: Subscription;
   user: firebase.User;
-
+  email: string;
   firstname: string;
   lastname: string;
   middlename: string;
@@ -38,13 +38,18 @@ export class ProfilePage implements OnInit, OnDestroy {
   displayName: string;
   role: string;
   isAgree: boolean;
+  isEmailReadOnly: boolean;
+  isPhoneReadOnly: boolean;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private usersService: UsersService,
     private locationService: LocationService
-  ) {}
+  ) {
+    this.isEmailReadOnly = false;
+    this.isPhoneReadOnly = false;
+  }
 
   ngOnInit() {
     // get user current location
@@ -74,7 +79,14 @@ export class ProfilePage implements OnInit, OnDestroy {
           this.lastname = profile.lastname;
           this.middlename = profile.middlename;
           this.displayName = this.user.displayName;
+          if (this.user.email) {
+            this.isEmailReadOnly = true;
+          }
+          this.email = this.user.email ? this.user.email : profile.email;
           // check phoneNumber existing
+          if (this.user.phoneNumber) {
+            this.isPhoneReadOnly = true;
+          }
           const phone = this.user.phoneNumber ? this.user.phoneNumber : profile.phoneNumber;
           if (phone) {
             // slice them accordingly
@@ -101,6 +113,7 @@ export class ProfilePage implements OnInit, OnDestroy {
       firstname: this.firstname,
       lastname: this.lastname,
       middlename: this.middlename,
+      email: this.email,
       displayName: this.displayName,
       phoneNumber: this.phoneNumber.e164,
       isSetupCompleted: (this.role === 'client') ? true : false,

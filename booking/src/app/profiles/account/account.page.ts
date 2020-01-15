@@ -4,12 +4,12 @@ import { UsersService } from 'src/app/users/users.service';
 import { switchMap } from 'rxjs/operators';
 import { of, Observable, Subscription } from 'rxjs';
 import { Users } from 'src/app/users/users';
-import { UploadProfilePictureComponent } from '../upload-profile-picture/upload-profile-picture.component';
+import { UploadProfilePictureComponent } from './upload-profile-picture/upload-profile-picture.component';
 import { PlaceLocation } from 'src/app/services/location';
-import { ProfilesService } from '../profiles.service';
-import { ModalController } from '@ionic/angular';
+import { ModalController, PopoverController } from '@ionic/angular';
 import { ClassificationsService } from 'src/app/classifications/classifications.service';
 import { Classifications } from 'src/app/classifications/classifications';
+import { PopoverComponent } from './popover/popover.component';
 
 @Component({
   selector: 'app-account',
@@ -30,9 +30,9 @@ export class AccountPage implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private userService: UsersService,
-    private profileService: ProfilesService,
     private modalCtrl: ModalController,
     private classificationsService: ClassificationsService,
+    private popper: PopoverController
   ) {
     this.isLoading = true;
   }
@@ -52,8 +52,8 @@ export class AccountPage implements OnInit, OnDestroy {
         this.users = users;
         this.userSub = this.userService.getUser(this.user.uid)
         .subscribe((detail) => {
-          this.selectedExperience = detail.skills.level;
-          this.selectedClassification = detail.skills.name;
+          this.selectedExperience = (detail.skills) ? detail.skills.level : '';
+          this.selectedClassification = (detail.skills) ? detail.skills.name : '';
           this.location = detail.location;
         }
       );
@@ -62,12 +62,25 @@ export class AccountPage implements OnInit, OnDestroy {
     this.classifications = this.classificationsService.getClassifications();
   }
 
+  presentPopover(e: CustomEvent) {
+    this.popper.create({
+      component: PopoverComponent,
+      event: e
+    }).then((popoverEl) => {
+      popoverEl.present();
+    });
+  }
+
   onLocationPicked(selectedLocation: PlaceLocation, userId: string) {
-    this.userService.setLocation(selectedLocation, userId)
+    const data = {
+      id: userId,
+      location: selectedLocation
+    };
+    this.userService.update(data)
       .then(() => {
-        this.profileService.getSetLocations(userId)
-          .subscribe((location) => {
-            this.location = location;
+        this.userService.getUser(userId)
+          .subscribe((user) => {
+            this.location = user.location;
           }
         );
       }

@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   googleMapsApiKey: 'AIzaSyDYjgsE7jfyoLg9Efc6cMP-bBczakfJeZM',
   firebaseApiKey: 'AIzaSyC1P3bJSJZpzs7cd0QoizMEkkZqCqMCFCs',
+  firebaseToken: '1//0e8m230MCTr8XCgYIARAAGA4SNwF-L9IrD7CPksdUJhrnpb49DUN3N-rmWwby79qMwwHAcvxPrUaD5OS8y6zU0u-ID0AFhNTog-g',
   firebase: {
     apiKey: 'AIzaSyC1P3bJSJZpzs7cd0QoizMEkkZqCqMCFCs',
     authDomain: 'cutsonwheel-233209.firebaseapp.com',

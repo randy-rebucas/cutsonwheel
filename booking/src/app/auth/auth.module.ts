@@ -13,16 +13,16 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    {
-      scopes: [
-        'public_profile',
-        'email'
-      ],
-      customParameters: {
-        auth_type: 'reauthenticate'
-      },
-      provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID
-    },
+    // {
+    //   scopes: [
+    //     'public_profile',
+    //     'email'
+    //   ],
+    //   customParameters: {
+    //     auth_type: 'reauthenticate'
+    //   },
+    //   provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID
+    // },
     {
       requireDisplayName: false,
       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID

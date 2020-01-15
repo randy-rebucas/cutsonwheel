@@ -57,39 +57,6 @@ export class UsersService {
       );
   }
 
-  isAssistant(user: useClass): boolean {
-    if (!user) { return false; }
-    if (user.roles.assistant === true) {
-      return true;
-    }
-    return false;
-  }
-
-  canRead(user: useClass): boolean {
-    const allowed = ['admin', 'client', 'assistant'];
-    return this.checkAuthorization(user, allowed);
-  }
-
-  canEdit(user: useClass): boolean {
-    const allowed = ['admin', 'client'];
-    return this.checkAuthorization(user, allowed);
-  }
-
-  canDelete(user: useClass): boolean {
-    const allowed = ['admin'];
-    return this.checkAuthorization(user, allowed);
-  }
-
-  private checkAuthorization(user: useClass, allowedRoles: string[]): boolean {
-    if (!user) { return false; }
-    for (const role of allowedRoles) {
-      if (user.roles[role]) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   getUsers(searchKey: string): Observable<useClass[]> {
     const user$ = this.fetchData(this.defaultCollection());
     return user$.pipe(
@@ -134,43 +101,6 @@ export class UsersService {
         return user;
       })
     );
-  }
-
-  setLocation(selectedLocation: any, userId: string): Promise<void> {
-    return this.defaultCollection().doc(userId).set({
-      location: selectedLocation
-    }, { merge: true });
-  }
-
-  setNotification(selectedNotification: any, userId: string): Promise<void> {
-    return this.defaultCollection().doc(userId).set({
-      notification: selectedNotification
-    }, { merge: true });
-  }
-
-  setClassification(selectedClassification: string, userId: string) {
-    return this.defaultCollection().doc(userId).set({
-      classification: selectedClassification
-    }, { merge: true });
-  }
-
-  setVisibility(selectedVisibility: string, userId: string) {
-    return this.defaultCollection().doc(userId).set({
-      visibility: selectedVisibility
-    }, { merge: true });
-  }
-
-  setExpirience(selectedExperience: string, userId: string) {
-    return this.defaultCollection().doc(userId).set({
-      experience: selectedExperience
-    }, { merge: true });
-  }
-
-  setProfile(user: any, userId: string) {
-    return this.defaultCollection().doc(userId).set({
-      firstname: user.firstname,
-      lastname: user.lastname
-    }, { merge: true });
   }
 
   update(user: any): Promise<void> {
