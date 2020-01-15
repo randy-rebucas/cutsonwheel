@@ -44,7 +44,6 @@ export class SchedulePage implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
-    
     this.bookingSub = this.bookingsService.getByAssistantId(this.assistant.assistantId, 'pending').pipe(
       map(booking => {
         return {
