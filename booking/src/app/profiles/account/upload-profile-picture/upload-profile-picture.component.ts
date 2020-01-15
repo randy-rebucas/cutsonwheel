@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, LoadingController } from '@ionic/angular';
 import { FormGroup, FormControl } from '@angular/forms';
-import { ImagePickerService } from '../../../shared/pickers/image-picker/image-picker.service';
+import { ImagePickerService } from '../../../shared/components/image-picker/image-picker.service';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../../../auth/auth.service';
-import { ImagePicker } from '../../../shared/pickers/image-picker/image-picker';
+import { ImagePicker } from '../../../shared/components/image-picker/image-picker';
 import { UsersService } from 'src/app/users/users.service';
 
 @Component({

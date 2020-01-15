@@ -6,8 +6,8 @@ import { LoadingController } from '@ionic/angular';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from './../../../auth/auth.service';
 import { OffersService } from '../offers.service';
-import { ImagePickerService } from './../../../shared/pickers/image-picker/image-picker.service';
-import { ImagePicker } from 'src/app/shared/pickers/image-picker/image-picker';
+import { ImagePickerService } from '../../../shared/components/image-picker/image-picker.service';
+import { ImagePicker } from 'src/app/shared/components/image-picker/image-picker';
 
 @Component({
   selector: 'app-offer-create',

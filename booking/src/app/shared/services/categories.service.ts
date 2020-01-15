@@ -8,7 +8,7 @@ import {
   DocumentReference
 } from '@angular/fire/firestore';
 
-import { Categories as useClass } from './categories';
+import { Categories as useClass } from './../class/categories';
 
 const collection = 'categories';
 const indexKey = 'slug';

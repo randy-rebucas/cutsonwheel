@@ -9,7 +9,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Plugins, Capacitor } from '@capacitor/core';
 
-import { MapModalComponent } from '../../map-modal/map-modal.component';
+import { MapModalComponent } from '../map-modal/map-modal.component';
 import { environment } from '../../../../environments/environment';
 import { PlaceLocation, Coordinates } from '../../../services/location';
 

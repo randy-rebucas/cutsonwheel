@@ -12,12 +12,7 @@ const routes: Routes = [
   {
     path: 'offers',
     loadChildren: () => import('./offers/offers.module').then( m => m.OffersPageModule)
-  },
-  {
-    path: 'categories',
-    loadChildren: () => import('./categories/categories.module').then( m => m.CategoriesPageModule)
   }
-
 ];
 
 @NgModule({

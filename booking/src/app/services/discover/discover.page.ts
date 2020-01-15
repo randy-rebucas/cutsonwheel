@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { SegmentChangeEventDetail } from '@ionic/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 
 import { Offers } from '../offers/offers';
 import { OffersService } from '../offers/offers.service';
@@ -9,18 +9,20 @@ import { OffersService } from '../offers/offers.service';
 import { UsersService } from '../../users/users.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { switchMap } from 'rxjs/operators';
+import { Users } from 'src/app/users/users';
 @Component({
   selector: 'app-discover',
   templateUrl: './discover.page.html',
   styleUrls: ['./discover.page.scss']
 })
-export class DiscoverPage implements OnInit {
+export class DiscoverPage implements OnInit, OnDestroy {
   public isLoading: boolean;
   /** firestore data */
   public offers$: Observable<Offers[]>;
 
   user: firebase.User;
-  userInfo: any;
+  users: Users;
+  private authSub: Subscription;
 
   get offersData() {
     return this.offersService.getAll('');
@@ -38,7 +40,7 @@ export class DiscoverPage implements OnInit {
   ngOnInit() {
     this.offers$ = this.offersData;
 
-    this.authService.getUserState().pipe(
+    this.authSub = this.authService.getUserState().pipe(
       switchMap(user => {
         if (user) {
           this.user = user;
@@ -72,4 +74,7 @@ export class DiscoverPage implements OnInit {
     this.offers$ = this.offersService.getAll(searchTerm);
   }
 
+  ngOnDestroy() {
+    this.authSub.unsubscribe();
+  }
 }

@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-map-modal',
