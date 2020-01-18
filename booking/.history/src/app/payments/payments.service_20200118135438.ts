@@ -9,7 +9,6 @@ import {
 } from '@angular/fire/firestore';
 
 import { Payments as useClass } from './payments';
-import { Misc } from '../shared/class/misc';
 
 const collection = 'payments';
 const indexKey = 'paymentTo';
@@ -63,12 +62,6 @@ export class PaymentsService {
           return actions.map(a => {
             const data = a.payload.doc.data();
             const id = a.payload.doc.id;
-
-            const datePaid = new Date(a.payload.doc.get('paymentCreated').seconds * 1000);
-            const y = datePaid.getFullYear();
-            const m = new Misc().pad(datePaid.getMonth() + 1);
-            const d = new Misc().pad(datePaid.getDate());
-            data.paymentCreatedTransformed = y + '-' + m + '-' + d;
             return { id, ...data };
           });
         })

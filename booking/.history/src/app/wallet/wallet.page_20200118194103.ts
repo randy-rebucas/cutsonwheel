@@ -37,6 +37,10 @@ export class WalletPage implements OnInit {
 
           let balance = 0;
           for (const payment of payments) {
+            if (payment.paymentFrom === user.uid) {
+              balance -= payment.transactions.amount.total;
+            }
+
             if (payment.paymentTo === user.uid) {
               balance += payment.transactions.amount.total;
             }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, observable, forkJoin } from 'rxjs';
-import { take, map, mergeMap, flatMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { take, map } from 'rxjs/operators';
 
 import {
   AngularFirestoreCollection,
@@ -8,31 +8,52 @@ import {
   DocumentReference
 } from '@angular/fire/firestore';
 
-import { Wallet as useClass } from './wallet';
+import { Payments as useClass } from './payments';
 import { Misc } from '../shared/class/misc';
 
-const collection = 'wallet';
-const orderField = 'paymentDate';
+const collection = 'payments';
+const indexKey = 'paymentTo';
+const orderField = 'datePaid';
 const orderBy = 'asc';
 
 @Injectable({
   providedIn: 'root'
 })
-export class WalletService {
+export class PaymentsService {
 
   constructor(
     private afs: AngularFirestore
-  ) { }
+  ) {}
 
   private defaultCollection(): AngularFirestoreCollection<useClass> {
     return this.afs.collection<useClass>(collection, ref => ref.orderBy(orderField, orderBy));
+  }
+
+  private filterByClient(userId: string, start: string, end: string) {
+    return this.afs.collection<useClass>(
+      collection,
+      ref => ref
+      .where('transactions.from', '==', userId)
+      .where('datePaid', '>', start)
+      .where('datePaid', '<', end)
+    );
+  }
+
+  private filterByAssistant(userId: string, start: string, end: string) {
+    return this.afs.collection<useClass>(
+      collection,
+      ref => ref
+      .where('transactions.to', '==', userId)
+      .where('datePaid', '>', start)
+      .where('datePaid', '<', end)
+    );
   }
 
   private filterByUserId(userId: string) {
     return this.afs.collection<useClass>(
       collection,
       ref => ref
-      .where('paymentTo', '==', userId)
+      .where(indexKey, '==', userId)
     );
   }
 
@@ -43,57 +64,51 @@ export class WalletService {
             const data = a.payload.doc.data();
             const id = a.payload.doc.id;
 
-            const datePaid = new Date(a.payload.doc.get('paymentDate').seconds * 1000);
+            const datePaid = new Date(a.payload.doc.get('paymentCreated').seconds * 1000);
             const y = datePaid.getFullYear();
             const m = new Misc().pad(datePaid.getMonth() + 1);
             const d = new Misc().pad(datePaid.getDate());
-            data.formattedDate = y + '-' + m + '-' + d;
+            data.paymentCreatedTransformed = y + '-' + m + '-' + d;
             return { id, ...data };
           });
         })
       );
   }
 
-  getAll(): Observable<useClass[]> {
-    return this.fetchData(this.defaultCollection());
+  getAll(searchKey: string): Observable<useClass[]> {
+    const datas = this.fetchData(this.defaultCollection());
+    return datas.pipe(
+      map(dataList =>
+        dataList.filter((data: useClass) => {
+          return data.transactions.description.toLowerCase().includes(searchKey.toLowerCase());
+        })
+      )
+    );
   }
 
   getOne(id: string): Observable<useClass> {
     return this.defaultCollection().doc<useClass>(id).valueChanges().pipe(
       take(1),
       map(data => {
+        data.id = id;
         return data;
       })
     );
   }
 
-  getTotalWallet(userId: string): Observable<any> {
-      return this.afs.collection<any>(collection,
-        ref => ref
-        .where('paymentTo', '==', userId)
-        .orderBy('paymentDate', 'asc')
-      ).snapshotChanges().pipe(
-        map(actions => {
-          return actions.map(a => {
-            const data = a.payload.doc.data();
-            const id = a.payload.doc.id;
+  getByClient(userId: string, start: string, end: string): Observable<useClass[]> {
+    return this.fetchData(this.filterByClient(userId, start, end));
+  }
 
-            const datePaid = new Date(a.payload.doc.get('paymentDate').seconds * 1000);
-            const y = datePaid.getFullYear();
-            const m = new Misc().pad(datePaid.getMonth() + 1);
-            const d = new Misc().pad(datePaid.getDate());
-            data.formattedDate = y + '-' + m + '-' + d;
-            return { id, ...data };
-          });
-        })
-      );
+  getByAssistant(userId: string, start: string, end: string): Observable<useClass[]> {
+    return this.fetchData(this.filterByAssistant(userId, start, end));
   }
 
   getByUserId(userId: string): Observable<useClass[]> {
     return this.fetchData(this.filterByUserId(userId));
   }
 
-  create(data: any): Promise<DocumentReference> {
+  insert(data: any): Promise<DocumentReference> {
     return this.defaultCollection().add(data);
   }
 

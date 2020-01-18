@@ -21,14 +21,15 @@ export class WalletItemComponent implements OnInit, AfterContentInit {
   ) { }
 
   ngOnInit() {
+
     this.usersService.getUser(this.wallet.paymentFrom).subscribe((user) => {
       this.displayName = user.displayName;
     });
 
-    this.paymentsService.getOne(this.wallet.paymentId).subscribe((payment) => {
-      this.payment = payment;
-      this.totalItemWallet.emit(payment.transactions.amount.total);
-    });
+    // this.paymentsService.getOne(this.wallet.paymentId).subscribe((payment) => {
+    //   this.payment = payment;
+    //   // this.totalItemWallet.emit(payment.transactions.amount.total);
+    // });
 
   }
 

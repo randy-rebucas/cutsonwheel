@@ -1,9 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { PaymentsService } from '../payments/payments.service';
 import { AuthService } from '../auth/auth.service';
 import { IonInfiniteScroll, ToastController } from '@ionic/angular';
-import { map } from 'rxjs/operators';
-import { Payments } from '../payments/payments';
 
 @Component({
   selector: 'app-wallet',
@@ -16,13 +14,12 @@ export class WalletPage implements OnInit {
   public user: firebase.User;
   balance: number;
   wallets = [];
-  payments: Payments;
 
   constructor(
     private paymentsService: PaymentsService,
     private authService: AuthService,
     private toastCtrl: ToastController,
-
+    private renderer: Renderer2
   ) { }
 
   ngOnInit() {
@@ -32,11 +29,18 @@ export class WalletPage implements OnInit {
         this.paymentsService.getByUserId(user.uid).subscribe((payments) => {
 
           payments.forEach(element => {
-            this.wallets.push(element);
+            this.renderer.appendChild(this.infiniteScroll, p)
+            const walletItem = '<ion-label>' + element.transactions.itemList.shippingAddress.recipientName + '</ion-label>';
+
+            this.wallets.push(walletItem);
           });
 
           let balance = 0;
           for (const payment of payments) {
+            if (payment.paymentFrom === user.uid) {
+              balance -= payment.transactions.amount.total;
+            }
+
             if (payment.paymentTo === user.uid) {
               balance += payment.transactions.amount.total;
             }
@@ -54,7 +58,9 @@ export class WalletPage implements OnInit {
     this.paymentsService.getByUserId(this.user.uid).subscribe((payments) => {
 
       payments.forEach(element => {
-        this.wallets.push(element);
+        const walletItem = '<ion-label>' + element.transactions.itemList.shippingAddress.recipientName + '</ion-label>';
+
+        this.wallets.push(walletItem);
       });
       event.target.complete();
       // App logic to determine if all data is loaded

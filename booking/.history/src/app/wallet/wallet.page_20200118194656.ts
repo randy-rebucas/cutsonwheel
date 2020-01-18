@@ -32,11 +32,16 @@ export class WalletPage implements OnInit {
         this.paymentsService.getByUserId(user.uid).subscribe((payments) => {
 
           payments.forEach(element => {
+            console.log(element);
             this.wallets.push(element);
           });
 
           let balance = 0;
           for (const payment of payments) {
+            // if (payment.paymentFrom === user.uid) {
+            //   balance -= payment.transactions.amount.total;
+            // }
+
             if (payment.paymentTo === user.uid) {
               balance += payment.transactions.amount.total;
             }

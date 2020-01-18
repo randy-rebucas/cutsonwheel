@@ -2,8 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PaymentsService } from '../payments/payments.service';
 import { AuthService } from '../auth/auth.service';
 import { IonInfiniteScroll, ToastController } from '@ionic/angular';
-import { map } from 'rxjs/operators';
-import { Payments } from '../payments/payments';
 
 @Component({
   selector: 'app-wallet',
@@ -12,11 +10,11 @@ import { Payments } from '../payments/payments';
 })
 export class WalletPage implements OnInit {
   @ViewChild(IonInfiniteScroll, { static: false}) infiniteScroll: IonInfiniteScroll;
+  @ViewChild('one', { static: false }) d1: ElementRef;
 
   public user: firebase.User;
   balance: number;
   wallets = [];
-  payments: Payments;
 
   constructor(
     private paymentsService: PaymentsService,
@@ -37,6 +35,10 @@ export class WalletPage implements OnInit {
 
           let balance = 0;
           for (const payment of payments) {
+            if (payment.paymentFrom === user.uid) {
+              balance -= payment.transactions.amount.total;
+            }
+
             if (payment.paymentTo === user.uid) {
               balance += payment.transactions.amount.total;
             }

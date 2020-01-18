@@ -1,6 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Wallets } from '../wallet/wallets';
+import { PaymentsService } from '../payments/payments.service';
 import { Payments } from '../payments/payments';
 
 @Component({
@@ -10,9 +13,16 @@ import { Payments } from '../payments/payments';
 })
 export class HomePage implements OnInit, OnDestroy {
   slideOpts: any;
+
   user: firebase.User;
+  token: firebase.auth.IdTokenResult;
   private authSub: Subscription;
 
+  wallets: Wallets;
+  payments: Payments;
+  // wallets: any;
+
+  total: number;
   constructor(
     private authService: AuthService
   ) {}

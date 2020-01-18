@@ -28,10 +28,10 @@
   <ion-list #infinite>
     <ion-item *ngFor="let wallet of wallets">
       <ion-label>
-        <h2>Paid by: <b>{{wallet.transactions.itemList.shippingAddress.recipientName}}</b></h2>
-        <p>{{wallet.paymentCreatedTransformed | date:'mediumDate'}}</p>
+        <h2>Paid from: <b>{{wallet.transactions.itemList.shippingAddress.recipientName}}</b></h2>
+        <p>Recived on: {{wallet.paymentCreatedTransformed | date:'mediumDate'}}</p>
       </ion-label>
-      <ion-note slot="end">
+      <ion-note slot="end" class="text-right">
         {{wallet.transactions.amount.total | currency:wallet.transactions.amount.currency:'symbol-narrow'}}
       </ion-note>
     </ion-item>
