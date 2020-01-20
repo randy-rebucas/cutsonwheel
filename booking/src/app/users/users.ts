@@ -21,6 +21,13 @@ export interface Skill {
   name: string;
   level?: string;
 }
+
+export interface Name {
+  firstname: string;
+  lastname: string;
+  middlename?: string;
+}
+
 export class Users {
   constructor(
     public email: string,
@@ -34,14 +41,11 @@ export class Users {
     public metadata: Metadata,
     public isSetupCompleted: boolean,
     public isValidated: boolean,
-
+    public name?: Name,
+    public roles?: Roles,
+    public location?: PlaceLocation,
     public experience?: string,
     public skills?: Skill,
-    public location?: PlaceLocation,
     public notifications?: Notification,
-    public roles?: Roles,
-    public firstname?: string,
-    public lastname?: string,
-    public middlename?: string,
   ) {}
 }

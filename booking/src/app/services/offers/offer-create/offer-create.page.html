@@ -58,8 +58,8 @@
             </ion-item>
             <ion-list-header>Services detail</ion-list-header>
             <ion-item>
-                <ion-label position="floating">Category</ion-label>
-                <ion-input formControlName="category"></ion-input>
+                <ion-label position="floating">Cateogry</ion-label>
+                <ion-input type="text" formControlName="category" (click)="onPickedCategory()"></ion-input>
             </ion-item>
             <ion-item lines="none" *ngIf="!form.get('category').valid && form.get('category').touched">
                 <ion-text color="danger">

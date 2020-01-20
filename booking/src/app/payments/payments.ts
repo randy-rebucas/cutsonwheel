@@ -42,7 +42,7 @@ export class Payments {
       public note: string,
       public paymentCreated: Date,
       public paymentCreatedTransformed: Date,
-      public paymentFrom: string,
-      public paymentTo: string
+      public paymentTo: string,
+      public paymentFrom?: string
     ) {}
   }

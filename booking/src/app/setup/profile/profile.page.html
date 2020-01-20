@@ -63,25 +63,6 @@
                 <ion-textarea name="address" [(ngModel)]="address" required></ion-textarea>
             </ion-item>
         </ion-list>
-        <ion-list-header>
-            <ion-label>Phone Number</ion-label>
-        </ion-list-header>
-        <ion-grid class="ion-grid-padding">
-            <ion-row>
-                <ion-col size="2">
-                    <ion-input type="number" name="country" [(ngModel)]="phoneNumber.country" placeholder="63" maxlength="2" [readonly]="isPhoneReadOnly"></ion-input>
-                </ion-col>
-                <ion-col size="3">
-                    <ion-input type="number" name="area" [(ngModel)]="phoneNumber.area" placeholder="---" maxlength="3" [readonly]="isPhoneReadOnly"></ion-input>
-                </ion-col>
-                <ion-col size="3">
-                    <ion-input type="number" name="prefix" [(ngModel)]="phoneNumber.prefix" placeholder="---" maxlength="3" [readonly]="isPhoneReadOnly"></ion-input>
-                </ion-col>
-                <ion-col size="4">
-                    <ion-input type="number" name="line" [(ngModel)]="phoneNumber.line" placeholder="----" maxlength="4" [readonly]="isPhoneReadOnly"></ion-input>
-                </ion-col>
-            </ion-row>
-        </ion-grid>
         <ion-list>
             <ion-item lines="none">
                 <ion-checkbox color="dark" slot="start" (ionChange)="onAgree($event)"></ion-checkbox>

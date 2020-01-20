@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from './../../../auth/auth.service';
@@ -9,6 +9,8 @@ import { OffersService } from '../offers.service';
 import { ImagePickerService } from '../../../shared/components/image-picker/image-picker.service';
 import { ImagePicker } from 'src/app/shared/components/image-picker/image-picker';
 import { Subscription } from 'rxjs';
+import { CategoriesService } from 'src/app/shared/services/categories.service';
+import { CategoryComponent } from './category/category.component';
 
 @Component({
   selector: 'app-offer-create',
@@ -22,14 +24,20 @@ export class OfferCreatePage implements OnInit, OnDestroy {
   imagePicker: ImagePicker;
   duration: string;
 
+  objects: any[];
+  public labelAttribute: string;
+
   private userAuth: Subscription;
   private offerSub: Subscription;
+
   constructor(
     private offersService: OffersService,
     private router: Router,
     private loadingCtrl: LoadingController,
     private authService: AuthService,
-    private imagePickerService: ImagePickerService
+    // private categoriesService: CategoriesService,
+    private imagePickerService: ImagePickerService,
+    private modalCtrl: ModalController
   ) {
     this.duration = 25 + ' minutes';
   }
@@ -55,7 +63,7 @@ export class OfferCreatePage implements OnInit, OnDestroy {
       }),
       category: new FormControl(null, {
         updateOn: 'blur',
-        validators: [Validators.required, Validators.maxLength(150)]
+        validators: [Validators.required]
       }),
       duration: new FormControl(null, {
         updateOn: 'blur',
@@ -68,6 +76,20 @@ export class OfferCreatePage implements OnInit, OnDestroy {
       image: new FormControl(null)
     });
 
+  }
+
+  onPickedCategory() {
+    this.modalCtrl.create({
+        component: CategoryComponent
+      }).then(modalEl => {
+        modalEl.onDidDismiss().then(modalData => {
+          if (!modalData.data) {
+            return;
+          }
+          this.form.patchValue({ category: modalData.data.selectedCategory });
+        });
+        modalEl.present();
+      });
   }
 
   onDurationSelected(ev) {
@@ -136,6 +158,5 @@ export class OfferCreatePage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userAuth.unsubscribe();
-    this.offerSub.unsubscribe();
   }
 }

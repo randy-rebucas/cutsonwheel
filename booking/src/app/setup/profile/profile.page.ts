@@ -7,17 +7,17 @@ import { switchMap } from 'rxjs/operators';
 
 import { LocationService } from './../../shared/services/location.service';
 
-export class PhoneNumber {
-  country: string;
-  area: string;
-  prefix: string;
-  line: string;
-  // format phone numbers as E.164
-  get e164() {
-    const num = this.country + this.area + this.prefix + this.line;
-    return `+${num}`;
-  }
-}
+// export class PhoneNumber {
+//   country: string;
+//   area: string;
+//   prefix: string;
+//   line: string;
+//   // format phone numbers as E.164
+//   get e164() {
+//     const num = this.country + this.area + this.prefix + this.line;
+//     return `+${num}`;
+//   }
+// }
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -30,7 +30,8 @@ export class ProfilePage implements OnInit, OnDestroy {
   firstname: string;
   lastname: string;
   middlename: string;
-  phoneNumber = new PhoneNumber();
+  // phoneNumber = new PhoneNumber();
+  phoneNumber: string;
   lat: number;
   lng: number;
   address: string;
@@ -75,26 +76,24 @@ export class ProfilePage implements OnInit, OnDestroy {
     ).subscribe( profile => {
         // make sure its return object
         if (this.user) {
-          this.firstname = profile.firstname;
-          this.lastname = profile.lastname;
-          this.middlename = profile.middlename;
-          this.displayName = this.user.displayName;
-          if (this.user.email) {
-            this.isEmailReadOnly = true;
-          }
-          this.email = this.user.email ? this.user.email : profile.email;
+          this.firstname = (profile.name) ? profile.name.firstname : null;
+          this.lastname = (profile.name) ? profile.name.lastname : null;
+          this.middlename = (profile.name) ? profile.name.middlename : null;
+          this.displayName = profile.displayName;
+          this.email = profile.email;
+          this.phoneNumber = this.user.phoneNumber;
           // check phoneNumber existing
-          if (this.user.phoneNumber) {
-            this.isPhoneReadOnly = true;
-          }
-          const phone = this.user.phoneNumber ? this.user.phoneNumber : profile.phoneNumber;
-          if (phone) {
-            // slice them accordingly
-            this.phoneNumber.country = phone.substring(0, 3).replace('+', '');
-            this.phoneNumber.area = phone.substring(3, 6);
-            this.phoneNumber.prefix = phone.substring(6, 9);
-            this.phoneNumber.line = phone.substring(9);
-          }
+          // if (this.user.phoneNumber) {
+          //   this.isPhoneReadOnly = true;
+          // }
+          // const phone = this.user.phoneNumber ? this.user.phoneNumber : profile.phoneNumber;
+          // if (phone) {
+          //   // slice them accordingly
+          //   this.phoneNumber.country = phone.substring(0, 3).replace('+', '');
+          //   this.phoneNumber.area = phone.substring(3, 6);
+          //   this.phoneNumber.prefix = phone.substring(6, 9);
+          //   this.phoneNumber.line = phone.substring(9);
+          // }
           // check if roles existing
           if (profile.roles) {
             this.role = (profile.roles.assistant) ? 'assistant' : 'client';
@@ -110,12 +109,14 @@ export class ProfilePage implements OnInit, OnDestroy {
     }
     const data = {
       id: this.user.uid,
-      firstname: this.firstname,
-      lastname: this.lastname,
-      middlename: this.middlename,
+      name: {
+        firstname: this.firstname,
+        lastname: this.lastname,
+        middlename: this.middlename,
+      },
       email: this.email,
       displayName: this.displayName,
-      phoneNumber: this.phoneNumber.e164,
+      phoneNumber: this.phoneNumber,
       isSetupCompleted: (this.role === 'client') ? true : false,
       location: {
         lat: this.lat,
@@ -130,19 +131,14 @@ export class ProfilePage implements OnInit, OnDestroy {
     };
     // update users documents
     this.usersService.update(data).then(() => {
-      // update user firestore profile
-      this.user.updateProfile({
-        displayName: this.displayName
-      }).then(() => {
-        // check if account type is assistant
-        if (this.role  === 'assistant') {
-          // redirect to skill completions
-          this.router.navigateByUrl('/setup/skill');
-        } else {
-          // redirect to discover page
-          this.router.navigateByUrl('/t/services/discover');
-        }
-      });
+      // check if account type is assistant
+      if (this.role  === 'assistant') {
+        // redirect to skill completions
+        this.router.navigateByUrl('/setup/skill');
+      } else {
+        // redirect to discover page
+        this.router.navigateByUrl('/t/services/discover');
+      }
     });
   }
 

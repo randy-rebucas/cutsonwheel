@@ -12,7 +12,11 @@ import { FirebaseUIModule, firebase, firebaseui } from 'firebaseui-angular';
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
   signInOptions: [
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    {
+      provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+      defaultCountry: 'PH'
+    },
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID
     // {
     //   scopes: [
     //     'public_profile',
@@ -23,11 +27,10 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     //   },
     //   provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID
     // },
-    {
-      requireDisplayName: false,
-      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
-    },
-    firebase.auth.PhoneAuthProvider.PROVIDER_ID
+    // {
+    //   requireDisplayName: false,
+    //   provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
+    // },
   ],
   tosUrl: 'https://cutsonwheel.com/terms-of-use',
   privacyPolicyUrl: 'https://cutsonwheel.com/privacy-policy',

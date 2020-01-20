@@ -15,6 +15,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { MenuListComponent } from './home/menu-list/menu-list.component';
+
 @NgModule({
   declarations: [AppComponent, MenuListComponent],
   entryComponents: [],

@@ -81,7 +81,7 @@ export class PaymentCreatePage implements OnInit {
 
       this.total = this.bookings.assistant.subTotal;
 
-      this.clientName = bookingDetail.client.firstname + ' ' + bookingDetail.client.lastname;
+      this.clientName = bookingDetail.client.name.firstname + ' ' + bookingDetail.client.name.lastname;
       this.clientAddress = bookingDetail.client.location.address;
 
       this.detail = bookingDetail;

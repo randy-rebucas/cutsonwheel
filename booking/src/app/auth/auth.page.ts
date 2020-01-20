@@ -6,6 +6,9 @@ import { UsersService } from 'src/app/users/users.service';
 import { switchMap } from 'rxjs/operators';
 import { of, Subscription } from 'rxjs';
 import { AuthService } from './auth.service';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-auth',
@@ -13,7 +16,6 @@ import { AuthService } from './auth.service';
   styleUrls: ['./auth.page.scss'],
 })
 export class AuthPage implements OnInit, OnDestroy {
-
   public user: firebase.User;
 
   private authSub: Subscription;
@@ -21,6 +23,7 @@ export class AuthPage implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private usersService: UsersService,
+    private alertController: AlertController,
     private router: Router
   ) {}
 
@@ -43,10 +46,11 @@ export class AuthPage implements OnInit, OnDestroy {
           this.router.navigateByUrl('/setup');
         } else {
           // redirect to discover
-          this.router.navigateByUrl('/home');
+          this.router.navigateByUrl('/t/services/discover');
         }
       }
     });
+
   }
 
   successCallback(signInSuccessData: FirebaseUISignInSuccessWithAuthResult) {

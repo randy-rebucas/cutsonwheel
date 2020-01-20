@@ -30,8 +30,10 @@ export class OffersPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.authSub = this.authService.getUserState()
       .subscribe( user => {
-        this.isLoading = false;
         this.offers$ = this.offersService.getByUserId(user.uid);
+        if (this.offers$) {
+          this.isLoading = false;
+        }
       }
     );
   }

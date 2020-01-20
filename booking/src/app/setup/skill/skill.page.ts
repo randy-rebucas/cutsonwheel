@@ -59,8 +59,8 @@ export class SkillPage implements OnInit, OnDestroy {
       // make sure return an object
       this.users = profile;
       if (this.user) {
-        this.classificationSelected = (profile.skills) ? profile.skills.name : '';
-        this.experienceLevel = (profile.skills) ? profile.skills.level : '';
+        this.classificationSelected = (profile.skills) ? profile.skills.name : null;
+        this.experienceLevel = (profile.skills) ? profile.skills.level : null;
       }
     });
   }
@@ -118,7 +118,6 @@ export class SkillPage implements OnInit, OnDestroy {
           },
           note: 'Enjoy using cutsonwheel app.',
           paymentCreated: new Date(),
-          paymentFrom: adminId[0].id,
           paymentTo: this.user.uid
         };
         // insert payment data

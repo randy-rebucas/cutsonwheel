@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 
 import {
@@ -9,6 +9,7 @@ import {
 } from '@angular/fire/firestore';
 
 import { Categories as useClass } from './../class/categories';
+import { AutoCompleteService } from 'ionic4-auto-complete';
 
 const collection = 'categories';
 const indexKey = 'slug';
@@ -18,11 +19,30 @@ const orderBy = 'asc';
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriesService {
+export class CategoriesService implements AutoCompleteService {
+  labelAttribute = 'name';
+
+  private categories: any[] = [];
 
   constructor(
     private afs: AngularFirestore
   ) { }
+
+  getResults(keyword: string) {
+    if (!keyword) { return false; }
+
+    return this.fetchData(this.defaultCollection()).pipe(
+      map((result: any[]) => {
+          return result.filter(
+             (item) => {
+                return item.name.toLowerCase().startsWith(
+                   keyword.toLowerCase()
+                );
+             }
+          );
+       }
+    ));
+ }
 
   private defaultCollection(): AngularFirestoreCollection<useClass> {
     return this.afs.collection<useClass>(collection, ref => ref.orderBy(orderField, orderBy));
@@ -48,15 +68,8 @@ export class CategoriesService {
       );
   }
 
-  getAll(searchKey: string = null): Observable<useClass[]> {
-    const datas = this.fetchData(this.defaultCollection());
-    return datas.pipe(
-      map(dataList =>
-        dataList.filter((data: useClass) => {
-          return data.name.toLowerCase().includes(searchKey.toLowerCase());
-        })
-      )
-    );
+  getAll(): Observable<useClass[]> {
+    return this.fetchData(this.defaultCollection());
   }
 
   getOne(id: string): Observable<useClass> {

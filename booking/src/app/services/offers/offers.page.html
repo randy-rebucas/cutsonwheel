@@ -10,39 +10,7 @@
 <ion-content fullscreen class="ion-padding">
     <!-- show skeleton loading -->
     <ion-list id="skeleton" *ngIf="isLoading">
-        <ion-item>
-            <ion-thumbnail slot="start">
-                <ion-skeleton-text></ion-skeleton-text>
-            </ion-thumbnail>
-            <ion-label>
-                <h2>
-                    <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-                </h2>
-                <h3>
-                    <ion-skeleton-text animated style="width: 40%"></ion-skeleton-text>
-                </h3>
-                <p>
-                    <ion-skeleton-text animated style="width: 90%"></ion-skeleton-text>
-                </p>
-            </ion-label>
-        </ion-item>
-        <ion-item>
-            <ion-thumbnail slot="start">
-                <ion-skeleton-text></ion-skeleton-text>
-            </ion-thumbnail>
-            <ion-label>
-                <h2>
-                    <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-                </h2>
-                <h3>
-                    <ion-skeleton-text animated style="width: 40%"></ion-skeleton-text>
-                </h3>
-                <p>
-                    <ion-skeleton-text animated style="width: 90%"></ion-skeleton-text>
-                </p>
-            </ion-label>
-        </ion-item>
-        <ion-item>
+        <ion-item *ngFor="let item of [1,2,3,4,5,6,7,8,9]">
             <ion-thumbnail slot="start">
                 <ion-skeleton-text></ion-skeleton-text>
             </ion-thumbnail>
@@ -79,8 +47,8 @@
     <ion-card *ngIf="!(offers$ | async)?.length && !isLoading">
         <ion-card-content>
             <ion-item lines="none">
-              <ion-icon slot="start" name="information-circle"></ion-icon>
-              <ion-label>No offers found!</ion-label>
+                <ion-icon slot="start" name="information-circle"></ion-icon>
+                <ion-label>No offers found!</ion-label>
             </ion-item>
         </ion-card-content>
     </ion-card>

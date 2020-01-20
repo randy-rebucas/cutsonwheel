@@ -62,7 +62,7 @@ export class UsersService {
     return user$.pipe(
       map(users =>
         users.filter((user: useClass) => {
-          return user.firstname.toLowerCase().includes(searchKey.toLowerCase());
+          return user.name.firstname.toLowerCase().includes(searchKey.toLowerCase());
         })
       )
     );
