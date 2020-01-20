@@ -94,8 +94,7 @@ export class LocationPage implements OnInit, AfterViewInit, OnDestroy {
 
     })
     .catch(err => {
-      // console.log(err);
-      this.showErrorAlert();
+      console.log(err);
     });
   }
 

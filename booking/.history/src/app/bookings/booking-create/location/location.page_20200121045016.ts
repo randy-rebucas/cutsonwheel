@@ -68,6 +68,7 @@ export class LocationPage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getMap() {
+    console.log(this.center);
     this.getGoogleMaps()
     .then(googleMaps => {
       this.googleMaps = googleMaps;
@@ -94,8 +95,7 @@ export class LocationPage implements OnInit, AfterViewInit, OnDestroy {
 
     })
     .catch(err => {
-      // console.log(err);
-      this.showErrorAlert();
+      console.log(err);
     });
   }
 

@@ -27,6 +27,7 @@ export class LocationPage implements OnInit, AfterViewInit, OnDestroy {
   googleMaps: any;
   center = {};
   location: PlaceLocation;
+  activeNext: boolean;
 
   constructor(
     private modalCtrl: ModalController,
@@ -34,14 +35,33 @@ export class LocationPage implements OnInit, AfterViewInit, OnDestroy {
     private http: HttpClient,
     private alertCtrl: AlertController,
     private navCtrl: NavController,
-  ) {}
+  ) {
+    this.activeNext = false;
+  }
 
   ngOnInit() {
-    this.locateUser();
+    const location = this.getLocation();
+    if (!location) {
+      this.locateUser();
+    } else {
+      this.activeNext = true;
+      this.location = location;
+      const coordinates: Coordinates = {
+        lat: location.lat,
+        lng: location.lng
+      };
+      this.center = coordinates;
+    }
   }
 
   ngAfterViewInit() {
     this.getMap();
+  }
+
+  isConfirmed(event: CustomEvent) {
+    if (event.detail.checked) {
+      this.navCtrl.navigateBack('/t/bookings/booking-create/assistant');
+    }
   }
 
   onNext(target: string) {
@@ -94,8 +114,7 @@ export class LocationPage implements OnInit, AfterViewInit, OnDestroy {
 
     })
     .catch(err => {
-      // console.log(err);
-      this.showErrorAlert();
+      console.log(err);
     });
   }
 
@@ -124,6 +143,7 @@ export class LocationPage implements OnInit, AfterViewInit, OnDestroy {
       )
       .subscribe(staticMapImageUrl => {
         pickedLocation.staticMapImageUrl = staticMapImageUrl;
+        this.activeNext = true;
         this.setLocation(pickedLocation);
         this.location = this.getLocation();
       });
