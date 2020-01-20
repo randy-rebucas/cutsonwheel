@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { PaymentsService } from '../payments/payments.service';
 import { AuthService } from '../auth/auth.service';
-import { IonInfiniteScroll, ToastController } from '@ionic/angular';
+import { IonInfiniteScroll, ToastController, ModalController } from '@ionic/angular';
 import { map } from 'rxjs/operators';
 import { Payments } from '../payments/payments';
 import { Observable } from 'rxjs';
+import { WalletDetailComponent } from './wallet-detail/wallet-detail.component';
 const list = document.getElementById('list');
 @Component({
   selector: 'app-wallet',
@@ -25,6 +26,7 @@ export class WalletPage implements OnInit {
     private paymentsService: PaymentsService,
     private authService: AuthService,
     private toastCtrl: ToastController,
+    private modalCtrl: ModalController,
     private renderer: Renderer2
   ) {
     this.isLoading = true;
@@ -43,6 +45,17 @@ export class WalletPage implements OnInit {
           this.wallets = this.wallets.concat(wallets);
         });
       }
+    });
+  }
+
+  onViewDetail(id: string) {
+    this.modalCtrl.create({
+        component: WalletDetailComponent,
+        componentProps: {
+          paymentId: id
+        }
+      }).then(modalEl => {
+      modalEl.present();
     });
   }
 

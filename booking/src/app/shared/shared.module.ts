@@ -6,12 +6,14 @@ import { LocationPickerComponent } from './components/location-picker/location-p
 import { MapModalComponent } from './components/map-modal/map-modal.component';
 import { ImagePickerComponent } from './components/image-picker/image-picker.component';
 import { FormsModule } from '@angular/forms';
+import { TimestampPipe } from './pipes/timestamp.pipe';
 
 @NgModule({
   declarations: [
     LocationPickerComponent,
     MapModalComponent,
-    ImagePickerComponent
+    ImagePickerComponent,
+    TimestampPipe
   ],
   imports: [
     CommonModule,

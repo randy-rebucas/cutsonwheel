@@ -48,9 +48,9 @@
         </ion-item>
     </ion-list>
     <ion-list *ngIf="wallets.length  && !isLoading">
-        <ion-item *ngFor="let wallet of wallets" detail>
+        <ion-item *ngFor="let wallet of wallets" detail (click)="onViewDetail(wallet?.id)">
             <ion-label>
-                <h2>invoice #: <b>{{wallet.transactions.invoiceNumber}}</b></h2>
+                <h2>Invoice #: <b>{{wallet.transactions.invoiceNumber}}</b></h2>
                 <p>{{wallet.paymentCreatedTransformed | date:'mediumDate'}}</p>
             </ion-label>
             <ion-note slot="end">

@@ -11,12 +11,13 @@ import { FirebaseUIModule, firebase, firebaseui } from 'firebaseui-angular';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
+  siteName: 'Cuts on Wheel',
   signInOptions: [
     {
       provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
       defaultCountry: 'PH'
     },
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID
+    // firebase.auth.GoogleAuthProvider.PROVIDER_ID
     // {
     //   scopes: [
     //     'public_profile',
