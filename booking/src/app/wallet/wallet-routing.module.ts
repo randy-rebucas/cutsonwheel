@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: WalletPage
+  },
+  {
+    path: 'wallet-create',
+    loadChildren: () => import('./wallet-create/wallet-create.module').then( m => m.WalletCreatePageModule)
   }
 ];
 
