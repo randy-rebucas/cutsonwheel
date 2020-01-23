@@ -89,7 +89,7 @@ export class AccountPage implements OnInit, OnDestroy {
     );
   }
 
-  onImagePicked(event: CustomEvent) {
+  onImagePicked(event) {
     this.modalCtrl
       .create({
         component: UploadProfilePictureComponent
