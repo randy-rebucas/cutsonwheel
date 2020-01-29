@@ -72,7 +72,7 @@ export class UserService {
   }
 
   update(updatedUser: any) {
-    return this.http.put<{ message: string }>(BACKEND_URL + '/' + updatedUser.id, updatedUser);
+    return this.http.put<{ message: string }>(BACKEND_URL + '/' + updatedUser._id, updatedUser);
   }
 
   delete(patientIds: []) {

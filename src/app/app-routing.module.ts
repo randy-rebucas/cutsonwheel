@@ -11,7 +11,7 @@ const routes: Routes = [
   {path: 'auth', loadChildren: './modules/authentication/authentication.module#AuthenticationModule'},
   {path: 'dashboard', loadChildren: './modules/dashboard/dashboard.module#DashboardModule'},
   {path: 'checkout', loadChildren: './modules/checkout/checkout.module#CheckoutModule'},
-  {path: 'setup', loadChildren: './modules/setup/setup.module#SetupModule'},
+  {path: 'get-started', loadChildren: './modules/setup/setup.module#SetupModule'},
   {path: 'not-activated', component: NotActivatedComponent}
 ];
 

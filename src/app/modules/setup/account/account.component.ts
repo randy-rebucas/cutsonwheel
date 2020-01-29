@@ -17,12 +17,13 @@ export class AccountComponent implements OnInit {
   public imageForm: FormGroup;
   public form: FormGroup;
   private selectedFile: File = null;
-  public avatar: string;
+  public photoUrl: string;
 
   isLoadingPic: boolean;
   bufferValue: number;
   color: string;
   mode: string;
+  role: string;
 
   startDate = new Date(1990, 0, 1);
   currentDate = new Date();
@@ -50,47 +51,12 @@ export class AccountComponent implements OnInit {
     });
 
     this.form = this.fb.group({
+      role: ['', [Validators.required]],
       firstname: ['', [Validators.required]],
       midlename: ['', [Validators.required]],
       lastname: ['', [Validators.required]],
       gender: ['', [Validators.required]],
-      age: ['', [Validators.required]],
       birthdate: ['', [Validators.required]],
-      status: ['', [Validators.required]],
-      contact: ['', [Validators.required]],
-      sss: [null],
-      tin: [null],
-      philhealth: [null],
-      addresses: this.fb.array([this.addAddressGroup()])
-    });
-
-    this.userService.get(this.userId).subscribe(userData => {
-      this.isLoadingContent = false;
-      this.avatar = userData.avatar;
-      this.form.patchValue({
-        firstname: userData.firstname,
-        midlename: userData.midlename,
-        lastname: userData.lastname,
-        gender: userData.gender,
-        age: userData.age,
-        birthdate: userData.birthdate,
-        status: userData.status,
-        contact: userData.contact,
-        sss: userData.sss,
-        tin: userData.tin,
-        philhealth: userData.philhealth
-      });
-      const addressControl = this.form.controls.addresses as FormArray;
-      const address = userData.address;
-      for (let i = 1; i < address.length; i++) {
-        addressControl.push(this.addAddressGroup());
-      }
-      this.form.patchValue({addresses: address});
-    });
-  }
-
-  addAddressGroup() {
-    return this.fb.group({
       address1: ['', [Validators.required]],
       address2: [''],
       city: ['', [Validators.required]],
@@ -98,20 +64,28 @@ export class AccountComponent implements OnInit {
       postalCode: ['', [Validators.required]],
       country: ['', [Validators.required]]
     });
-  }
 
-  addAddress() {
-    this.addressArray.push(this.addAddressGroup());
-  }
-
-  removeAddress(index) {
-    this.addressArray.removeAt(index);
-    this.addressArray.markAsDirty();
-    this.addressArray.markAsTouched();
-  }
-
-  get addressArray() {
-    return this.form.get('addresses') as FormArray;
+    this.userService.get(this.userId).subscribe(userData => {
+      this.isLoadingContent = false;
+      console.log(userData);
+      this.photoUrl = userData.photoUrl;
+      if (userData.roles) {
+        this.role = (userData.roles.assistant) ? 'assistant' : 'client';
+      }
+      this.form.patchValue({
+        firstname: userData.name.firstname,
+        midlename: userData.name.midlename,
+        lastname: userData.name.lastname,
+        gender: userData.gender,
+        birthdate: userData.birthdate,
+        address1: userData.address.address1,
+        address2: userData.address.address2,
+        province: userData.address.province,
+        city: userData.address.city,
+        country: userData.address.country,
+        postalCode: userData.address.postalCode
+      });
+    });
   }
 
   onFileChanged(event: Event) {
@@ -120,7 +94,7 @@ export class AccountComponent implements OnInit {
     this.imageForm.get('profilePicture').updateValueAndValidity();
     const reader = new FileReader();
     reader.onload = () => {
-      this.avatar = reader.result as string;
+      this.photoUrl = reader.result as string;
     };
     reader.readAsDataURL(file);
     this.onSavePicture();
@@ -137,7 +111,7 @@ export class AccountComponent implements OnInit {
         this.mode = 'determinate';
       } else if (event.type === HttpEventType.Response) {
         this.isLoadingPic = false;
-        this.avatar = event.body.avatar;
+        this.photoUrl = event.body.avatar;
         this.notificationService.success(':: ' + event.body.message);
       }
     });
@@ -145,29 +119,33 @@ export class AccountComponent implements OnInit {
 
   onUpdate() {
     const updatedUser = {
-      id: this.userId,
-      firstname: this.form.value.firstname,
-      midlename: this.form.value.midlename,
-      lastname: this.form.value.lastname,
+      _id: this.userId,
+      name: {
+        firstname: this.form.value.firstname,
+        midlename: this.form.value.midlename,
+        lastname: this.form.value.lastname
+      },
       gender: this.form.value.gender,
-      age: this.form.value.age,
       birthdate: this.form.value.birthdate,
-      status: this.form.value.status,
-      contact: this.form.value.contact,
-      expertise: this.form.value.expertise,
-      sss: this.form.value.sss,
-      tin: this.form.value.tin,
-      philhealth: this.form.value.philhealth,
-      address: this.form.value.addresses
+      address: {
+        address1: this.form.value.address1,
+        address2: this.form.value.address2,
+        province: this.form.value.province,
+        city: this.form.value.city,
+        country: this.form.value.country,
+        postalCode: this.form.value.postalCode
+      },
+      isSetupCompleted: (this.form.value.role === 'client') ? true : false,
+      roles: {
+        client: (this.form.value.role === 'client') ? true : false,
+        assistant: (this.form.value.role === 'assistant') ? true : false
+      }
     };
 
     this.userService.update(updatedUser).subscribe((response) => {
       this.notificationService.success(response.message);
-      // this.router.navigate(['../classifications'], {relativeTo: this.activatedRoute});
+      this.router.navigateByUrl('dashboard');
     });
   }
 
-  onSkip(route: string) {
-    this.router.navigate(['../' + route], {relativeTo: this.activatedRoute});
-  }
 }

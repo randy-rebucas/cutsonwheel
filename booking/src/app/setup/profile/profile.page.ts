@@ -82,19 +82,6 @@ export class ProfilePage implements OnInit, OnDestroy {
           this.displayName = profile.displayName;
           this.email = profile.email;
           this.phoneNumber = this.user.phoneNumber;
-          // check phoneNumber existing
-          // if (this.user.phoneNumber) {
-          //   this.isPhoneReadOnly = true;
-          // }
-          // const phone = this.user.phoneNumber ? this.user.phoneNumber : profile.phoneNumber;
-          // if (phone) {
-          //   // slice them accordingly
-          //   this.phoneNumber.country = phone.substring(0, 3).replace('+', '');
-          //   this.phoneNumber.area = phone.substring(3, 6);
-          //   this.phoneNumber.prefix = phone.substring(6, 9);
-          //   this.phoneNumber.line = phone.substring(9);
-          // }
-          // check if roles existing
           if (profile.roles) {
             this.role = (profile.roles.assistant) ? 'assistant' : 'client';
           }

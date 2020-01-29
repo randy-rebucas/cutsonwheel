@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    this.authenticationService.createUser(form.value.firstname, form.value.lastname, form.value.email, form.value.password);
+    // this.authenticationService.createUser(form.value.firstname, form.value.lastname, form.value.email, form.value.password);
   }
 
   onLogin() {

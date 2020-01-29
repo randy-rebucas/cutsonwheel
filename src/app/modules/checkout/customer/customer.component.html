@@ -1,28 +1,27 @@
 <!-- <cowls-location></cowls-location> -->
 <ng-container *ngIf="userIsAuthenticated">
-  <div class="customers">
-    <div>
-      <img [src]="avatar"/>
-    </div>
-    <div>
-      <h2 class="mat-title">{{fullname}}</h2>
-      <p>Bithdate: {{dob | date}}</p>
-      <address *ngFor="let address of addresses">
+    <div class="customers">
+        <div>
+            <img [src]="avatar" />
+        </div>
+        <div>
+            <h2 class="mat-title">{{fullname}}</h2>
+            <p>Bithdate: {{dob | date}}</p>
+            <address>
         {{address.address1}} <br/>
         {{address.address2}} <br/>
         {{address.province}} <br/>
         {{address.city}} , {{address.country}} {{address.postalCode}}
       </address>
-      <a [routerLink]="['/setup/account']" routerLinkActive="router-link-active">Update</a>
+            <a [routerLink]="['/setup/account']" routerLinkActive="router-link-active">Update</a>
+        </div>
     </div>
-  </div>
-  <button mat-flat-button color="primary" (click)="onNext()">Next</button>
+    <button mat-flat-button color="primary" (click)="onNext()">Next</button>
 </ng-container>
 <ng-container *ngIf="!userIsAuthenticated">
-  <div>
-      <p>You are not login!</p>
-      <button mat-flat-button color="accent" [routerLink]="['/auth/login']">Login</button> &nbsp;
-      <button mat-flat-button color="accent">Rigester</button>
-  </div>
+    <div>
+        <p>You are not login!</p>
+        <button mat-flat-button color="accent" [routerLink]="['/auth/login']">Login</button> &nbsp;
+        <button mat-flat-button color="accent">Rigester</button>
+    </div>
 </ng-container>
-

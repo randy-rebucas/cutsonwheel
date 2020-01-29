@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../authentication/authentication.service';
 import { UserService } from '../../user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Address } from '../../user/user';
 
 @Component({
   selector: 'app-customer',
@@ -14,8 +15,8 @@ export class CustomerComponent implements OnInit {
   private userId: string;
   public avatar: string;
   public fullname: string;
-  public dob: string;
-  public addresses: any[];
+  public dob: Date;
+  public address: Address;
 
   constructor(
     private router: Router,
@@ -28,10 +29,15 @@ export class CustomerComponent implements OnInit {
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.userId = this.authService.getUserId();
     this.userService.get(this.userId).subscribe((res) => {
-      this.avatar = res.avatar;
-      this.fullname = res.firstname + ' ' + res.lastname;
-      this.dob = res.birthdate;
-      this.addresses = res.address;
+      this.avatar = res.photoUrl;
+      this.fullname = res.name.firstname + ' ' + res.name.lastname;
+      this.dob = new Date(res.birthdate);
+      this.address.address1 = res.address.address1;
+      this.address.address2 = res.address.address2;
+      this.address.province = res.address.province;
+      this.address.city = res.address.city;
+      this.address.country = res.address.country;
+      this.address.postalCode = res.address.postalCode;
     });
   }
 

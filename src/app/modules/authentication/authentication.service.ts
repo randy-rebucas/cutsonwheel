@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { environment } from '../../../environments/environment';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { CookieService } from 'ngx-cookie-service';
 import { UserService } from '../user/user.service';
@@ -18,8 +18,9 @@ export class AuthenticationService {
   private isAuthenticated: boolean;
   private token: string;
   private userId: string;
-  private userEmail: string;
+  private userPhone: string;
   private authStatusListener = new Subject<boolean>();
+  private showCodeInput: boolean;
 
   constructor(
     private http: HttpClient,
@@ -27,7 +28,9 @@ export class AuthenticationService {
     private notificationService: NotificationService,
     private cookieService: CookieService,
     private userService: UserService
-  ) {}
+  ) {
+    this.showCodeInput = false;
+  }
 
   getToken() {
     return localStorage.getItem('token');
@@ -41,59 +44,44 @@ export class AuthenticationService {
     return localStorage.getItem('userId');
   }
 
-  getUserEmail() {
-    return localStorage.getItem('userEmail');
+  getUserPhone() {
+    return localStorage.getItem('userPhone');
   }
 
   getAuthStatusListener() {
     return this.authStatusListener.asObservable();
   }
 
-  createUser(FirstName: string, LastName: string, Email: string, Password: string) {
-    const authRegister: Register = {
-      firstname: FirstName,
-      lastname: LastName,
-      email: Email,
-      password: Password
-    };
-
-    this.http.post<{message: string, userId: string}>(BACKEND_URL + '/register', authRegister).subscribe((res) => {
-      this.notificationService.success(res.message);
-      this.login(Email, Password, false);
-    }, error => {
-      this.authStatusListener.next(false);
-    });
+  verify(phone: number) {
+    return this.http.post<{status: string}>(
+      BACKEND_URL + '/verify',
+      {phoneNumber: phone}
+    );
   }
 
-  login(Email: string, Password: string, Remember: boolean) {
-    const authData: Login = {email: Email, password: Password, remember: Remember};
-    this.http.post<{token: string, userEmail: string, userId: string}>(
-      BACKEND_URL + '/login',
-      authData
-    )
-    .subscribe(response => {
+  check(phone: number, accessCode: number) {
+    this.http.post<{token: string, userPhone: string, userId: string}>(
+      BACKEND_URL + '/check',
+      {phoneNumber: phone, code: accessCode}
+    ).subscribe(response => {
 
       const token = response.token;
       this.token = token;
       if (token) {
 
         this.userId = response.userId;
-        this.userEmail = response.userEmail;
+        this.userPhone = response.userPhone;
 
         this.authStatusListener.next(true);
 
-        if (Remember) {
-          this.cookieService.set('remember', (Remember) ? 'yes' : 'no' );
-          this.cookieService.set('email', Email );
-          this.cookieService.set('pass', Password );
-        }
+        this.saveAuthData(token, this.userId, this.userPhone);
 
-        this.saveAuthData(token, this.userId, this.userEmail);
         this.userService.get(response.userId).subscribe(userData => {
-          if (userData.activated) {
+          console.log(userData);
+          if (userData.isSetupCompleted) {
             this.router.navigate(['/dashboard']);
           } else {
-            this.router.navigate(['/not-activated']);
+            this.router.navigate(['/get-started']);
           }
         });
       }
@@ -110,39 +98,39 @@ export class AuthenticationService {
     this.token = authInformation.token;
 
     this.userId = authInformation.userId;
-    this.userEmail = authInformation.userEmail;
+    this.userPhone = authInformation.userPhone;
     this.authStatusListener.next(true);
   }
 
   logout() {
     this.token = null;
     this.userId = null;
-    this.userEmail = null;
+    this.userPhone = null;
     this.authStatusListener.next(false);
     this.clearAuthData();
     this.router.navigate(['/auth/login']);
   }
 
-  private saveAuthData(token: string, userId: string, userEmail: string) {
+  private saveAuthData(token: string, userId: string, userPhone: string) {
     localStorage.setItem('token', token);
     localStorage.setItem('userId', userId);
-    localStorage.setItem('userEmail', userEmail);
+    localStorage.setItem('userPhone', userPhone);
   }
 
   private clearAuthData() {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
-    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userPhone');
   }
 
   private getAuthData() {
     const authToken = localStorage.getItem('token');
     const authUserId = localStorage.getItem('userId');
-    const authUserEmail = localStorage.getItem('userEmail');
+    const authUserPhone = localStorage.getItem('userPhone');
     return {
       token: authToken,
       userId: authUserId,
-      userEmail: authUserEmail
+      userPhone: authUserPhone
     };
   }
 }

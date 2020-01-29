@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
 import { Title } from '@angular/platform-browser';
 import { CookieService } from 'ngx-cookie-service';
-import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -13,9 +11,12 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  @ViewChild('recaptcha', {static: true }) recaptchaElement: ElementRef;
 
   isLoading = false;
-  form: FormGroup;
+  phoneNumber: number;
+  code: number;
+  showCodeInput: boolean;
 
   constructor(
     public router: Router,
@@ -26,38 +27,33 @@ export class LoginComponent implements OnInit {
   ) {
     translate.setDefaultLang('de'); // default language
     this.translate.use('en'); // override language
+
+    this.showCodeInput = false;
    }
 
   ngOnInit() {
     this.titleService.setTitle('Login');
-
-    this.form = new FormGroup({
-      email: new FormControl((this.cookieService.check('email')) ? this.cookieService.get('email') : null, {
-        validators: [
-          Validators.required,
-          Validators.maxLength(50)
-        ]
-      }),
-      password: new FormControl((this.cookieService.check('pass')) ? this.cookieService.get('pass') : null, {
-        validators: [
-          Validators.required,
-          Validators.maxLength(12)
-        ]
-      }),
-      remember: new FormControl((this.cookieService.check('remember')) ? this.cookieService.get('remember') : null)
-    });
-
   }
 
-  get email() { return this.form.get('email'); }
-
-  onLogin() {
-    if (this.form.invalid) {
-      return;
-    }
-
+  onVerify(val: number) {
+    this.phoneNumber = val;
     this.isLoading = true;
-    this.authenticationService.login(this.form.value.email, this.form.value.password, this.form.value.remember);
+    this.authenticationService.verify(this.phoneNumber)
+    .subscribe((res) => {
+      if (res.status === 'pending') {
+        this.isLoading = false;
+        this.showCodeInput = true;
+      }
+    });
+  }
+
+  onChecks(val: number) {
+
+    this.authenticationService.check(this.phoneNumber, val);
+  }
+
+  onCancel() {
+    this.showCodeInput = false;
   }
 
   onSignup() {

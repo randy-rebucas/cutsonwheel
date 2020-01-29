@@ -4,6 +4,7 @@ import { UserService } from '../../user/user.service';
 import { ClassificationService } from '../../classification/classification.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../authentication/authentication.service';
+import { Address } from '../../user/user';
 
 @Component({
   selector: 'app-summary',
@@ -28,7 +29,7 @@ export class SummaryComponent implements OnInit {
 
   public rate: number;
 
-  public userAddresses: any[];
+  public userAddress: Address;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -51,8 +52,8 @@ export class SummaryComponent implements OnInit {
       this.classificationService.getOne(res.classification).subscribe((classificationName) => {
         this.classification = classificationName.name.slice(0, -1);
       });
-      this.avatar = res.avatar;
-      this.fullname = res.firstname + ' ' + res.lastname;
+      this.avatar = res.photoUrl;
+      this.fullname = res.name.firstname + ' ' + res.name.lastname;
       const today = new Date();
       const birthdateDate = new Date(res.birthdate);
       let age = today.getFullYear() - birthdateDate.getFullYear();
@@ -79,7 +80,12 @@ export class SummaryComponent implements OnInit {
     // get user information
     this.userService.get(this.authenticationService.getUserId()).subscribe((user) => {
       console.log(user.address);
-      this.userAddresses = user.address;
+      this.userAddress.address1 = user.address.address1;
+      this.userAddress.address2 = user.address.address2;
+      this.userAddress.province = user.address.province;
+      this.userAddress.city = user.address.city;
+      this.userAddress.country = user.address.country;
+      this.userAddress.postalCode = user.address.postalCode;
     });
   }
 
