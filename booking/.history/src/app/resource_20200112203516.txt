@@ -1,9 +1,0 @@
-trackByFn(index, item) {
-    return index; // or item.id
-  }
-
-/**
-todo
-
-service detail booknow
-  set assistant and service
